@@ -1,0 +1,55 @@
+<section data-ng-controller="UsersController" data-ng-init="findOne()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Usuários</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a ng-href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <a>Update Usuários</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <form data-ng-submit="update()" class="form-horizontal">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Update Usuários</h5>
+                            <div ibox-tools></div>
+                        </div>
+                        <div class="ibox-content">
+                            <br/><br/>
+                            <div class="form-group"><label class="col-sm-2 control-label">Nome do Usuário</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="inputNomeUsuario" name="nome" data-ng-model="user.nome" placeholder="Nome do Usuários">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="inputEmailUsuario" name="email" data-ng-model="user.email" placeholder="Email do Usuário">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group"><label class="col-sm-2 control-label">Senha</label>
+                                <div class="col-sm-7">
+                                    <input type="password" class="form-control" id="inputSenhaUsuario" name="senha" data-ng-model="user.senha" placeholder="Senha">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input style="margin-left: 15px;" type="submit" class="btn btn-primary pull-right" value="Cadastrar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

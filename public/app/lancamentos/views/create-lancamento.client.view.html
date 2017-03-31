@@ -1,0 +1,374 @@
+<section data-ng-controller="LancamentosController" data-ng-init="find()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Lançamentos</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a ng-href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <a>Cadastrar Lançamentos</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-4" ng-show="!states.edit">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Lançamentos
+                        </h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p>Cadastre os dados do lançamento abaixo</p>
+
+                                <form data-ng-submit="create()">
+                                    <div class="form-group">
+                                        <label>Data</label>
+                                        <!--<input type="date" placeholder="" class="form-control" name="data" data-ng-model="objLancamento.data">-->
+                                        <div type="date" class="form-control" date-time ng-model="sampleDate" view="date" auto-close="true" min-view="date" format="YYYY-MM-DD">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descrição</label>
+                                        <input type="text" placeholder="" class="form-control" name="descricao" data-ng-model="objLancamento.descricao">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectCategoria">Categoria</label>
+                                        <select class="form-control" name="categoria" id="selectCategoria"
+                                                data-ng-model="objLancamento.categoria"
+                                                data-ng-options="item for item in enums.categorias">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectSubCategoria">Subcategoria</label>
+                                        <select class="form-control" name="subcategoria" id="selectSubCategoria"
+                                                data-ng-model="objLancamento.subcategoria"
+                                                data-ng-options="item.valor as item.valor for item in enums.subcategorias | filter: {cat: objLancamento.categoria}">
+                                                <!--data-ng-options="item as item.valor group by item.cat for item in enums.subcat | filter: { cat: categoria }">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectNome">Nome</label>
+                                        <select class="form-control" name="nome" id="selectNome"
+                                                data-ng-model="objLancamento.nome"
+                                                data-ng-options="s.valor as s.valor for s in enums.nomes | filter: {subcat: objLancamento.subcategoria}">
+                                                <!--data-ng-options="item as item.valor for item in enums.nomes | filter: {subcat: subcategoria}">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Valor</label>
+                                        <input type="number" step="any" placeholder="" class="form-control" name="valor" data-ng-model="objLancamento.valor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Obs</label>
+                                        <input type="text" placeholder="" class="form-control" name="observacao" data-ng-model="objLancamento.observacao">
+                                    </div>
+                                    <br/>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">Cadastrar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" ng-show="states.edit">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Lançamentos Edit
+                        </h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p>Cadastre os dados do lançamento abaixo</p>
+
+                                <form data-ng-submit="update(objLancamento)">
+                                    <div class="form-group">
+                                        <label>Data</label>
+                                        <input type="date" placeholder="" class="form-control" name="data" data-ng-model="objLancamento.data">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Descrição</label>
+                                        <input type="text" placeholder="" class="form-control" name="descricao" data-ng-model="objLancamento.descricao">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectCategoriaEdit">Categoria</label>
+                                        <select class="form-control" name="categoria" id="selectCategoriaEdit"
+                                                data-ng-model="objLancamento.categoria"
+                                                data-ng-options="item for item in enums.categorias">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectSubCategoriaEdit">Subcategoria</label>
+                                        <select class="form-control" name="subcategoria" id="selectSubCategoriaEdit"
+                                                data-ng-model="objLancamento.subcategoria"
+                                                data-ng-options="item.valor as item.valor for item in enums.subcategorias | filter: {cat: objLancamento.categoria}">
+                                            <!--data-ng-options="item as item.valor group by item.cat for item in enums.subcat | filter: { cat: categoria }">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectNomeEdit">Nome</label>
+                                        <select class="form-control" name="nome" id="selectNomeEdit"
+                                                data-ng-model="objLancamento.nome"
+                                                data-ng-options="s.valor as s.valor for s in enums.nomes | filter: {subcat: objLancamento.subcategoria}">
+                                            <!--data-ng-options="item as item.valor for item in enums.nomes | filter: {subcat: subcategoria}">-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Valor</label>
+                                        <input type="number" step="any" placeholder="" class="form-control" name="valor" data-ng-model="objLancamento.valor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Obs</label>
+                                        <input type="text" placeholder="" class="form-control" name="observacao" data-ng-model="objLancamento.observacao">
+                                    </div>
+                                    <br/>
+                                    <div>
+                                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">Atualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Data </th>
+                            <th>Categoria </th>
+                            <th>Subcategoria </th>
+                            <th>Nome </th>
+                            <th>Valor </th>
+                            <th>Descrição</th>
+                            <th>Obs</th>
+                            <th>Opções</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="lanc in lancamentos | orderBy: 'created'">
+                            <td>1</td>
+                            <td>{{ lanc.data | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ lanc.categoria }}</td>
+                            <td>{{ lanc.subcategoria }}</td>
+                            <td>{{ lanc.nome }}</td>
+                            <td>{{ lanc.valor | currency: 'R$ '}}</td>
+                            <td>{{ lanc.descricao | limitTo: 8 }}</td>
+                            <td>{{ lanc.observacao | limitTo: 8 }}</td>
+                            <td><a ng-click="edit(lanc)"><i class="fa fa-pencil text-navy"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Custom responsive table </h5>
+                            <div ibox-tools></div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-9 m-b-xs">
+                                    <div data-toggle="buttons" class="btn-group">
+                                        <label class="btn btn-sm btn-white"> <input type="radio" id="option1" name="options"> Day </label>
+                                        <label class="btn btn-sm btn-white active"> <input type="radio" id="option2" name="options"> Week </label>
+                                        <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> Month </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Project </th>
+                                        <th>Name </th>
+                                        <th>Phone </th>
+                                        <th>Company </th>
+                                        <th>Completed </th>
+                                        <th>Task</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Project <small>This is example of project</small></td>
+                                        <td>Patrick Smith</td>
+                                        <td>0800 051213</td>
+                                        <td>Inceptos Hymenaeos Ltd</td>
+                                        <td><pie-chart data="main.PieChart5.data" options="main.PieChart5.options"></pie-chart></td>
+                                        <td>20%</td>
+                                        <td>Jul 14, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Alpha project</td>
+                                        <td>Alice Jackson</td>
+                                        <td>0500 780909</td>
+                                        <td>Nec Euismod In Company</td>
+                                        <td><pie-chart data="main.PieChart4.data" options="main.PieChart4.options"></pie-chart></td>
+                                        <td>40%</td>
+                                        <td>Jul 16, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Betha project</td>
+                                        <td>John Smith</td>
+                                        <td>0800 1111</td>
+                                        <td>Erat Volutpat</td>
+                                        <td><pie-chart data="main.PieChart3.data" options="main.PieChart3.options"></pie-chart></td>
+                                        <td>75%</td>
+                                        <td>Jul 18, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Gamma project</td>
+                                        <td>Anna Jordan</td>
+                                        <td>(016977) 0648</td>
+                                        <td>Tellus Ltd</td>
+                                        <td><pie-chart data="main.PieChart6.data" options="main.PieChart6.options"></pie-chart></td>
+                                        <td>18%</td>
+                                        <td>Jul 22, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Alpha project</td>
+                                        <td>Alice Jackson</td>
+                                        <td>0500 780909</td>
+                                        <td>Nec Euismod In Company</td>
+                                        <td><pie-chart data="main.PieChart.data" options="main.PieChart.options"></pie-chart></td>
+                                        <td>40%</td>
+                                        <td>Jul 16, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Project <small>This is example of project</small></td>
+                                        <td>Patrick Smith</td>
+                                        <td>0800 051213</td>
+                                        <td>Inceptos Hymenaeos Ltd</td>
+                                        <td><pie-chart data="main.PieChart4.data" options="main.PieChart4.options"></pie-chart></td>
+                                        <td>20%</td>
+                                        <td>Jul 14, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Gamma project</td>
+                                        <td>Anna Jordan</td>
+                                        <td>(016977) 0648</td>
+                                        <td>Tellus Ltd</td>
+                                        <td><pie-chart data="main.PieChart3.data" options="main.PieChart3.options"></pie-chart></td>
+                                        <td>18%</td>
+                                        <td>Jul 22, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Project <small>This is example of project</small></td>
+                                        <td>Patrick Smith</td>
+                                        <td>0800 051213</td>
+                                        <td>Inceptos Hymenaeos Ltd</td>
+                                        <td><pie-chart data="main.PieChart2.data" options="main.PieChart2.options"></pie-chart></td>
+                                        <td>20%</td>
+                                        <td>Jul 14, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Alpha project</td>
+                                        <td>Alice Jackson</td>
+                                        <td>0500 780909</td>
+                                        <td>Nec Euismod In Company</td>
+                                        <td><pie-chart data="main.PieChart6.data" options="main.PieChart6.options"></pie-chart></td>
+                                        <td>40%</td>
+                                        <td>Jul 16, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Betha project</td>
+                                        <td>John Smith</td>
+                                        <td>0800 1111</td>
+                                        <td>Erat Volutpat</td>
+                                        <td><pie-chart data="main.PieChart5.data" options="main.PieChart5.options"></pie-chart></td>
+                                        <td>75%</td>
+                                        <td>Jul 18, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Gamma project</td>
+                                        <td>Anna Jordan</td>
+                                        <td>(016977) 0648</td>
+                                        <td>Tellus Ltd</td>
+                                        <td><pie-chart data="main.PieChart4.data" options="main.PieChart4.options"></pie-chart></td>
+                                        <td>18%</td>
+                                        <td>Jul 22, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Alpha project</td>
+                                        <td>Alice Jackson</td>
+                                        <td>0500 780909</td>
+                                        <td>Nec Euismod In Company</td>
+                                        <td><pie-chart data="main.PieChart.data" options="main.PieChart.options"></pie-chart></td>
+                                        <td>40%</td>
+                                        <td>Jul 16, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Project <small>This is example of project</small></td>
+                                        <td>Patrick Smith</td>
+                                        <td>0800 051213</td>
+                                        <td>Inceptos Hymenaeos Ltd</td>
+                                        <td><pie-chart data="main.PieChart3.data" options="main.PieChart3.options"></pie-chart></td>
+                                        <td>20%</td>
+                                        <td>Jul 14, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Gamma project</td>
+                                        <td>Anna Jordan</td>
+                                        <td>(016977) 0648</td>
+                                        <td>Tellus Ltd</td>
+                                        <td><pie-chart data="main.PieChart2.data" options="main.PieChart2.options"></pie-chart></td>
+                                        <td>18%</td>
+                                        <td>Jul 22, 2013</td>
+                                        <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>

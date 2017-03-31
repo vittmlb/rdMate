@@ -1,0 +1,51 @@
+<section data-ng-controller="AmazonfeesController" data-ng-init="find()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>Amazon Fees</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Listar Amazon Fees</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-3" data-ng-repeat="amazonfee in amazonfees | orderBy: amazonfee.tipo_fee">
+                <div class="contact-box center-version">
+
+                    <a href="#!/amazonfees/{{ amazonfee._id }}">
+
+                        <!--<img alt="image" class="img-circle" src="img/a2.jpg">-->
+
+
+                        <h3 class="m-b-xs"><small style="font-size: .8em; margin-right: 5px;">{{ amazonfee.precedencia }}</small><strong>{{ amazonfee.nome_fee }}</strong>
+                            <span class="text-success" style="margin-left: 3px; font-size: .9em;" data-ng-show="amazonfee.dados_fee.valor">{{ amazonfee.dados_fee.valor | currency: 'U$ ' }}</span>
+                            <span class="text-success" style="margin-left: 3px; font-size: .9em;" data-ng-show="amazonfee.dados_fee.valor && amazonfee.tem_valor_calculado"> + </span>
+                            <span class="text-success" style="margin-left: 3px; font-size: .9em;" data-ng-show="amazonfee.tem_valor_calculado">
+                                {{ amazonfee.dados_fee.calculado.multiplicador | currency: 'u$ ' }}/{{ amazonfee.dados_fee.calculado.unidade_franquia }}
+                            </span>
+                        </h3>
+                        <div class="font-bold">{{ amazonfee.tipo_fee }} ( <span class="text-info">{{ amazonfee.media_fee }}</span> )</div>
+                        <address class="m-t-md">
+                            <!--<strong>Valor</strong><br>-->
+                            <!--{{ amazonfee.dados_fee.valor | currency: 'U$' }}-->
+                        </address>
+
+                    </a>
+                    <div class="contact-box-footer">
+                        <div class="m-t-xs btn-group">
+                            <a ng-href="#!/amazonfees/{{ amazonfee._id }}" class="btn btn-xs btn-white"><i class="fa fa-eye"></i> View</a>
+                            <a ng-href="#!/amazonfees/{{ amazonfee._id }}/edit" class="btn btn-xs btn-white"><i class="fa fa-pencil"></i> Edit</a>
+                            <a ng-click="deleteAlert(amazonfee)" class="btn btn-xs btn-white"><i class="fa fa-remove"></i> Remove</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

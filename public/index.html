@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>impSys</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="bower_components/select2/dist/css/select2.css"> <!-- Select 2 -->
+    <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css"> <!-- SweetAlert -->
+    <link rel="stylesheet" href="bower_components/angular-datepicker/dist/angular-datepicker.css"> <!-- Angular DatePicker -->
+    <link rel="stylesheet" href="bower_components/c3/c3.css">
+    <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.css">
+    <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css">
+    <link rel="stylesheet" href="css/inspina_style.css">
+    <link rel="stylesheet" href="css/inspina_style_override.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main>
+    <toaster-container></toaster-container>
+    <div ng-include="'views/common/content.html'"></div>
+</main>
+
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/AngularJS-Toaster/toaster.js"></script>
+<script src="bower_components/select2/dist/js/select2.full.js"></script>
+<script src="bower_components/moment/src/moment.js"></script>
+<script src="bower_components/angular-datepicker/dist/angular-datepicker.js"></script>
+
+<!--Chart C3-->
+<script src="bower_components/d3/d3.min.js"></script>
+<script src="bower_components/c3/c3.min.js"></script>
+<script src="bower_components/c3-angular/c3-angular.js"></script>
+
+
+<!-- Plugins-->
+<script src="https://use.fontawesome.com/f474efa969.js"></script>
+
+<script src="bower_components/angular-sweetalert/SweetAlert.min.js"></script>
+<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- AngularJS File Upload-->
+<script src="bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+
+<script src="bower_components/metisMenu/dist/metisMenu.js"></script>
+
+<!--Scripts Users-->
+<script src="app/users/users.client.module.js"></script>
+<script src="app/users/config/users.client.routes.js"></script>
+<script src="app/users/controllers/users.client.controller.js"></script>
+<script src="app/users/services/users.client.service.js"></script>
+
+<!--Scripts Caixas-->
+<script src="app/caixas/caixas.client.module.js"></script>
+<script src="app/caixas/config/caixas.client.routes.js"></script>
+<script src="app/caixas/controllers/caixas.client.controller.js"></script>
+<script src="app/caixas/services/caixas.client.service.js"></script>
+
+<!--Scripts Lancamentos-->
+<script src="app/lancamentos/lancamentos.client.module.js"></script>
+<script src="app/lancamentos/config/lancamentos.client.routes.js"></script>
+<script src="app/lancamentos/controllers/lancamentos.client.controller.js"></script>
+<script src="app/lancamentos/filters/lancamentos.client.filters.js"></script>
+<script src="app/lancamentos/services/lancamentos.client.service.js"></script>
+
+<script src="app/application.js"></script>
+<script src="app/directives.js"></script>
+<script src="app/config.js"></script>
+<script src="app/inspinia.js"></script>
+<script src="app/controllers.js"></script>
+
+
+</body>
+</html>

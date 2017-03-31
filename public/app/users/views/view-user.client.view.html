@@ -1,0 +1,126 @@
+<section data-ng-controller="UsersController" data-ng-init="findOne()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Usuários</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a ng-href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>View Usuários</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+
+        <div class="row m-b-lg m-t-lg">
+            <div class="col-md-6">
+
+                <!--<div class="profile-image">-->
+                <!--<img src="img/a4.jpg" class="img-circle circle-border m-b-md" alt="profile">-->
+                <!--</div>-->
+                <div class="profile-info" style="margin-left: 0;">
+                    <div class="">
+                        <div>
+                            <h2 class="no-margins">{{ user.nome }}</h2>
+                            <h4 style="margin-left: 2px; margin-top: 8px;">{{ user.email }}</h4>
+                            <small>
+                                There are many variations of passages of Lorem Ipsum available, but the majority
+                                have suffered alteration in some form Ipsum available.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <table class="table small m-b-xs">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <strong>142</strong> Projects
+                        </td>
+                        <td>
+                            <strong>22</strong> Followers
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>61</strong> Comments
+                        </td>
+                        <td>
+                            <strong>54</strong> Articles
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>154</strong> Tags
+                        </td>
+                        <td>
+                            <strong>32</strong> Friends
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-3 m-b-lg">
+                <button ng-click="deleteAlert(user)" style="top: 5px; margin-right: 44px; position: relative;" class="btn btn-sm btn-white pull-right"><i class="fa fa-times"></i></button>
+                <a ng-href="#!/users/{{ user._id }}/edit" style="top: 5px; margin-right: 10px; position: relative;" class="btn btn-sm btn-white pull-right"><i class="fa fa-pencil"></i></a>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="social-feed-box">
+
+                    <div class="social-avatar">
+                        <div class="media-body">
+                            <a href="#">Regras
+                            </a><br/>
+                            <span class="text-muted"></span>
+                            <p>{{ user.nome }}</p>
+                        </div>
+                    </div>
+                    <div class="social-body">
+                        <!--<p>-->
+                        <!--Many desktop publishing packages and web page editors now use Lorem Ipsum as their-->
+                        <!--default model text, and a search for 'lorem ipsum' will uncover many web sites still-->
+                        <!--in their infancy. Packages and web page editors now use Lorem Ipsum as their-->
+                        <!--default model text.-->
+                        <!--</p>-->
+
+                        <!--<div class="btn-group">-->
+                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like this!</button>-->
+                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>-->
+                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-share"></i> Share</button>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="social-footer">
+                        <div class="social-comment" data-ng-repeat="regras_size in amazonfee.criterios_size.regras">
+
+                            <div class="media-body">
+                                <a href="#" style="font-size: 1.3em;">
+                                    {{ regras_size.tipo_dimensao }}
+                                </a>
+                                <br/>
+                                <span>Operador: {{ regras_size.operador }}</span>
+                                <span>Valor: {{ regras_size.dados.valor }} {{ regras_size.dados.unidade }}</span>
+                                <span data-ng-show="regras_size.tipo_dimensao">Lados: {{ regras_size.dados.lados }}</span>
+                                <br/>
+                                <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
+                                <small class="text-muted">12.06.2014</small>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,148 @@
+<section data-ng-controller="AmazonfeesController" data-ng-init="iniTeste()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Amazon Fees</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <a>Cadastrar Amazon Fees</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <form data-ng-submit="create()" class="form-horizontal">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Cadastramento de Amazon Fee</h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <br/><br/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Nome da Amazon Fee</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="inputNomeFee" name="nome_fee" data-ng-model="nome_fee" placeholder="Nome da Amazon Fee">
+                                </div>
+                            </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label for="selectTipoAmazonFee" class="col-sm-2 control-label">Tipo Amazon Fee</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="tipo_fee" id="selectTipoAmazonFee"
+                                        data-ng-model="tipo_fee"
+                                        data-ng-options="item for item in tiposFee">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" >Precedência</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputPrecedencia" name="precedencia" data-ng-model="precedencia" placeholder="precedencia">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group" data-ng-show="tipo_fee !== 'Monthly Inventory Storage Fees'">
+                            <label for="selectTipoAmazonFee" class="col-sm-2 control-label">Media</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" name="media_fee" id="selectMedia"
+                                        data-ng-model="media_fee"
+                                        data-ng-options="item for item in tiposMedia">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Valor</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inputValorFee" name="valor_fee" data-ng-model="dados_fee.valor" placeholder="Valor">
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group form-group-sm">
+                                    <label style="margin-left: 5px;"> <input style="margin-top: 10px;" icheck type="checkbox" ng-model="tem_valor_calculado"> <span style="font-size: 1em;">Valor Calculado</span> </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group" data-ng-show="tem_valor_calculado">
+                            <label class="col-sm-2 control-label">Valor Calculado</label>
+                            <div class="col-sm-2">
+                                <input type="number" step="any" class="form-control" id="inputMultiplicador" data-ng-model="dados_fee.calculado.multiplicador" placeholder="Multiplicador ($)">
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="number" step="any" class="form-control" id="inputFranquia" data-ng-model="dados_fee.calculado.franquia" placeholder="Franquia (Un)">
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="selectTiposUnidade"
+                                        data-ng-model="dados_fee.calculado.unidade_franquia"
+                                        data-ng-options="item for item in listaTiposUnidade">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                    </div>
+                </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Regras para determinar o tamanho</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <br/><br/>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Vigência</label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" name="selectRuleVigencia"
+                                            data-ng-model="rules_fee.vigencia"
+                                            data-ng-options="item as item.nome_set for item in listaRules.vigencia track by item._id">
+                                    </select>
+                                </div>
+                            </div> <!-- Form-Group Vigência -->
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Intervalo Data</label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" name="selectRuleIntervaloData"
+                                            data-ng-model="rules_fee.intervalo_data"
+                                            data-ng-options="item as item.nome_set for item in listaRules.intervalo_data track by item._id">
+                                    </select>
+                                </div>
+                            </div> <!-- Form-Group Intervalo Data -->
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Dimensionamento</label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" name="selectRuleDimensionamento"
+                                            data-ng-model="rules_fee.dimensionamento"
+                                            data-ng-options="item as item.nome_set for item in listaRules.dimensionamento track by item._id">
+                                    </select>
+                                </div>
+                            </div> <!-- Form-Group Intervalo Dimensionamento -->
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Pesagem</label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" name="selectRulePesagem"
+                                            data-ng-model="rules_fee.pesagem"
+                                            data-ng-options="item as item.nome_set for item in listaRules.pesagem track by item._id">
+                                    </select>
+                                </div>
+                            </div> <!-- Form-Group Intervalo Pesagem -->
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input style="margin-left: 15px;" type="submit" class="btn btn-primary pull-right" value="Cadastrar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,195 @@
+<section data-ng-controller="UsersController" data-ng-init="find()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>Usuários</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a ng-href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Listar Caixas</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>Caixas por Data <small class="text-danger"></small></h5>
+                <div ibox-tools></div>
+            </div>
+            <div class="ibox-content">
+                <div class="produto-estudo-activity-header-list">
+                    <div class="row">
+                        <div class="produto-estudo-element-header">
+                            <div class="col-sm-2" style="text-align: left;">
+                                Nome
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-2" style="text-align: left;">
+                                        Custo
+                                    </div>
+                                    <div class="col-sm-2">
+                                        Qtd
+                                    </div>
+                                    <div class="col-sm-2">P.Venda</div>
+                                    <div class="col-sm-2">V. Diária</div>
+                                    <div class="col-sm-2">C.Final</div>
+                                    <div class="col-sm-2">Opções</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- HEADER -->
+                <div class="produto-estudo-activity-list" data-ng-repeat="user in users">
+                    <div class="row">
+                        <div class="produto-estudo-element">
+                            <div class="col-sm-2">
+                                <div class="media-body">
+                                    <small class="pull-right text-navy" style="margin-left: 5px; margin-top: 1px;">{{ itemEstudo.estudo_do_produto.modulos.amazon.fba.fulfillment.nome_fee }}</small>
+                                    <small class="pull-right text-navy" style="margin-top: 1px;">{{ itemEstudo.estudo_do_produto.modulos.amazon.fba.inventory.nome_fee }}</small>
+                                    <i class="fa fa-info-circle" style="font-size: 1.1em; margin-right: 7px;" ng-click="produtoViewModal(itemEstudo)"></i>
+                                    <span style="cursor: pointer; font-size: 1.1em;"><a ng-href="#!/users/{{ user._id }}">{{ user.nome }}</a></span>
+                                    <small class="text-muted"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-2" style="text-align: left;">
+                                        <div class="media-body">
+                                            <span class="text-success">{{itemEstudo.estudo_do_produto.custo_unitario() | currency: 'U$ '}}</span>
+                                        </div>
+                                        <br>
+                                        <!--<small>Investimento:</small><small class="text-info"> {{ itemEstudo.estudo_do_produto.resultados.investimento() | currency: 'U$ '}}</small><br/>-->
+                                    </div>
+                                    <div class="col-sm-2" style="text-align: center;">
+                                        <div class="media-body">
+                                            <input style="text-align:center;" type="number" class="form-control input-transparente" placeholder="qtd" data-ng-model="itemEstudo.estudo_do_produto.qtd" ng-change="processaMudancas(itemEstudo, 'qtd')">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2" style="text-align: center;">
+                                        <div class="media-body">
+                                            <input style="text-align:center;" type="number" class="form-control input-transparente" placeholder="P.Venda (R$)" data-ng-model="itemEstudo.estudo_do_produto.resultados.precos.venda" ng-change="iniImport()">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2" style="text-align: center;">
+                                        <div class="media-body">
+                                            <input style="text-align: center;" type="number" class="form-control input-transparente" placeholder="venda diária" data-ng-model="itemEstudo.estudo_do_produto.venda_media.diaria.unidades" ng-change="processaMudancas(itemEstudo, 'qtd')">
+                                            <a class="text-info" style="text-align: center;"> {{ itemEstudo.estudo_do_produto.venda_media.converte.dia_para_mes() | currency: ''}}</a><br/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2" style="text-align: center;">
+                                        <div class="media-body">
+                                            <p style="text-align: center;" data-ng-show="!itemEstudo.estudo_do_produto.resultados.precos.custo.total()">- - -</p>
+                                            <p style="text-align: center;" data-ng-bind="itemEstudo.estudo_do_produto.resultados.precos.custo.total() | currency: 'U$ '"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1" style="text-align:center;">
+                                        <div class="media-body">
+                                            <i data-toggle="tooltip" data-placement="right" title="Remover produto"  ng-click="login(user)" class="fa fa-times clickable"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="collapse" id="{{ itemEstudo._id }}">
+                            <div class="col-sm-3">
+                                <div class="social-footer" style="margin-top: 8px;">
+                                    <table class="table table-striped small m-t-sm" data-ng-init="rel_principal = itemEstudo.estudo_do_produto.display.relatorio.tabela_de_produtos.principal">
+                                        <thead>
+                                        <tr>
+                                            <th>Principal</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Frete</td>
+                                            <td><span class="text-success">{{ rel_principal.frete() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Custos Aduaneiros</td>
+                                            <td><span class="text-success">{{ rel_principal.custos_aduaneiros() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taxas</td>
+                                            <td><span class="text-success">{{ rel_principal.taxas() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Conny</td>
+                                            <td><span class="text-success">{{ rel_principal.conny() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Custos</td>
+                                            <td><span class="text-success">{{ rel_principal.custos() | currency: 'U$ '}}</span></td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="social-footer" style="margin-top: 8px;">
+                                    <table class="table table-striped small m-t-sm" ng-init="rel_custos = itemEstudo.estudo_do_produto.display.relatorio.tabela_de_produtos.custos">
+                                        <thead>
+                                        <tr>
+                                            <th>Custos Unitários</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Custo Imp.</td>
+                                            <td><span class="text-success">{{ rel_custos.importacao() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Amazon fba</td>
+                                            <td><span class="text-success">{{ rel_custos.amazon.fba() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Amazon comissões</td>
+                                            <td><span class="text-success">{{ rel_custos.amazon.comissoes() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="social-footer" style="margin-top: 8px;"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="social-footer" style="margin-top: 8px;">
+                                    <table class="table table-striped small m-t-sm" ng-init="rel_custos_unitarios = itemEstudo.estudo_do_produto.display.relatorio.tabela_de_produtos.custos_unitarios">
+                                        <thead>
+                                        <tr>
+                                            <th>Custos Unitários</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Custo Imp.</td>
+                                            <td><span class="text-success">{{ rel_custos_unitarios.importacao() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Amazon fba</td>
+                                            <td><span class="text-success">{{ rel_custos_unitarios.amazon.fba() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Amazon comissões</td>
+                                            <td><span class="text-success">{{ rel_custos_unitarios.amazon.comissoes() | currency: 'U$ '}}</span></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- Tabela de Produtos do Estudo -->
+    </div>
+</section>

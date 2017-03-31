@@ -1,0 +1,400 @@
+<section data-ng-controller="CaixasController" data-ng-init="findOne()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Caixa do dia: {{ caixa.data_caixa | date: 'dd/MM/yyyy' }}</h2>
+            <!--<span ng-repeat="forn in fornecedores">{{ forn }}</span>-->
+            <ol class="breadcrumb">
+                <li>
+                    <a ng-href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Caixa</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Registrar Caixa</h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <br/><br/>
+                        <div class="form-group">
+                            <input type="date" class="form-control" id="inputNomeRuleSet" name="data_caixa" data-ng-model="data_caixa" placeholder="Data">
+                        </div>
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align: center;">Manhã</th>
+                                <th style="text-align: center;">Tarde</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Abertura</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManha" name="abertura.manha.valor" data-ng-model="caixa.abertura.manha.valor" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTarde" name="abertura.tarde.valor" data-ng-model="caixa.abertura.tarde.valor" placeholder=""></td>
+                            </tr>
+                            <tr>
+                                <td>Venda</td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVendasManha" name="vendas.manha.valor" data-ng-model="caixa.vendas.manha.valor" placeholder=""></td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVendasTarde" name="vendas.tarde.valor" data-ng-model="caixa.vendas.tarde.valor" placeholder=""></td>
+                            </tr>
+                            <tr>
+                                <td>Transferência</td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTransferenciaManha" name="lancamentos.transferencia.manha.valor" data-ng-model="caixa.lancamentos.transferencia.manha.valor" placeholder=""></td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTransferenciaTarde" name="lancamentos.transferencia.tarde.valor" data-ng-model="caixa.lancamentos.transferencia.tarde.valor" placeholder=""></td>
+                            </tr>
+                            <tr>
+                                <td>Tickets</td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTicketsManha" name="vendas.vales.tickets.manha.valor" data-ng-model="caixa.vendas.vales.tickets.manha.valor" placeholder=""></td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTicketsTarde" name="vendas.vales.tickets.tarde.valor" data-ng-model="caixa.vendas.vales.tickets.tarde.valor" placeholder=""></td>
+                            </tr>
+                            <tr>
+                                <td>Visa Vale</td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaValeManha" name="vendas.vales.visa_vale.manha.valor" data-ng-model="caixa.vendas.vales.visa_vale.manha.valor" placeholder=""></td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaValeTarde" name="vendas.vales.visa_vale.tarde.valor" data-ng-model="caixa.vendas.vales.visa_vale.tarde.valor" placeholder=""></td>
+                            </tr>
+                            <tr>
+                                <td>Master</td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputMasterManha" name="vendas.cartoes.master.manha.valor" data-ng-model="caixa.vendas.cartoes.master.manha.valor" placeholder=""></td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputMasterTarde" name="vendas.cartoes.master.tarde.valor" data-ng-model="caixa.vendas.cartoes.master.tarde.valor" placeholder=""></td>
+                            </tr>
+                            <tr>
+                                <td>Visa</td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaManha" name="vendas.cartoes.visa.manha.valor" data-ng-model="caixa.vendas.cartoes.visa.manha.valor" placeholder=""></td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaTarde" name="vendas.cartoes.visa.tarde.valor" data-ng-model="caixa.vendas.cartoes.visa.tarde.valor" placeholder=""></td>
+                            </tr>
+                            <tr>
+                                <td>Dinheiro</td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputDinheiroManha" name="lancamentos.dinheiro.manha.valor" data-ng-model="lancamentos.dinheiro.manha.valor" placeholder=""></td>
+                                <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputDinheiroTarde" name="lancamentos.dinheiro.tarde.valor" data-ng-model="lancamentos.dinheiro.tarde.valor" placeholder=""></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align: center;">Salgados</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Folhados</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputSalgadosFolhados" name="" data-ng-model="caixa.acompanhamentos.salgados.folhados" placeholder=""></td>
+                            </tr> <!-- Folhados -->
+                            <tr>
+                                <td>Outros</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputSalgadosOutros" name="" data-ng-model="caixa.acompanhamentos.salgados.outros" placeholder=""></td>
+                            </tr> <!-- Outros -->
+                            <tr>
+                                <td>Pão de Queijo</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputSalgadosPaoDeQueijo" name="" data-ng-model="caixa.acompanhamentos.salgados.pao_de_queijo" placeholder=""></td>
+                            </tr> <!-- Pão de Queijo -->
+                            <tr>
+                                <td>Leitura Z</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputLeituraZ" name="" data-ng-model="caixa.acompanhamentos.leitura_z" placeholder=""></td>
+                            </tr> <!-- Leitura Z -->
+                            </tbody>
+                        </table>
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align: center;">Abertura</th>
+                                <th style="text-align: center;">Fechamento</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Água</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAguaAbertura" name="caixa.acompanhamentos.agua.abertura" data-ng-model="caixa.acompanhamentos.agua.abertura" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAguaFechamento" name="caixa.acompanhamentos.agua.fechamento" data-ng-model="caixa.acompanhamentos.agua.fechamento" placeholder=""></td>
+                            </tr> <!-- Água -->
+                            <tr>
+                                <td>Luz</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputLuzAbertura" name="acompanhamentos.luz.abertura" data-ng-model="caixa.acompanhamentos.luz.abertura" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputLuzFechamento" name="acompanhamentos.luz.fechamento" data-ng-model="caixa.acompanhamentos.luz.fechamento" placeholder=""></td>
+                            </tr> <!-- Água -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Registro de Despesas</h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <br/>
+                        Manhã
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th style="text-align: center;">Valor</th>
+                                <th>Opt</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input style="text-align:left;" type="text" class="form-control input-transparente-tabela" id="inputDespesaManhaDescricao" name="abertura.manha.valor" data-ng-model="objDespesaManha.descricao" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputDespesaManhaValor" name="abertura.manha.valor" data-ng-model="objDespesaManha.valor" placeholder=""></td>
+                                <td>
+                                    <i class="fa fa-plus clickable" ng-click="addDespesaManha()"></i>
+                                </td>
+                            </tr>
+                            <tr data-ng-repeat="desp_m in caixa.lancamentos.despesas.manha">
+                                <td>{{ desp_m.descricao }}</td>
+                                <td>{{ desp_m.valor }}</td>
+                                <td><i class="fa fa-minus clickable" ng-click="removeDespesaManha(desp_m)"></i></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Tarde
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th style="text-align: center;">Valor</th>
+                                <th>Opt</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input style="text-align:left;" type="text" class="form-control input-transparente-tabela" id="inputDespesaTardeDescricao" name="" data-ng-model="objDespesaTarde.descricao" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputDespesaTardeValor" name="" data-ng-model="objDespesaTarde.valor" placeholder=""></td>
+                                <td>
+                                    <i class="fa fa-plus clickable" ng-click="addDespesaTarde()"></i>
+                                </td>
+                            </tr>
+                            <tr data-ng-repeat="desp_t in caixa.lancamentos.despesas.tarde">
+                                <td>{{ desp_t.descricao }}</td>
+                                <td>{{ desp_t.valor }}</td>
+                                <td><i class="fa fa-minus clickable" ng-click="removeDespesaTarde(desp_t)"></i></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Registro de Movimentação</h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <br/>
+                        Cofre
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th style="text-align: center;">Valor</th>
+                                <th>Opt</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input style="text-align:left;" type="text" class="form-control input-transparente-tabela" id="inputMovimentacaoCofreDescricao" name="" data-ng-model="objMovimentacaoCofre.descricao" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputMovimentacaoCofreValor" name="" data-ng-model="objMovimentacaoCofre.valor" placeholder=""></td>
+                                <td>
+                                    <i class="fa fa-plus clickable" ng-click="addMovimentacaoCofre()"></i>
+                                </td>
+                            </tr>
+                            <tr data-ng-repeat="mov_cofre in caixa.movimentacao.cofre">
+                                <td>{{ mov_cofre.descricao }}</td>
+                                <td>{{ mov_cofre.valor }}</td>
+                                <td><i class="fa fa-minus clickable" ng-click="removeMovimentacaoCofre(mov_cofre)"></i></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Geral
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th style="text-align: center;">Valor</th>
+                                <th>Opt</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input style="text-align:left;" type="text" class="form-control input-transparente-tabela" id="inputMovimentacaoGeralDescricao" name="" data-ng-model="objMovimentacaoGeral.descricao" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputMovimentacaoGeralValor" name="" data-ng-model="objMovimentacaoGeral.valor" placeholder=""></td>
+                                <td>
+                                    <i class="fa fa-plus clickable" ng-click="addMovimentacaoGeral()"></i>
+                                </td>
+                            </tr>
+                            <tr data-ng-repeat="mov_geral in caixa.movimentacao.geral">
+                                <td>{{ mov_geral.descricao }}</td>
+                                <td>{{ mov_geral.valor }}</td>
+                                <td><i class="fa fa-minus clickable" ng-click="removeMovimentacaoGeral(mov_geral)"></i></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Conferências</h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <br/><br/>
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align: center;">Manhã</th>
+                                <th style="text-align: center;">Tarde</th>
+                                <th style="text-align: center;">Tarde</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Geral</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManhaf" name="" data-ng-model="caixa.conferencias.geral.manha.abertura_venda" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardef" name="" data-ng-model="caixa.conferencias.geral.manha.entradas" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardeg" name="" data-ng-model="caixa.conferencias.geral.manha.diferenca" placeholder=""></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row m-b-lg m-t-lg">
+            <div class="col-md-6">
+                <div class="profile-info" style="margin-left: 0;">
+                    <div class="">
+                        <div>
+                            <h2 class="no-margins"><span data-ng-show="amazonfee.dados_fee.valor">{{ amazonfee.nome_fee }} - {{ amazonfee.dados_fee.valor | currency: 'U$' }}</span>
+                                <span class="text-success" style="margin-left: 3px; font-size: .9em;" data-ng-show="amazonfee.dados_fee.valor && amazonfee.tem_valor_calculado"> + </span>
+                                <span class="text-success" style="margin-left: 3px; font-size: .9em;" data-ng-show="amazonfee.tem_valor_calculado">
+                                {{ amazonfee.dados_fee.calculado.multiplicador | currency: 'u$ ' }}/{{ amazonfee.dados_fee.calculado.unidade_franquia }}
+                            </span>
+                            </h2>
+                            <h4 style="margin-left: 2px; margin-top: 8px;">{{ amazonfee.tipo_fee }}</h4>
+                            <small>
+                                There are many variations of passages of Lorem Ipsum available, but the majority
+                                have suffered alteration in some form Ipsum available.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <table class="table small m-b-xs">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <strong>142</strong> Projects
+                        </td>
+                        <td>
+                            <strong>22</strong> Followers
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>61</strong> Comments
+                        </td>
+                        <td>
+                            <strong>54</strong> Articles
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>154</strong> Tags
+                        </td>
+                        <td>
+                            <strong>32</strong> Friends
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-3 m-b-lg">
+                <button ng-click="deleteAlert(amazonfee)" style="top: 5px; margin-right: 44px; position: relative;" class="btn btn-sm btn-white pull-right"><i class="fa fa-times"></i></button>
+                <a ng-href="#!/amazonfees/{{ amazonfee._id }}/edit" style="top: 5px; margin-right: 10px; position: relative;" class="btn btn-sm btn-white pull-right"><i class="fa fa-pencil"></i></a>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="social-feed-box">
+
+                    <div class="social-avatar">
+                        <div class="media-body">
+                            <a href="#">Regras
+                            </a>
+                            <br/>
+                            <p>{{ amazonfee.rules_fee.vigencia.nome_set }}</p>
+                            <p>{{ amazonfee.rules_fee.intervalo_data.nome_set }}</p>
+                            <p>{{ amazonfee.rules_fee.dimensionamento.nome_set }}</p>
+                            <p>{{ amazonfee.rules_fee.pesagem.nome_set }}</p>
+                            <span class="text-muted">{{ amazonfee.criterios_size.nome_size }}</span>
+                        </div>
+                    </div>
+                    <div class="social-body">
+                        <!--<p>-->
+                        <!--Many desktop publishing packages and web page editors now use Lorem Ipsum as their-->
+                        <!--default model text, and a search for 'lorem ipsum' will uncover many web sites still-->
+                        <!--in their infancy. Packages and web page editors now use Lorem Ipsum as their-->
+                        <!--default model text.-->
+                        <!--</p>-->
+
+                        <!--<div class="btn-group">-->
+                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like this!</button>-->
+                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>-->
+                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-share"></i> Share</button>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="social-footer">
+                        <div class="social-comment" data-ng-repeat="regras_size in amazonfee.criterios_size.regras">
+
+                            <div class="media-body">
+                                <a href="#" style="font-size: 1.3em;">
+                                    {{ regras_size.tipo_dimensao }}
+                                </a>
+                                <br/>
+                                <span>Operador: {{ regras_size.operador }}</span>
+                                <span>Valor: {{ regras_size.dados.valor }} {{ regras_size.dados.unidade }}</span>
+                                <span data-ng-show="regras_size.tipo_dimensao">Lados: {{ regras_size.dados.lados }}</span>
+                                <br/>
+                                <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
+                                <small class="text-muted">12.06.2014</small>
+                                <br/>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
