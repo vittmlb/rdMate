@@ -9,6 +9,7 @@ let mainAppModule = angular.module('admin_panel', [
     'users',
     'caixas',
     'lancamentos',
+    'demonstrativos',
     'toaster',
     'ui.router',
     'ngAnimate',

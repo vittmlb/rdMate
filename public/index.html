@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="bower_components/angular-datepicker/dist/angular-datepicker.css"> <!-- Angular DatePicker -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="bower_components/select2/dist/css/select2.css"> <!-- Select 2 -->
     <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css"> <!-- SweetAlert -->
-    <link rel="stylesheet" href="bower_components/angular-datepicker/dist/angular-datepicker.css"> <!-- Angular DatePicker -->
     <link rel="stylesheet" href="bower_components/c3/c3.css">
     <link rel="stylesheet" href="bower_components/AngularJS-Toaster/toaster.css">
     <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css">
@@ -25,6 +25,8 @@
 </main>
 
 <script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/moment/locale/pt-br.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
@@ -38,7 +40,6 @@
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="bower_components/AngularJS-Toaster/toaster.js"></script>
 <script src="bower_components/select2/dist/js/select2.full.js"></script>
-<script src="bower_components/moment/src/moment.js"></script>
 <script src="bower_components/angular-datepicker/dist/angular-datepicker.js"></script>
 
 <!--Chart C3-->
@@ -77,6 +78,12 @@
 <script src="app/lancamentos/controllers/lancamentos.client.controller.js"></script>
 <script src="app/lancamentos/filters/lancamentos.client.filters.js"></script>
 <script src="app/lancamentos/services/lancamentos.client.service.js"></script>
+
+<!--Scripts Demonstrativos-->
+<script src="app/demonstrativos/demonstrativos.client.module.js"></script>
+<script src="app/demonstrativos/config/demonstrativos.client.routes.js"></script>
+<script src="app/demonstrativos/controllers/demonstrativos.client.controller.js"></script>
+<script src="app/demonstrativos/services/demonstrativos.client.service.js"></script>
 
 <script src="app/application.js"></script>
 <script src="app/directives.js"></script>

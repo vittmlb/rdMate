@@ -1,0 +1,441 @@
+<section data-ng-controller="DemonstrativosController">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Lançamentos</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a ng-href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <a>Cadastrar Lançamentos</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Registrar Caixa</h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <br/><br/>
+                        <form data-ng-submit="create()">
+                            <div class="form-group">
+                                <label>Período</label>
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <!--<input type="date" class="form-control" data-ng-model="dia">-->
+                                    <input type="datetime" class="form-control" date-time data-ng-model="dia" view="date" auto-close="true" min-view="date" format="MMMM - YYYY">
+                                </div>
+                            </div>
+                            <table class="table table-striped no-margins">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="text-align: center;">Valor</th>
+                                    <th style="text-align: center;">%</th>
+                                    <th style="text-align: center;">Calculado</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Venda</td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManha" name="abertura.manha.valor" data-ng-model="receitas.vendas.total" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTarde" name="abertura.tarde.valor" data-ng-model="abertura.tarde.valor" placeholder=""></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">Cadastrar</button>
+                                <button class="btn btn-sm btn-danger pull-right m-t-n-xs" ng-click="query()">Query</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Custom responsive table </h5>
+                        <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-9 m-b-xs">
+                                <div data-toggle="buttons" class="btn-group">
+                                    <label class="btn btn-sm btn-white"> <input type="radio" id="option1" name="options"> Day </label>
+                                    <label class="btn btn-sm btn-white active"> <input type="radio" id="option2" name="options"> Week </label>
+                                    <label class="btn btn-sm btn-white"> <input type="radio" id="option3" name="options"> Month </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Project </th>
+                                    <th>Name </th>
+                                    <th>Phone </th>
+                                    <th>Company </th>
+                                    <th>Completed </th>
+                                    <th>Task</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Project <small>This is example of project</small></td>
+                                    <td>Patrick Smith</td>
+                                    <td>0800 051213</td>
+                                    <td>Inceptos Hymenaeos Ltd</td>
+                                    <td><pie-chart data="main.PieChart5.data" options="main.PieChart5.options"></pie-chart></td>
+                                    <td>20%</td>
+                                    <td>Jul 14, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Alpha project</td>
+                                    <td>Alice Jackson</td>
+                                    <td>0500 780909</td>
+                                    <td>Nec Euismod In Company</td>
+                                    <td><pie-chart data="main.PieChart4.data" options="main.PieChart4.options"></pie-chart></td>
+                                    <td>40%</td>
+                                    <td>Jul 16, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Betha project</td>
+                                    <td>John Smith</td>
+                                    <td>0800 1111</td>
+                                    <td>Erat Volutpat</td>
+                                    <td><pie-chart data="main.PieChart3.data" options="main.PieChart3.options"></pie-chart></td>
+                                    <td>75%</td>
+                                    <td>Jul 18, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Gamma project</td>
+                                    <td>Anna Jordan</td>
+                                    <td>(016977) 0648</td>
+                                    <td>Tellus Ltd</td>
+                                    <td><pie-chart data="main.PieChart6.data" options="main.PieChart6.options"></pie-chart></td>
+                                    <td>18%</td>
+                                    <td>Jul 22, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Alpha project</td>
+                                    <td>Alice Jackson</td>
+                                    <td>0500 780909</td>
+                                    <td>Nec Euismod In Company</td>
+                                    <td><pie-chart data="main.PieChart.data" options="main.PieChart.options"></pie-chart></td>
+                                    <td>40%</td>
+                                    <td>Jul 16, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Project <small>This is example of project</small></td>
+                                    <td>Patrick Smith</td>
+                                    <td>0800 051213</td>
+                                    <td>Inceptos Hymenaeos Ltd</td>
+                                    <td><pie-chart data="main.PieChart4.data" options="main.PieChart4.options"></pie-chart></td>
+                                    <td>20%</td>
+                                    <td>Jul 14, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Gamma project</td>
+                                    <td>Anna Jordan</td>
+                                    <td>(016977) 0648</td>
+                                    <td>Tellus Ltd</td>
+                                    <td><pie-chart data="main.PieChart3.data" options="main.PieChart3.options"></pie-chart></td>
+                                    <td>18%</td>
+                                    <td>Jul 22, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Project <small>This is example of project</small></td>
+                                    <td>Patrick Smith</td>
+                                    <td>0800 051213</td>
+                                    <td>Inceptos Hymenaeos Ltd</td>
+                                    <td><pie-chart data="main.PieChart2.data" options="main.PieChart2.options"></pie-chart></td>
+                                    <td>20%</td>
+                                    <td>Jul 14, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Alpha project</td>
+                                    <td>Alice Jackson</td>
+                                    <td>0500 780909</td>
+                                    <td>Nec Euismod In Company</td>
+                                    <td><pie-chart data="main.PieChart6.data" options="main.PieChart6.options"></pie-chart></td>
+                                    <td>40%</td>
+                                    <td>Jul 16, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Betha project</td>
+                                    <td>John Smith</td>
+                                    <td>0800 1111</td>
+                                    <td>Erat Volutpat</td>
+                                    <td><pie-chart data="main.PieChart5.data" options="main.PieChart5.options"></pie-chart></td>
+                                    <td>75%</td>
+                                    <td>Jul 18, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Gamma project</td>
+                                    <td>Anna Jordan</td>
+                                    <td>(016977) 0648</td>
+                                    <td>Tellus Ltd</td>
+                                    <td><pie-chart data="main.PieChart4.data" options="main.PieChart4.options"></pie-chart></td>
+                                    <td>18%</td>
+                                    <td>Jul 22, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Alpha project</td>
+                                    <td>Alice Jackson</td>
+                                    <td>0500 780909</td>
+                                    <td>Nec Euismod In Company</td>
+                                    <td><pie-chart data="main.PieChart.data" options="main.PieChart.options"></pie-chart></td>
+                                    <td>40%</td>
+                                    <td>Jul 16, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Project <small>This is example of project</small></td>
+                                    <td>Patrick Smith</td>
+                                    <td>0800 051213</td>
+                                    <td>Inceptos Hymenaeos Ltd</td>
+                                    <td><pie-chart data="main.PieChart3.data" options="main.PieChart3.options"></pie-chart></td>
+                                    <td>20%</td>
+                                    <td>Jul 14, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Gamma project</td>
+                                    <td>Anna Jordan</td>
+                                    <td>(016977) 0648</td>
+                                    <td>Tellus Ltd</td>
+                                    <td><pie-chart data="main.PieChart2.data" options="main.PieChart2.options"></pie-chart></td>
+                                    <td>18%</td>
+                                    <td>Jul 22, 2013</td>
+                                    <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>Tabela de Produtos <small class="text-danger"> {{ auxTestes }}</small></h5>
+        <div ibox-tools></div>
+    </div>
+    <div class="ibox-content">
+        <div class="produto-estudo-activity-header-list">
+            <div class="row">
+                <div class="produto-estudo-element-header">
+                    <div class="col-sm-4" style="text-align: left;">
+                        Produto
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-2" style="text-align: left;">
+                                Custo
+                            </div>
+                            <div class="col-sm-2">
+                                Qtd
+                            </div>
+                            <div class="col-sm-2">P.Venda</div>
+                            <div class="col-sm-2">V. Diária</div>
+                            <div class="col-sm-2">C.Final</div>
+                            <div class="col-sm-2">Opções</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- HEADER -->
+        <div class="produto-estudo-activity-list" data-ng-repeat="itemEstudo in produtosDoEstudo">
+            <div class="row">
+                <div class="produto-estudo-element">
+                    <div class="col-sm-4">
+                        <a data-toggle="collapse" data-target="#{{ itemEstudo._id }}" href="" class="pull-left">
+                            <!--<i class="fa fa-plus" style="cursor: pointer; margin-right: 3px;" ng-click="addDespesaInternacionalDoProdutoModal(itemEstudo)"></i>-->
+                            <img style="width: 40px; margin-left: 6px;" class="img-circle" ng-src="{{ itemEstudo.img_url }}" alt="Imagem {{ itemEstudo.nome }}">
+                        </a>
+                        <div class="media-body" style="margin-left: 70px;">
+                            <small class="pull-right text-navy" style="margin-left: 5px; margin-top: 1px;">{{ itemEstudo.estudo_do_produto.modulos.amazon.fba.fulfillment.nome_fee }}</small>
+                            <small class="pull-right text-navy" style="margin-top: 1px;">{{ itemEstudo.estudo_do_produto.modulos.amazon.fba.inventory.nome_fee }}</small>
+                            <span style="cursor: pointer; font-size: 1.1em;" ng-click="produtoViewModal(itemEstudo)">{{ itemEstudo.nome | limitTo: 20 }}</span>
+                            <small class="text-muted"></small>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-2" style="text-align: left;">
+                                <div class="media-body">
+                                    <span class="text-success">{{itemEstudo.estudo_do_produto.custo_unitario() | currency: 'U$ '}}</span>
+                                </div>
+                                <br>
+                                <!--<small>Investimento:</small><small class="text-info"> {{ itemEstudo.estudo_do_produto.resultados.investimento() | currency: 'U$ '}}</small><br/>-->
+                            </div>
+                            <div class="col-sm-2" style="text-align: center;">
+                                <div class="media-body">
+                                    <input style="text-align:center;" type="number" class="form-control input-transparente" placeholder="qtd" data-ng-model="itemEstudo.estudo_do_produto.qtd" ng-change="processaMudancas(itemEstudo, 'qtd')">
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="text-align: center;">
+                                <div class="media-body">
+                                    <input style="text-align:center;" type="number" class="form-control input-transparente" placeholder="P.Venda (R$)" data-ng-model="itemEstudo.estudo_do_produto.resultados.precos.venda" ng-change="iniImport()">
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="text-align: center;">
+                                <div class="media-body">
+                                    <input style="text-align: center;" type="number" class="form-control input-transparente" placeholder="venda diária" data-ng-model="itemEstudo.estudo_do_produto.venda_media.diaria.unidades" ng-change="processaMudancas(itemEstudo, 'qtd')">
+                                    <a class="text-info" style="text-align: center;"> {{ itemEstudo.estudo_do_produto.venda_media.converte.dia_para_mes() | currency: ''}}</a><br/>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="text-align: center;">
+                                <div class="media-body">
+                                    <p style="text-align: center;" data-ng-show="!itemEstudo.estudo_do_produto.resultados.precos.custo.total()">- - -</p>
+                                    <p style="text-align: center;" data-ng-bind="itemEstudo.estudo_do_produto.resultados.precos.custo.total() | currency: 'U$ '"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm-1" style="text-align:center;">
+                                <div class="media-body">
+                                    <i data-toggle="tooltip" data-placement="right" title="Remover produto"  ng-click="removeProdutoEstudo(itemEstudo)" class="fa fa-times clickable"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="collapse" id="{{ itemEstudo._id }}">
+                    <div class="col-sm-3">
+                        <div class="social-footer" style="margin-top: 8px;">
+                            <table class="table table-striped small m-t-sm" data-ng-init="rel_principal = itemEstudo.estudo_do_produto.display.relatorio.tabela_de_produtos.principal">
+                                <thead>
+                                <tr>
+                                    <th>Principal</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Frete</td>
+                                    <td><span class="text-success">{{ rel_principal.frete() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Custos Aduaneiros</td>
+                                    <td><span class="text-success">{{ rel_principal.custos_aduaneiros() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Taxas</td>
+                                    <td><span class="text-success">{{ rel_principal.taxas() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Conny</td>
+                                    <td><span class="text-success">{{ rel_principal.conny() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Custos</td>
+                                    <td><span class="text-success">{{ rel_principal.custos() | currency: 'U$ '}}</span></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="social-footer" style="margin-top: 8px;">
+                            <table class="table table-striped small m-t-sm" ng-init="rel_custos = itemEstudo.estudo_do_produto.display.relatorio.tabela_de_produtos.custos">
+                                <thead>
+                                <tr>
+                                    <th>Custos Unitários</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Custo Imp.</td>
+                                    <td><span class="text-success">{{ rel_custos.importacao() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Amazon fba</td>
+                                    <td><span class="text-success">{{ rel_custos.amazon.fba() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Amazon comissões</td>
+                                    <td><span class="text-success">{{ rel_custos.amazon.comissoes() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="social-footer" style="margin-top: 8px;"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="social-footer" style="margin-top: 8px;">
+                            <table class="table table-striped small m-t-sm" ng-init="rel_custos_unitarios = itemEstudo.estudo_do_produto.display.relatorio.tabela_de_produtos.custos_unitarios">
+                                <thead>
+                                <tr>
+                                    <th>Custos Unitários</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Custo Imp.</td>
+                                    <td><span class="text-success">{{ rel_custos_unitarios.importacao() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Amazon fba</td>
+                                    <td><span class="text-success">{{ rel_custos_unitarios.amazon.fba() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Amazon comissões</td>
+                                    <td><span class="text-success">{{ rel_custos_unitarios.amazon.comissoes() | currency: 'U$ '}}</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- Tabela de Produtos do Estudo -->

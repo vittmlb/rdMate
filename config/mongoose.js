@@ -29,6 +29,7 @@ module.exports = function() {
     require('../app/models/users.server.model');
     require('../app/models/caixas.server.model');
     require('../app/models/lancamentos.server.model');
+    require('../app/models/demonstrativos.server.model');
 
     return db;
 };
