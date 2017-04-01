@@ -17,6 +17,38 @@
             <div class="col-sm-5">
                 <ibox-demonstrativo-cadastro></ibox-demonstrativo-cadastro>
             </div>
+            <div class="col-sm-7">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Data </th>
+                            <th>Categoria </th>
+                            <th>Subcategoria </th>
+                            <th>Nome </th>
+                            <th>Valor </th>
+                            <th>Descrição</th>
+                            <th>Obs</th>
+                            <th>Opções</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="lanc in lancamentos | orderBy: 'created'">
+                            <td>1</td>
+                            <td>{{ lanc.data | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ lanc.categoria }}</td>
+                            <td>{{ lanc.subcategoria }}</td>
+                            <td>{{ lanc.nome }}</td>
+                            <td>{{ lanc.valor | currency: 'R$ '}}</td>
+                            <td>{{ lanc.descricao | limitTo: 8 }}</td>
+                            <td>{{ lanc.observacao | limitTo: 8 }}</td>
+                            <td><a ng-click="edit(lanc)"><i class="fa fa-pencil text-navy"></i></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12">

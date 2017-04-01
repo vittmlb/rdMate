@@ -1,8 +1,8 @@
 /**
  * Created by Vittorio on 31/03/2017.
  */
-angular.module('demonstrativos').controller('DemonstrativosController', ['$scope', '$stateParams', '$location', 'Demonstrativos', 'DemonstrativosQueries', 'toaster', 'SweetAlert',
-    function($scope, $stateParams, $location, Demonstrativos, DemonstrativosQueries, toaster, SweetAlert) {
+angular.module('demonstrativos').controller('DemonstrativosController', ['$scope', '$stateParams', '$location', 'Demonstrativos', 'DemonstrativosQueries', 'CompDemonstrativos', 'toaster', 'SweetAlert',
+    function($scope, $stateParams, $location, Demonstrativos, DemonstrativosQueries, CompDemonstrativos, toaster, SweetAlert) {
         let SweetAlertOptions = {
             removerDemonstrativo: {
                 title: "Deseja remover este Demonstrativo?",
@@ -107,18 +107,16 @@ angular.module('demonstrativos').controller('DemonstrativosController', ['$scope
         };
 
         $scope.query = function() {
-            DemonstrativosQueries.get({
-                params: $scope.data
-            }).$promise.then(function (data) {
-                $scope.caralho = data;
-            });
+            // DemonstrativosQueries.get({
+            //     params: $scope.data
+            // }).$promise.then(function (data) {
+            //     $scope.caralho = data;
+            // });
         };
 
         $scope.onChange = function() {
-            DemonstrativosQueries.get({
-                params: this.dia
-            }).$promise.then(function (data) {
-                $scope.caralho = data;
+            CompDemonstrativos.filter(this.data).$promise.then(function (data) {
+                $scope.lancamentos = data[0].lancamentos;
             });
         };
     }

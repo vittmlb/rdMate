@@ -15,5 +15,10 @@ module.exports = function(app) {
         .delete(lancamento.delete);
 
     app.param('lancamentoId', lancamento.findById);
-    
+
+    app.route('/api/lancamentos/query/:parametros')
+        .get(lancamento.results);
+
+    app.param('parametros', lancamento.findCustoms);
+
 };

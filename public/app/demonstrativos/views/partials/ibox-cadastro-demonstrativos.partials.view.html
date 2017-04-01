@@ -6,33 +6,11 @@
     <div class="ibox-content">
         <br/><br/>
         <form data-ng-submit="create()">
-            <!--<div class="form-group">-->
-            <!--<div class="input-group">-->
-            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span>-->
-            <!--<input type="date" class="form-control" data-ng-model="dia" ng-change="onChange()">-->
-            <!--</div>-->
-            <!--</div>-->
             <div class="form-group">
-                <div class="input-group"
-                     moment-picker="dia"
-                     ng-model="dia"
-                     ng-change="onChange(moment-picker)"
-                     locale="pt-br"
-                     format="DD/MM/YYYY">
-                                    <span class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </span>
-                    <input class="form-control"
-                           type="datetime"
-                           placeholder="Select a date"
-                           ng-change="onChange()"
-                           ng-model="dia"
-                           start-view="month"
-                           min-view="month"
-                           locale="pt-br"
-                           format="DD/MM/YYYY"
-                           ng-model-options="{ updateOn: 'blur' }">
-                </div>
+            <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            <input type="date" class="form-control" data-ng-model="dia" ng-change="onChange()">
+            </div>
             </div>
             <table class="table table-striped no-margins">
                 <thead>

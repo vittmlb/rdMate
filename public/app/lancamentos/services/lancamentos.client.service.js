@@ -10,3 +10,14 @@ angular.module('lancamentos').factory('Lancamentos', ['$resource', function ($re
         }
     });
 }]);
+angular.module('lancamentos').factory('LancamentosQueries', ['$resource', function ($resource) {
+    return $resource('/api/lancamentos/query/:parametros', {
+        parametros: 'parametros'
+    }, {
+        teste: {
+            method: 'GET',
+            isArray: true,
+            parametros: 'parametros'
+        }
+    });
+}]);

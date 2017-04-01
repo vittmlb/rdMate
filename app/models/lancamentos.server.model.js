@@ -13,7 +13,7 @@ let LancamentosSchema = new Schema({
         default: Date.now
     },
     data: {
-        type: String,
+        type: Date,
         required: `O campo 'data' é obrigatório`
     },
     categoria: {

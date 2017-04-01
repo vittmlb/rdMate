@@ -1,0 +1,62 @@
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>Lançamentos
+        </h5>
+        <div ibox-tools></div>
+    </div>
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>Cadastre os dados do lançamento abaixo</p>
+
+                <form data-ng-submit="create()">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="date" class="form-control" data-ng-model="objLancamento.data">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <input type="text" placeholder="" class="form-control" name="descricao" data-ng-model="objLancamento.descricao">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectCategoria">Categoria</label>
+                        <select class="form-control" name="categoria" id="selectCategoria"
+                                data-ng-model="objLancamento.categoria"
+                                data-ng-options="item for item in enums.categorias">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectSubCategoria">Subcategoria</label>
+                        <select class="form-control" name="subcategoria" id="selectSubCategoria"
+                                data-ng-model="objLancamento.subcategoria"
+                                data-ng-options="item.valor as item.valor for item in enums.subcategorias | filter: {cat: objLancamento.categoria}">
+                            <!--data-ng-options="item as item.valor group by item.cat for item in enums.subcat | filter: { cat: categoria }">-->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectNome">Nome</label>
+                        <select class="form-control" name="nome" id="selectNome"
+                                data-ng-model="objLancamento.nome"
+                                data-ng-options="s.valor as s.valor for s in enums.nomes | filter: {subcat: objLancamento.subcategoria}">
+                            <!--data-ng-options="item as item.valor for item in enums.nomes | filter: {subcat: subcategoria}">-->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Valor</label>
+                        <input type="number" step="any" placeholder="" class="form-control" name="valor" data-ng-model="objLancamento.valor">
+                    </div>
+                    <div class="form-group">
+                        <label>Obs</label>
+                        <input type="text" placeholder="" class="form-control" name="observacao" data-ng-model="objLancamento.observacao">
+                    </div>
+                    <br/>
+                    <div>
+                        <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

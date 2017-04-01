@@ -71,17 +71,14 @@ exports.delete = function(req, res) {
 };
 
 exports.findCustom = function(req, res, next, data) {
-    filterDate(req, res, data)
+    filterDate(req, res, data);
 };
 
 function filterDate(req, res, data) {
-    let teste = new Date();
-    let z = moment().format('MMMM Do YYYY, h:mm:ss a');
-    let aux = moment(data).unix();
     console.log(data);
     Demonstrativos.aggregate([
-        // {$match: {"diaUnix": {"$gt": aux}}},
-        {$match: {"teste": "aloha"}},
+        {$match: {"dia": {"$gt": new Date(data)}}},
+        // {$match: {"teste": "aloha"}},
     ]).exec(function (err, demonstrativos) {
         if(err) return next(err);
         if(!demonstrativos) return next(new Error(`Failed to load demonstrativos id: ${id}`));

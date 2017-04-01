@@ -38,6 +38,7 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Data</th>
                                     <th>Nome </th>
                                     <th>Categoria </th>
@@ -54,6 +55,7 @@
                                     <td>{{ lanc.data | date: 'dd/MM/yyyy' }}</td>
                                     <td>{{ lanc.nome }}</td>
                                     <td>{{ lanc.categoria }}</td>
+                                    <td>{{ lanc.subcategoria }}</td>
                                     <td>{{ lanc.valor | currency: 'R$ ' }}</td>
                                     <td>{{ lanc.descricao | limitTo: 8 }}</td>
                                     <td>{{ lanc.observacao | limitTo: 8 }}</td>
