@@ -114,5 +114,12 @@ angular.module('demonstrativos').controller('DemonstrativosController', ['$scope
             });
         };
 
+        $scope.onChange = function() {
+            DemonstrativosQueries.get({
+                params: this.dia
+            }).$promise.then(function (data) {
+                $scope.caralho = data;
+            });
+        };
     }
 ]);

@@ -10,22 +10,24 @@ moment.locale('pt-br');
 let DemonstrativosSchema = new Schema({
     created: {
         type: Date,
-        default: moment().utc(Date.now)
+        default: moment(Date.now).toISOString()
     },
     dia: {
         type: Date,
         required: `O campo 'dia' é obrigatório`,
         set: formataData
     },
+    diaUnix: {
+        type: Date,
+        get: toUnix
+    },
     periodo: {
         data: {
             type: Date,
-            // required: `O campo 'data' é obrigatório`,
-            set: function(valor) {
-                this.data = moment().utc(valor);
-            }
+            // required: `O campo 'dia' é obrigatório`,
+            // set: formataData
         },
-        mes: {
+        comp: {
             type: Number,
         },
         ano: {
@@ -61,8 +63,12 @@ DemonstrativosSchema.set('toJSON', {
     setters: true
 });
 
-function formataData(valor) {
-    return moment().utc(valor);
+function formataData() {
+    return moment(this.dia).toISOString()
+}
+
+function toUnix(valor) {
+    return moment(valor).unix();
 }
 
 mongoose.model('Demonstrativo', DemonstrativosSchema);

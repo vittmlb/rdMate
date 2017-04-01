@@ -77,10 +77,11 @@ exports.findCustom = function(req, res, next, data) {
 function filterDate(req, res, data) {
     let teste = new Date();
     let z = moment().format('MMMM Do YYYY, h:mm:ss a');
-    console.log(z);
+    let aux = moment(data).unix();
+    console.log(data);
     Demonstrativos.aggregate([
-        {$match: {"created": {"$lt": teste}}},
-        // {$match: {"teste": "aloha"}},
+        // {$match: {"diaUnix": {"$gt": aux}}},
+        {$match: {"teste": "aloha"}},
     ]).exec(function (err, demonstrativos) {
         if(err) return next(err);
         if(!demonstrativos) return next(new Error(`Failed to load demonstrativos id: ${id}`));
