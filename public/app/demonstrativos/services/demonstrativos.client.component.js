@@ -1,14 +1,26 @@
 /**
  * Created by Vittorio on 01/04/2017.
  */
-// importScripts('../../../bower_components/moment/moment.js');
+let auxData = {
+    set: {
+        date_interval_demonstrativos: function(data) { // esta data é um objeto momentjs
+            return {
+                ini: new Date(data),
+                fim: new Date(data.endOf('month'))
+            };
+        }
+    }
+};
 
 let BuildAux = function () {
     let self = this;
     this.params = {
-        categoria: function (data) {
+        categoria: function (datas) {
             let aux = {
-                data: data,
+                intervalo: {
+                    ini: datas.ini,
+                    fim: datas.fim
+                },
                 criterios: ['categoria', 'subcategoria', 'nome']
             };
             return JSON.stringify(aux);
@@ -20,10 +32,9 @@ angular.module('demonstrativos').factory('CompDemonstrativos', ['Demonstrativos'
     function (Demonstrativos, LancamentosQueries) {
         let build = new BuildAux();
         function onChange(params) {
-            let d = new Date();
-            // let z = moment(d).format('MMMM YYYY');
-            return LancamentosQueries.teste({
-                parametros: build.params.categoria(params)
+            let datas = auxData.set.date_interval_demonstrativos(params);
+            return LancamentosQueries.geral({
+                parametros: build.params.categoria(datas)
             });
         }
 

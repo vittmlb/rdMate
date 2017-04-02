@@ -19,10 +19,15 @@ angular.module('demonstrativos').factory('DemonstrativosQueries', ['$resource', 
             // isArray: true,
             params: {tiposetId: this.tiposetId}
         },
-        teste: {
-            method: 'GET',
-            // isArray: false,
-            params: 'params'
+        geral: {
+            method: 'POST',
+            isArray: false,
+            params: 'params',
+            interceptor: {
+                response: function(response) {
+                    return response[0];
+                }
+            }
         }
     });
 }]);
