@@ -37,7 +37,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr data-ng-repeat="lanc in lancamentos | orderBy: 'created'">
+                        <tr data-ng-repeat="lanc in lancamentos | orderBy: '-created'">
                             <td>1</td>
                             <td>{{ lanc.data | date: 'dd/MM/yyyy' }}</td>
                             <td>{{ lanc.categoria }}</td>
@@ -46,7 +46,10 @@
                             <td>{{ lanc.valor | currency: 'R$ '}}</td>
                             <td>{{ lanc.descricao | limitTo: 8 }}</td>
                             <td>{{ lanc.observacao | limitTo: 8 }}</td>
-                            <td><a ng-click="edit(lanc)"><i class="fa fa-pencil text-navy"></i></a></td>
+                            <td>
+                                <a ng-click="edit(lanc)"><i class="fa fa-pencil text-navy"></i></a>
+                                <a style="margin-left: 5px;" ng-click="deleteAlert(lanc)"><i class="fa fa-remove text-danger"></i></a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

@@ -21,6 +21,7 @@ angular.module('demonstrativos').factory('DemonstrativosQueries', ['$resource', 
         },
         teste: {
             method: 'GET',
+            // isArray: false,
             params: 'params'
         }
     });

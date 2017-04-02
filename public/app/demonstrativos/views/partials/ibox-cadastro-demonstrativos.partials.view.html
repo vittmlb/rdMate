@@ -9,27 +9,53 @@
             <div class="form-group">
             <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-            <input type="date" class="form-control" data-ng-model="dia" ng-change="onChange()">
+            <input type="date" class="form-control" data-ng-model="data" ng-change="onChange()">
             </div>
             </div>
             <table class="table table-striped no-margins">
                 <thead>
                 <tr>
-                    <th></th>
-                    <th style="text-align: center;">Valor</th>
-                    <th style="text-align: center;">%</th>
-                    <th style="text-align: center;">Calculado</th>
+                    <th style="width: 25%;"> </th>
+                    <th style="width: 30%; text-align: center;">Valor</th>
+                    <th style="width: 15%; text-align: center;">%</th>
+                    <th style="width: 30%; text-align: center;">Calculado</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Venda</td>
-                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManha" name="abertura.manha.valor" data-ng-model="receitas.vendas.total" placeholder=""></td>
-                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTarde" name="abertura.tarde.valor" data-ng-model="abertura.tarde.valor" placeholder=""></td>
+                    <td>Vendas Totais</td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
                 </tr>
-
+                <tr>
+                    <td>Fornecedores</td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="lancamentos.fornecedores.total" placeholder=""></td>
+                </tr>
+                <tr>
+                    <td>Frete</td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                </tr>
+                <tr>
+                    <td>Impostos</td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                </tr>
+                <tr>
+                    <td>Royalties</td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
+                </tr>
                 </tbody>
             </table>
+
+            <br/><br/>
             <div class="form-group">
                 <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">Cadastrar</button>
                 <button class="btn btn-sm btn-danger pull-right m-t-n-xs" ng-click="query()">Query</button>

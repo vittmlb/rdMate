@@ -44,8 +44,51 @@ let DemonstrativosSchema = new Schema({
                 }]
             },
             total: Number
+        },
+        outras_receitas: {
+            total: Number,
+            _lancamentosId: [{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Lancamento'
+            }]
+        },
+        venda_liquida: {
+            type: Number
         }
     },
+    custo_variavel: {
+        fornecedores: {
+            total: Number,
+            _lancamentosId: [{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Lancamento'
+            }]
+        },
+        frete: {
+            total: Number,
+            _lancamentosId: [{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Lancamento'
+            }]
+        },
+        impostos: {
+            total: Number,
+            _lancamentosId: [{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Lancamento'
+            }]
+        },
+        royalties: {
+            total: Number,
+            _lancamentosId: [{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Lancamento'
+            }]
+        },
+        fundo_promocao: {
+            total: Number,
+            _lancamentosId: [{
+                type: mongoose.Schema.Types.ObjectId, ref: 'Lancamento'
+            }]
+        },
+    },
+    custo_operacional: {},
+
     teste: {
         type: String,
         default: 'aloha'

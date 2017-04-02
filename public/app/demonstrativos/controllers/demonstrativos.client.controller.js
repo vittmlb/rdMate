@@ -25,6 +25,12 @@ angular.module('demonstrativos').controller('DemonstrativosController', ['$scope
             });
         }
 
+        $scope.lancamentos = {
+            fornecedores: {
+                total: 0
+            }
+        };
+
         $scope.data = new Date();
 
         $scope.create = function() {
@@ -116,7 +122,7 @@ angular.module('demonstrativos').controller('DemonstrativosController', ['$scope
 
         $scope.onChange = function() {
             CompDemonstrativos.filter(this.data).$promise.then(function (data) {
-                $scope.lancamentos = data[0].lancamentos;
+                $scope.lancamentos = data[0];
             });
         };
     }

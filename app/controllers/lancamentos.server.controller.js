@@ -76,18 +76,46 @@ exports.delete = function(req, res) {
     });
 };
 
-exports.findCustoms = function(req, res, next, data) {
+exports.findCustoms = function(req, res, next, params) {
     let obj = {
         req: req,
         res: res,
         next: next
     };
-    let aux = JSON.parse(data);
-    let a = Lancamentos.aggregate([
-        {$match: {"data": {"$gte": new Date(aux.data)}}},
+    let aux = JSON.parse(params);
+    let promises = [];
+
+    aux.criterios.forEach(function (data) {
+        promises.push(queryDems({"data": aux.data, "criterio": data}));
+    });
+
+    let prom = Promise.all(promises);
+
+    prom.then(function (values) {
+        let o = {};
+        let array = [];
+        if(Array.isArray(values)) {
+            values.forEach(function (elem) {
+                if (Array.isArray(elem)) {
+                    elem.map(function (e) {
+                        let aux = (e.categoria).toLowerCase();
+                        o[aux] = e;
+                    });
+                }
+            });
+        }
+        obj.req.lancamentos = o;
+        obj.next();
+    });
+
+};
+
+function queryDems(params) {
+    let promise = Lancamentos.aggregate([
+        {$match: {"data": {"$gte": new Date(params.data)}}},
         {$group: {
             "_id": {
-                titulo: aux.criterio,
+                titulo: "$" + params.criterio,
             },
             "lancamentos": {$push: "$$ROOT"},
             total: {"$sum": "$valor"}
@@ -99,19 +127,17 @@ exports.findCustoms = function(req, res, next, data) {
             total: 1
         }}
     ]).exec();
-    a.then(function (lancamentos) {
-        obj.req.lancamentos = lancamentos;
-        obj.next();
+    promise.then(function (lancamentos) {
+        return lancamentos;
     });
-    a.catch(function (err, next) {
-        return next(err);
+    promise.catch(function (err) {
+        return err;
     });
-
-
-};
+    return promise;
+}
 
 exports.results = function(req, res) {
-    res.json(req.lancamentos);
+    res.json([req.lancamentos]);
 };
 
 
@@ -142,4 +168,65 @@ exports.findCustomsOld = function(req, res, next, data) {
         req.lancamentos = lancamentos;
         next();
     });
+};
+exports.findCustomsOldB = function(req, res, next, data) {
+    let obj = {
+        req: req,
+        res: res,
+        next: next
+    };
+    let aux = JSON.parse(data);
+    let a = Lancamentos.aggregate([
+        {$match: {"data": {"$gte": new Date(aux.data)}}},
+        {$group: {
+            "_id": {
+                titulo: aux.criterio,
+            },
+            "lancamentos": {$push: "$$ROOT"},
+            total: {"$sum": "$valor"}
+        }},
+        {$project: {
+            _id: 0,
+            categoria: "$_id.titulo",
+            lancamentos: '$lancamentos',
+            total: 1
+        }}
+    ]).exec();
+    a.then(function (lancamentos) {
+        return lancamentos;
+    });
+    a.catch(function (err) {
+        return err;
+    });
+    let b = Lancamentos.aggregate([
+        {$match: {"data": {"$gte": new Date(aux.data)}}},
+        {$group: {
+            "_id": {
+                titulo: "$subcategoria",
+            },
+            "lancamentos": {$push: "$$ROOT"},
+            total: {"$sum": "$valor"}
+        }},
+        {$project: {
+            _id: 0,
+            categoria: "$_id.titulo",
+            lancamentos: '$lancamentos',
+            total: 1
+        }}
+    ]).exec();
+    b.then(function (lancamentos) {
+        return lancamentos;
+    });
+    b.catch(function (err) {
+        return err;
+    });
+
+    let prom = Promise.all([a, b]);
+
+    prom.then(function (values) {
+        obj.req.lancamentos_a = values[0];
+        obj.req.lancamentos_b = values[1];
+        obj.next();
+    });
+
 };

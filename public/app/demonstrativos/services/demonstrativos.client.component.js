@@ -7,7 +7,7 @@ let BuildAux = function() {
         categoria: function(data) {
             let aux = {
                 data: data,
-                criterio: '$categoria'
+                criterios: ['categoria', 'subcategoria', 'nome']
             };
             return JSON.stringify(aux);
         }
@@ -22,11 +22,6 @@ angular.module('demonstrativos').factory('CompDemonstrativos', ['Demonstrativos'
             return LancamentosQueries.teste({
                 parametros: build.params.categoria(params)
             });
-            // LancamentosQueries.teste({
-            //     parametros: params
-            // }).$promise.then(function (data) {
-            //     return new Promise(data[0].root[0].root);
-            // });
         }
 
         return {
