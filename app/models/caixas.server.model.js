@@ -25,6 +25,9 @@ let CaixasSchema = new Schema({
             //     type: String,
             //     enum: ['credito', 'debito']
             // }
+        },
+        total: function() {
+            return this.manha + this.tarde;
         }
     },
     vendas: {

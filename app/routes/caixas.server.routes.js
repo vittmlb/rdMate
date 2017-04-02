@@ -16,4 +16,12 @@ module.exports = function(app) {
 
     app.param('caixaId', caixas.findById);
 
+    app.route('/api/caixas/query')
+        .get();
+
+    app.route('/api/caixas/:params')
+        .get();
+
+    app.param('params', caixas.results);
+
 };

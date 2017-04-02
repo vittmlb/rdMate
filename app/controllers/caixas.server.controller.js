@@ -142,3 +142,100 @@ exports.delete = function(req, res) {
         }
     });
 };
+
+exports.customFechamentoCaixa = function(req, res, next, params) {
+
+
+};
+
+exports.findCustoms = function(req, res, next, params) {
+    let obj = {
+        req: req,
+        res: res,
+        next: next
+    };
+    let aux = JSON.parse(params);
+    let promises = [];
+
+    aux.criterios.forEach(function (data) {
+        promises.push(queryDems({"intervalo": aux.intervalo, "criterio": data}));
+    });
+
+    let prom = Promise.all(promises);
+
+    prom.then(function (values) {
+        let o = {};
+        if(Array.isArray(values)) {
+            values.forEach(function (elem) {
+                if (Array.isArray(elem)) {
+                    elem.map(function (e) {
+                        let aux = (e.categoria).toLowerCase();
+                        o[aux] = e;
+                    });
+                }
+            });
+        }
+        obj.req.lancamentos = o;
+        obj.next();
+    });
+
+};
+
+function queryDems(params) {
+    let promise = Lancamentos.aggregate([
+        {$match: {"data": {"$gte": new Date(params.intervalo.ini), "$lte": new Date(params.intervalo.fim)}}},
+        {$group: {
+            "_id": {
+                titulo: "$" + params.criterio,
+            },
+            "lancamentos": {$push: "$$ROOT"},
+            total: {"$sum": "$valor"}
+        }},
+        {$project: {
+            _id: 0,
+            categoria: "$_id.titulo",
+            lancamentos: '$lancamentos',
+            total: 1
+        }}
+    ]).exec();
+    promise.then(function (lancamentos) {
+        return lancamentos;
+    });
+    promise.catch(function (err) {
+        return err;
+    });
+    return promise;
+}
+
+exports.results = function(req, res) {
+    res.json(req.lancamentos);
+};
+
+
+function testQueries(params) {
+    let teste = "2017-04-01T03:00:00.000Z";
+    let nd = new Date(teste);
+    let promise = Lancamentos.aggregate([
+        {$match: {"data": {"$gte": params.intervalo.ini, "$lte": nd }}},
+        {$group: {
+            "_id": {
+                titulo: "$" + params.criterio,
+            },
+            "lancamentos": {$push: "$$ROOT"},
+            total: {"$sum": "$valor"}
+        }},
+        {$project: {
+            _id: 0,
+            categoria: "$_id.titulo",
+            lancamentos: '$lancamentos',
+            total: 1
+        }}
+    ]).exec();
+    promise.then(function (lancamentos) {
+        return lancamentos;
+    });
+    promise.catch(function (err) {
+        return err;
+    });
+    return promise;
+}
