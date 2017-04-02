@@ -6,35 +6,35 @@
     <div class="ibox-content">
         <br/><br/>
         <form data-ng-submit="create()">
-            <div class="form-group">
-                <label>Data</label>
-                <div class="input-group date">
-                    <label for="inputData" class="input-group-addon"><i class="fa fa-calendar"></i></label>
-                    <input type="datetime" class="form-control" id="inputData" date-time ng-model="data" view="month" auto-close="true" min-view="month" format="MMMM YYYY">
-                </div>
-            </div>
             <!--<div class="form-group">-->
-                <!--<div class="input-group"-->
-                     <!--moment-picker="dia"-->
-                     <!--ng-model="dia"-->
-                     <!--ng-change="onChange(moment-picker)"-->
-                     <!--locale="pt-br"-->
-                     <!--format="DD/MM/YYYY">-->
-                                    <!--<span class="input-group-addon">-->
-                                        <!--<i class="fa fa-calendar"></i>-->
-                                    <!--</span>-->
-                    <!--<input class="form-control"-->
-                           <!--type="datetime"-->
-                           <!--placeholder="Select a date"-->
-                           <!--ng-change="onChange()"-->
-                           <!--ng-model="dia"-->
-                           <!--start-view="month"-->
-                           <!--min-view="month"-->
-                           <!--locale="pt-br"-->
-                           <!--format="DD/MM/YYYY"-->
-                           <!--ng-model-options="{ updateOn: 'blur' }">-->
+                <!--<label>Data</label>-->
+                <!--<div class="input-group date">-->
+                    <!--<label for="inputData" class="input-group-addon"><i class="fa fa-calendar"></i></label>-->
+                    <!--<input type="datetime" class="form-control" id="inputData" ng-change="onChange()" date-time ng-model="data" view="month" auto-close="true" min-view="month" format="MMMM YYYY">-->
                 <!--</div>-->
             <!--</div>-->
+            <div class="form-group">
+                <div class="input-group"
+                     moment-picker="data"
+                     ng-model="data"
+                     ng-change="onChangeDate()"
+                     locale="pt-br"
+                     format="MMMM YYYY">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                    <input class="form-control"
+                           type="datetime"
+                           placeholder="Selecione o mês"
+                           ng-change="onChangeDate()"
+                           ng-model="data"
+                           start-view="month"
+                           min-view="month"
+                           locale="pt-br"
+                           format="MMMM YYYY"
+                           ng-model-options="{ updateOn: 'blur' }">
+                </div>
+            </div>
             <!--<div class="form-group">-->
                 <!--<div class="input-group">-->
                     <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span>-->
@@ -78,7 +78,7 @@
                 <tr>
                     <td>Royalties</td>
                     <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
-                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="" placeholder=""></td>
+                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
                     <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" placeholder=""></td>
                 </tr>
                 </tbody>
@@ -87,7 +87,6 @@
             <br/><br/>
             <div class="form-group">
                 <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">Cadastrar</button>
-                <button class="btn btn-sm btn-danger pull-right m-t-n-xs" ng-click="query()">Query</button>
             </div>
         </form>
     </div>

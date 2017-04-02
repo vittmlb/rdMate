@@ -4,7 +4,6 @@
   "description": "Sistema para cálculo de importações.",
   "main": "server.js",
   "dependencies": {
-    "adapt-pkg-main": "^1.1.0",
     "async": "^2.0.1",
     "body-parser": "^1.15.0",
     "compression": "^1.6.1",
@@ -32,8 +31,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "request": "^2.72.0",
-    "requirejs": "^2.3.3"
+    "request": "^2.72.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

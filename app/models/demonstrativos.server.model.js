@@ -12,22 +12,16 @@ let DemonstrativosSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    dia: {
-        type: Date,
-        required: `O campo 'dia' é obrigatório`
+    relatorio: {
+        type: String,
+        enum: ['mensal', 'personalizado']
+        // todo: Campo deve ser obrigatório
     },
-    periodo: {
-        data: {
-            type: Date,
-            // required: `O campo 'dia' é obrigatório`,
-            // set: formataData
-        },
-        comp: {
-            type: Number,
-        },
-        ano: {
-            type: Number
-        }
+    data_inicial: {
+        type: Date, //todo: Colocar este campo como obrigatório
+    },
+    data_final: {
+        type: Date, //todo: Colocar este campo como obrigatório
     },
     receitas: {
         vendas: {
@@ -100,9 +94,5 @@ DemonstrativosSchema.set('toJSON', {
     virtuals: true,
     setters: true
 });
-
-function formataData() {
-    return moment(this.dia).toISOString()
-}
 
 mongoose.model('Demonstrativo', DemonstrativosSchema);

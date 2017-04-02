@@ -14,9 +14,9 @@ angular.module('lancamentos').factory('LancamentosQueries', ['$resource', functi
     return $resource('/api/lancamentos/query/:parametros', {
         parametros: 'parametros'
     }, {
-        teste: {
+        geral: {
             method: 'GET',
-            isArray: true,
+            isArray: false,
             parametros: 'parametros'
         }
     });

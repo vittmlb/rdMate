@@ -1,8 +1,8 @@
 /**
  * Created by Vittorio on 31/03/2017.
  */
-angular.module('demonstrativos').controller('DemonstrativosController', ['$scope', '$stateParams', '$location', 'Demonstrativos', 'DemonstrativosQueries', 'CompDemonstrativos', 'toaster', 'SweetAlert',
-    function($scope, $stateParams, $location, Demonstrativos, DemonstrativosQueries, CompDemonstrativos, toaster, SweetAlert) {
+angular.module('demonstrativos').controller('DemonstrativosController', ['$scope', '$stateParams', '$location', 'Demonstrativos', 'CompDemonstrativos', 'toaster', 'SweetAlert',
+    function($scope, $stateParams, $location, Demonstrativos, CompDemonstrativos, toaster, SweetAlert) {
         let SweetAlertOptions = {
             removerDemonstrativo: {
                 title: "Deseja remover este Demonstrativo?",
@@ -31,7 +31,7 @@ angular.module('demonstrativos').controller('DemonstrativosController', ['$scope
             }
         };
 
-        $scope.data = new Date();
+        // $scope.data = new Date();
 
         $scope.create = function() {
             let demonstrativo = new Demonstrativos({
@@ -65,7 +65,7 @@ angular.module('demonstrativos').controller('DemonstrativosController', ['$scope
         };
 
         $scope.initData = function() {
-            let teste = 0;
+
         };
 
         $scope.delete = function(demonstrativo) {
@@ -112,17 +112,9 @@ angular.module('demonstrativos').controller('DemonstrativosController', ['$scope
                 });
         };
 
-        $scope.query = function() {
-            // DemonstrativosQueries.get({
-            //     params: $scope.data
-            // }).$promise.then(function (data) {
-            //     $scope.caralho = data;
-            // });
-        };
-
-        $scope.onChange = function() {
+        $scope.onChangeDate = function() {
             CompDemonstrativos.filter(this.data).$promise.then(function (data) {
-                $scope.lancamentos = data[0];
+                $scope.lancamentos = data;
             });
         };
     }
