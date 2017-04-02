@@ -16,11 +16,28 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 closeOnCancel: false }
         };
 
-        $scope.turnos = ['manhã', 'tarde'];
+        $scope.listaTiposRegistros = {};
+        $scope.listaTiposRegistro = {};
+        $scope.listaOrigens = ['Cofre', 'Geral'];
+
+        $http.get('/app/caixas/data/enum_caixas.json').success(function (data) {
+            $scope.listaTiposRegistro = data.listaTiposRegistro;
+            $scope.listaTurnos = data.listaTurnos;
+        });
 
         $scope.despesas = {
             manha: [],
             tarde: []
+        };
+        $scope.movimentacao = {
+            cofre: [],
+            geral: []
+        };
+        $scope.lancamentos = {
+            despesas: {
+                manha: [],
+                tarde: []
+            }
         };
         $scope.objDespesaManha = {};
         $scope.objDespesaTarde = {};
@@ -32,10 +49,15 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
         $scope.objMovimentacaoGeral = {};
         $scope.objMovimentacaoCofre = {};
 
+        $scope.objRegistro = {
+            descricao: '',
+            valor: 0,
+            turno: '',
+            obj: {}
+        };
+
 
         $scope.create = function() {
-            this.lancamentos.despesas = $scope.despesas;
-            this.movimentacao = $scope.movimentacao;
             let caixa = new Caixas({
                 data_caixa: this.data_caixa,
                 abertura: this.abertura,
@@ -200,6 +222,52 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             }
         };
 
+
+        $scope.addRegistro = function(item) {
+            let parent = $scope.caixa ? $scope.caixa: $scope;
+            switch ($scope.objRegistro.obj.valor) {
+                case 'despesa':
+                    if(item.turno.valor === 'manha') {
+                        parent.lancamentos.despesas.manha.push(item);
+                    } else if(item.turno.valor === 'tarde') {
+                        parent.lancamentos.despesas.tarde.push(item);
+                    }
+                    break;
+                case 'mov_cofre':
+                    parent.movimentacao.cofre.push(item);
+                    break;
+                case 'mov_geral':
+                    parent.movimentacao.geral.push(item);
+            }
+            $scope.objRegistro = {};
+        };
+        /**
+         * Remove o registro do array/tabela correspondente.
+         * @param item: elemento que deverá ser removido do array - contém as propriedades descricao e valor - obj Registro
+         * @param tipo: tipo do elemento: Despesa ou Movimentação
+         * @param param: parâmetro que representa turno (no caso de uma despesa) ou origem (cofre ou geral - caso da movimentação
+         */
+        $scope.removeRegistro = function(item, tipo, param) {
+            let parent = $scope.caixa ? $scope.caixa: $scope;
+            switch (tipo) {
+                case 'despesa':
+                    if(param === 'manha') {
+                        let index = parent.lancamentos.despesas.manha.indexOf(item);
+                        parent.lancamentos.despesas.manha.splice(index, 1);
+                    } else if(param === 'tarde') {
+                        let index = parent.lancamentos.despesas.tarde.indexOf(item);
+                        parent.lancamentos.despesas.tarde.splice(index, 1);
+                    }
+                    break;
+                case 'mov_cofre':
+                    let idx_cofre = parent.movimentacao.cofre.indexOf(item);
+                    parent.movimentacao.cofre.splice(idx_cofre);
+                    break;
+                case 'mov_geral':
+                    let idx_geral = parent.movimentacao.geral.indexOf(item);
+                    parent.movimentacao.geral.splice(idx_geral);
+            }
+        };
 
     }
 ]);

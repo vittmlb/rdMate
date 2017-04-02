@@ -1,0 +1,19 @@
+{
+  "listaTiposRegistros": [
+    {"tipo": "Despesa", "orgiem": "", "turno": "Manhã", "valor": "desp_m", "display": "Despesa Manhã"},
+    {"tipo": "Despesa", "orgiem": "", "turno": "Tarde", "valor": "desp_t", "display": "Despesa Tarde"},
+    {"tipo": "Movimentação", "orgiem": "Cofre", "turno": "Manhã", "valor": "mov_cm", "display": "Movimentação Cofre - Manhã"},
+    {"tipo": "Movimentação", "orgiem": "Cofre", "turno": "Tarde", "valor": "mov_ct", "display": "Movimentação Cofre - Tarde"},
+    {"tipo": "Movimentação", "orgiem": "Geral", "turno": "Manhã", "valor": "mov_gm", "display": "Movimentação Geral - Manhã"},
+    {"tipo": "Movimentação", "orgiem": "Geral", "turno": "Tarde", "valor": "mov_gt", "display": "Movimentação Geral - Tarde"}
+  ],
+  "listaTiposRegistro": [
+    {"tipo": "Despesa", "orgiem": "", "turno": "Manhã", "valor": "despesa", "display": "Despesa   "},
+    {"tipo": "Movimentação", "orgiem": "Cofre", "turno": "Manhã", "valor": "mov_cofre", "display": "Movimentação Cofre   "},
+    {"tipo": "Movimentação", "orgiem": "Geral", "turno": "Tarde", "valor": "mov_geral", "display": "Movimentação Geral   "}
+  ],
+  "listaTurnos": [
+    {"valor": "manha", "display": "Manhã   "},
+    {"valor": "tarde", "display": "Tarde   "}
+  ]
+}

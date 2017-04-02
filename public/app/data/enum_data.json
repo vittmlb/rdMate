@@ -95,5 +95,5 @@
   "operador": ["Pró-Labore", "Transporte", "Alimentação", "Outros"],
   "financeiro": ["Juros / Tarifas Bancárias", "CPMF", "Gastos Taxas Adm Transações Eletrônicas", "Outros"],
   "venda": ["Dinheiro", "Cartão de Débito"],
-  "outras_receitas": ["Contra-Vales", "Empréstimos / Integralização", "Outras Receitas"]
+  "outras_receitas": ["Contra-Vales", "Empréstimos / Integralização", "Outras Receitas"],
 }
