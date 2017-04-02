@@ -66,6 +66,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 caixaId: $stateParams.caixaId
             }).$promise.then(function (data) {
                 $scope.caixa = data;
+                // $scope.caixa.data = new Date(data.data);
                 $scope.caixa.conferencias = CompCaixa.teste($scope.caixa);
             });
         };
@@ -198,6 +199,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 $scope.movimentacao.geral.splice(index, 1);
             }
         };
+
 
     }
 ]);
