@@ -13,112 +13,42 @@ let CaixasSchema = new Schema({
         manha: {
             valor: Number,
             default: 0
-            // tipo_operacao: {
-            //     type: String,
-            //     enum: ['credito', 'debito']
-            // }
         },
         tarde: {
             valor: Number,
             default: 0
-            // tipo_operacao: {
-            //     type: String,
-            //     enum: ['credito', 'debito']
-            // }
         }
     },
     vendas: {
-        vales: {
-            tickets: {
-                manha: {
-                    valor: Number,
-                    default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
-                },
-                tarde: {
-                    valor: Number,
-                    default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
-                }
-            },
-            visa_vale: {
-                manha: {
-                    valor: Number,
-                    default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
-                },
-                tarde: {
-                    valor: Number,
-                    default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
-                }
-            }
-        },
         cartoes: {
             master: {
                 manha: {
                     valor: Number,
                     default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
                 },
                 tarde: {
                     valor: Number,
                     default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
                 }
             },
             visa: {
                 manha: {
                     valor: Number,
                     default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
                 },
                 tarde: {
                     valor: Number,
                     default: 0
-                    // tipo_operacao: {
-                    //     type: String,
-                    //     enum: ['credito', 'debito']
-                    // },
                 }
             }
         },
         manha: {
             valor: Number,
             default: 0
-            // tipo_operacao: {
-            //     type: String,
-            //     enum: ['credito', 'debito']
-            // }
         },
         tarde: {
             valor: Number,
             default: 0
-            // tipo_operacao: {
-            //     type: String,
-            //     enum: ['credito', 'debito']
-            // }
         }
     },
     lancamentos: {
@@ -126,26 +56,10 @@ let CaixasSchema = new Schema({
             manha: {
                 valor: Number,
                 default: 0
-                // tipo_operacao: {
-                //     type: String,
-                //     enum: ['credito', 'debito']
-                // },
-                // turno: {
-                //     type: String,
-                //     enum: ['manha', 'tarde']
-                // }
             },
             tarde: {
                 valor: Number,
                 default: 0
-                // tipo_operacao: {
-                //     type: String,
-                //     enum: ['credito', 'debito']
-                // },
-                // turno: {
-                //     type: String,
-                //     enum: ['manha', 'tarde']
-                // }
             }
         },
         despesas: {
@@ -156,8 +70,6 @@ let CaixasSchema = new Schema({
                     trim: true
                 },
                 valor: Number,
-                default: 0
-
             }],
             tarde: [{
                 descricao: {
@@ -165,11 +77,6 @@ let CaixasSchema = new Schema({
                     trim: true
                 },
                 valor: Number,
-                default: 0
-                // tipo_operacao: {
-                //     type: String,
-                //     enum: ['credito', 'debito']
-                // }
             }]
         },
         dinheiro: {
