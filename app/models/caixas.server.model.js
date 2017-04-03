@@ -12,115 +12,151 @@ let CaixasSchema = new Schema({
     entradas: {
         abertura: {
             manha: {
-                valor: Number,
-                default: 0
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'entradas.abertura.manha.valor' é obrigatório`
+                },
+                obs: String,
             },
             tarde: {
-                valor: Number,
-                default: 0
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'entradas.abertura.tarde.valor' é obrigatório`
+                },
+                obs: String
             }
         },
         vendas: {
             manha: {
-                valor: Number,
-                default: 0
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'entradas.vendas.manha.valor' é obrigatório`
+                },
+                obs: {
+                    type: String
+                }
             },
             tarde: {
-                valor: Number,
-                default: 0
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'entradas.vendas.tarde.valor' é obrigatório`
+                },
+                obs: 0
             }
         },
     },
     saidas: {
         transferencia: {
             manha: {
-                valor: Number,
-                default: 0
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'saidas.transferencia.manha.valor' é obrigatório`
+                }
             },
             tarde: {
-                valor: Number,
-                default: 0
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'saidas.transferencia.tarde.valor' é obrigatório`
+                },
+                obs: String
             }
         },
-        cartoes: {
-            manha: {
-                valor: Number,
-                default: 0
+        cartoes: [{
+            bandeira: {
+                type: String,
+                trim: true,
+                enum: ["Visa", "Master"]
             },
-            tarde: {
-                valor: Number,
-                default: 0
+            natureza: {
+                type: String,
+                default: 'Débito'
+            },
+            valor: {
+                type: Number,
+                required: `O campo CaixasSchema > 'saidas.cartoes.valor' é obrigatório`
+            },
+            turno: {
+                type: String,
+                required: `O campo CaixasSchema > 'saidas.cartoes.turno' é obrigatório`,
+                enum: ["Manhã", "Tarde"]
+            },
+            tags: [{
+                type: String
+            }],
+            obs: {
+                type: String,
+                trim: true
             }
-        },
+        }],
         despesas: [{
             descricao: {
                 type: String,
-                trim: true
+                trim: true,
+                required: `O campo CaixasSchema > 'saidas.despesas.descricao' é obrigatório`
             },
-            valor: Number,
-            turno: String,
-            tag: String,
-            fornecedor: String,
-            obs: String
+            valor: {
+                type: Number,
+                required: `O campo CaixasSchema > 'saidas.despesas.valor' é obrigatório`
+            },
+            turno: {
+                type: String,
+                required: `O campo CaixasSchema > 'saidas.despesas.turno' é obrigatório`,
+                enum: ["Manhã", "Tarde"]
+            },
+            tags: [{
+                type: String
+            }],
+            fornecedor: {
+                type: String
+            },
+            obs: {
+                type: String,
+                trim: true
+            }
         }],
         dinheiro: {
             manha: {
-                valor: Number,
-                default: 0
-                // tipo_operacao: {
-                //     type: String,
-                //     enum: ['credito', 'debito']
-                // },
-                // turno: {
-                //     type: String,
-                //     enum: ['manha', 'tarde']
-                // }
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'saidas.dinheiro.manha.valor' é obrigatório`
+                },
+                obs: String
             },
             tarde: {
-                valor: Number,
-                default: 0
-                // tipo_operacao: {
-                //     type: String,
-                //     enum: ['credito', 'debito']
-                // },
-                // turno: {
-                //     type: String,
-                //     enum: ['manha', 'tarde']
-                // }
+                valor: {
+                    type: Number,
+                    required: `O campo CaixasSchema > 'saidas.dinheiro.tarde.valor' é obrigatório`
+                },
+                obs: String
             }
         }
     },
-    movimentacao: {
-        total: Number,
-        cofre: [{
-            descricao: {
-                type: String,
-                trim: true
-            },
-            valor: {
-                type: Number,
-                default: 0
-            }
-            // tipo_operacao: {
-            //     type: String,
-            //     enum: ['credito', 'debito']
-            // }
+    movimentacoes: [{
+        descricao: {
+            type: String,
+            trim: true,
+            required: `O campo CaixasSchema > 'movimentacoes.descricao' é obrigatório`
+        },
+        valor: {
+            type: Number,
+            required: `O campo CaixasSchema > 'movimentacoes.valor' é obrigatório`
+        },
+        origem: {
+            type: String,
+            enum: ["Geral", "Cofre"], // todo: Puxar essa informação de algum lugar central para não fazer confusão.
+            required: `O campo CaixasSchema > 'movimentacoes.origem' é obrigatório`
+        },
+        tag: [{
+            type: String
         }],
-        geral: [{
-            descricao: {
-                type: String,
-                trim: true
-            },
-            valor: {
-                type: Number,
-                default: 0
-            },
-            // tipo_operacao: {
-            //     type: String,
-            //     enum: ['credito', 'debito']
-            // }
-        }]
-    },
+        fornecedor: {
+            type: String,
+            trim: true
+        },
+        obs: {
+            type: String
+        }
+    }],
     controles: {
         salgados: {
             folhados: {
@@ -202,39 +238,39 @@ CaixasSchema.virtual('mod_virtual.entradas.total.total').get(function () {
 });
 
 
-CaixasSchema.virtual('mod_virtual.saidas.transferencias.manha').get(function () {
+CaixasSchema.virtual('mod_virtual.saidas.transferencia.manha').get(function () {
     return this.saidas.transferencia.manha.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.transferencias.tarde').get(function () {
+CaixasSchema.virtual('mod_virtual.saidas.transferencia.tarde').get(function () {
     return this.saidas.transferencia.tarde.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.transferencias.total').get(function () {
+CaixasSchema.virtual('mod_virtual.saidas.transferencia.total').get(function () {
     return this.saidas.transferencia.manha.valor + this.saidas.transferencia.tarde.valor;
 });
 
 CaixasSchema.virtual('mod_virtual.saidas.cartoes.manha').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
-    return this.saidas.cartoes.manha.valor;
+    return this.saidas.cartoes.reduce(function(prevVal, elem) {
+        return (elem.turno === 'Manhã') ? prevVal + elem.valor : prevVal;
+    }, 0);
 });
 CaixasSchema.virtual('mod_virtual.saidas.cartoes.tarde').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
-    return this.saidas.cartoes.tarde.valor;
+    return this.saidas.cartoes.reduce(function(prevVal, elem) {
+        return (elem.turno === 'Tarde') ? prevVal + elem.valor : 0;
+    }, 0);
 });
 CaixasSchema.virtual('mod_virtual.saidas.cartoes.total').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
-    return this.saidas.cartoes.manha.valor + this.saidas.cartoes.tarde.valor;
+    return this.mod_virtual.saidas.cartoes.manha + this.mod_virtual.saidas.cartoes.tarde;
 });
 
 CaixasSchema.virtual('mod_virtual.saidas.despesas.manha').get(function () {
-    let soma = 0;
-    this.saidas.despesas.manha.forEach(function (data) {
-        soma += data.valor;
-    });
-    return soma;
+    return this.saidas.despesas.reduce(function(prevVal, elem) {
+        return (elem.turno === 'Manhã') ? prevVal + elem.valor : prevVal;
+    }, 0);
 });
 CaixasSchema.virtual('mod_virtual.saidas.despesas.tarde').get(function () {
-    let soma = 0;
-    this.saidas.despesas.tarde.forEach(function (data) {
-        soma += data.valor;
-    });
-    return soma;
+    return this.saidas.despesas.reduce(function(prevVal, elem) {
+        return (elem.turno === 'Tarde') ? prevVal + elem.valor : 0;
+    }, 0);
 });
 CaixasSchema.virtual('mod_virtual.saidas.despesas.total').get(function () {
     return this.mod_virtual.saidas.despesas.manha + this.mod_virtual.saidas.despesas.tarde;
@@ -252,13 +288,13 @@ CaixasSchema.virtual('mod_virtual.saidas.dinheiro.total').get(function () {
 
 CaixasSchema.virtual('mod_virtual.saidas.total.manha').get(function () {
     return  this.saidas.transferencia.manha.valor +
-            this.saidas.cartoes.manha.valor +
+            this.mod_virtual.saidas.cartoes.manha +
             this.mod_virtual.saidas.despesas.manha +
             this.saidas.dinheiro.manha.valor;
 });
 CaixasSchema.virtual('mod_virtual.saidas.total.tarde').get(function () {
     return  this.saidas.transferencia.tarde.valor +
-            this.saidas.cartoes.tarde.valor +
+            this.mod_virtual.saidas.cartoes.tarde +
             this.mod_virtual.saidas.despesas.tarde +
             this.saidas.dinheiro.tarde.valor;
 });
@@ -273,7 +309,11 @@ CaixasSchema.virtual('mod_virtual.diferenca.tarde').get(function () {
     return this.mod_virtual.saidas.total.tarde - this.mod_virtual.entradas.total.tarde;
 });
 CaixasSchema.virtual('mod_virtual.diferenca.total').get(function () {
-    return this.mod_virtual.diferenca.manha - this.mod_virtual.diferenca.tarde
+    return this.mod_virtual.diferenca.manha + this.mod_virtual.diferenca.tarde
+});
+
+CaixasSchema.virtual('mod_virtual.controles.salgados.total').get(function () {
+    return this.controles.salgados.folhados + this.controles.salgados.outros;
 });
 
 CaixasSchema.set('toJSON', {

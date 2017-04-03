@@ -118,7 +118,7 @@ exports.update = function(req, res) {
     caixa.data_caixa = this.data_caixa;
     caixa.entradas = this.entradas;
     caixa.saidas = this.saidas;
-    caixa.movimentacao = this.movimentacao;
+    caixa.movimentacoes = this.movimentacoes;
     caixa.controles = this.controles;
     caixa.save(function (err) {
         if(err) {

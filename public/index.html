@@ -21,7 +21,9 @@
 <body>
 
 <main>
-    <toaster-container></toaster-container>
+    <!--<toaster-container></toaster-container>-->
+    <toaster-container toaster-options="{'close-html':'<button>Close</button>',
+    'showCloseButton':true}"></toaster-container>
     <div ng-include="'views/common/content.html'"></div>
 </main>
 

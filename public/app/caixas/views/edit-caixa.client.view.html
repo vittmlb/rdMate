@@ -1,151 +1,212 @@
-<section data-ng-controller="AmazonfeesController" data-ng-init="findOne()">
+<section data-ng-controller="CaixasController" data-ng-init="findOne()">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>Amazon Fees</h2>
+            <h2>Caixa do dia: {{ caixa.data_caixa | date: 'dd/MM/yyyy' }}</h2>
+            <!--<span ng-repeat="forn in fornecedores">{{ forn }}</span>-->
             <ol class="breadcrumb">
                 <li>
-                    <a href="index.html">Home</a>
+                    <a ng-href="index.html">Home</a>
                 </li>
                 <li class="active">
-                    <a>Editar Amazon Fees</a>
+                    <strong>Caixa</strong>
                 </li>
             </ol>
+        </div>
+        <div class="col-lg-2">
+
         </div>
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <form data-ng-submit="update()" class="form-horizontal">
-                <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Update de Amazon Fee</h5>
-                            <div ibox-tools></div>
-                        </div>
-                        <div class="ibox-content">
-                            <br/><br/>
-                            <div class="ibox-content">
-                                <br/><br/>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Nome da Amazon Fee</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputNomeFee" name="nome_fee" data-ng-model="amazonfee.nome_fee" placeholder="Nome da Amazon Fee">
-                                    </div>
-                                </div> <!-- Form-Group Nome da Amazon Fee -->
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label for="selectTipoAmazonFee" class="col-sm-2 control-label">Tipo Amazon Fee</label>
-                                    <div class="col-sm-6">
-                                        <select class="form-control" name="tipo_fee" id="selectTipoAmazonFee"
-                                                data-ng-model="amazonfee.tipo_fee"
-                                                data-ng-options="item for item in tiposFee">
-                                        </select>
-                                    </div>
-                                </div> <!-- Form-Group Tipo da Amazon Fee -->
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label" >Precedência</label>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="inputPrecedencia" name="precedencia" data-ng-model="amazonfee.precedencia" placeholder="precedencia">
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label for="selectTipoAmazonFee" class="col-sm-2 control-label">Media</label>
-                                    <div class="col-sm-6">
-                                        <select class="form-control" name="media_fee" id="selectMedia"
-                                                data-ng-model="amazonfee.media_fee"
-                                                data-ng-options="item for item in tiposMedia">
-                                        </select>
-                                    </div>
-                                </div> <!-- Form-Group Media Amazon Fee -->
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Valor</label>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" id="inputValorFee" name="valor_fee" data-ng-model="amazonfee.dados_fee.valor" placeholder="Valor">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group form-group-sm">
-                                            <label style="margin-left: 5px;"> <input style="margin-top: 10px;" icheck type="checkbox" ng-model="amazonfee.tem_valor_calculado"> <span style="font-size: 1em;">Valor Calculado</span> </label>
-                                        </div>
-                                    </div>
-                                </div> <!-- Form-Group Valor da Amazon Fee -->
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group" data-ng-show="amazonfee.tem_valor_calculado">
-                                    <label class="col-sm-2 control-label">Valor Calculado</label>
-                                    <div class="col-sm-2">
-                                        <input type="number" step="any" class="form-control" id="inputMultiplicador" data-ng-model="amazonfee.dados_fee.calculado.multiplicador" placeholder="Multiplicador ($)">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <input type="number" step="any" class="form-control" id="inputFranquia" data-ng-model="amazonfee.dados_fee.calculado.franquia" placeholder="Franquia (Un)">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <select class="form-control" name="media_fee" id="selectTiposUnidade"
-                                                data-ng-model="amazonfee.dados_fee.calculado.unidade_franquia"
-                                                data-ng-options="item for item in listaTiposUnidade">
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="col-sm-4">
 
-                        </div>
+                <table class="table table no-margins">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">Manhã</th>
+                        <th style="text-align: center;">Tarde</th>
+                        <th style="text-align: center;">Totais</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Abertura</td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.abertura.manha.valor" placeholder=""></td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.abertura.tarde.valor" placeholder=""></td>
+                    </tr>
+                    <tr>
+                        <td>Venda</td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.vendas.manha.valor" placeholder=""></td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.vendas.tarde.valor" placeholder=""></td>
+                    </tr>
+                    <tr>
+                        <td>Transferência</td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.transferencia.manha.valor" placeholder=""></td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.transferencia.tarde.valor" placeholder=""></td>
+                    </tr>
+                    <tr>
+                        <td>Cartões</td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.mod_virtual.saidas.cartoes.manha" placeholder=""></td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.mod_virtual.saidas.cartoes.tarde" placeholder=""></td>
+                    </tr>
+                    <tr>
+                        <td>Despesas</td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.mod_virtual.saidas.despesas.manha" placeholder=""></td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.mod_virtual.saidas.despesas.tarde" placeholder=""></td>
+                    </tr>
+                    <tr>
+                        <td>Dinheiro</td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.dinheiro.manha.valor" placeholder=""></td>
+                        <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.dinheiro.tarde.valor" placeholder=""></td>
+                    </tr>
+                    </tbody>
+                </table> <!-- Tabela ... -->
+
+                <table class="table table-striped no-margins">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">Salgados</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Folhados</td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.folhados" placeholder=""></td>
+                    </tr> <!-- Folhados -->
+                    <tr>
+                        <td>Outros</td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.outros" placeholder=""></td>
+                    </tr> <!-- Outros -->
+                    <tr>
+                        <td>Pão de Queijo</td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.pao_de_queijo" placeholder=""></td>
+                    </tr> <!-- Pão de Queijo -->
+                    <tr>
+                        <td>Leitura Z</td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.leitura_z" placeholder=""></td>
+                    </tr> <!-- Leitura Z -->
+                    </tbody>
+                </table> <!-- Salgados -->
+
+                <table class="table table-striped no-margins">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="text-align: center;">Abertura</th>
+                        <th style="text-align: center;">Fechamento</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Água</td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.abertura" placeholder=""></td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.fechamento" placeholder=""></td>
+                    </tr> <!-- Água -->
+                    <tr>
+                        <td>Luz</td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.abertura" placeholder=""></td>
+                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.fechamento" placeholder=""></td>
+                    </tr> <!-- Luz -->
+                    </tbody>
+                </table> <!-- Água e Luz -->
+            </div> <!-- ibox Lançamentos Caixa -->
+            <div class="col-lg-3">
+
+                <table class="table no-margins">
+                    <thead>
+                    <tr>
+                        <th colspan="3" class="text-danger">Despesas Manhã</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas | filter: {turno: enums.turnos.manha}">
+                        <td>{{ desp_m.descricao }}</td>
+                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
+                    </tr>
+                    </tbody>
+                </table> <!-- Tabela Despesas - Manhã -->
+                <br/><br/>
+
+                <table class="table no-margins">
+                    <thead>
+                    <tr>
+                        <th colspan="3" class="text-danger">Despesas Tarde</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas | filter: {turno: enums.turnos.tarde}">
+                        <td>{{ desp_m.descricao }}</td>
+                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
+                    </tr>
+                    </tbody>
+                </table> <!-- Tabela Despesas - Tarde -->
+                <br/><br/>
+
+                <table class="table no-margins">
+                    <thead>
+                    <tr>
+                        <th colspan="3">Movimentação Cofre</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="desp_m in caixa.movimentacoes | filter: {origem: enums.origens.cofre}">
+                        <td>{{ desp_m.descricao }}</td>
+                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_cofre')"></i></td>
+                    </tr>
+                    </tbody>
+                </table> <!-- Tabela Movimentação - Cofre -->
+                <br/><br/>
+
+                <table class="table no-margins">
+                    <thead>
+                    <tr>
+                        <th colspan="3">Movimentação Geral</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="desp_m in caixa.movimentacoes | filter: {origem: enums.origens.geral}">
+                        <td>{{ desp_m.descricao }}</td>
+                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_geral')"></i></td>
+                    </tr>
+                    </tbody>
+                </table> <!-- Tabela Movimentação - Geral -->
+            </div>
+            <div class="col-lg-5">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Conferências</h5>
+                        <div ibox-tools></div>
                     </div>
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Regras para determinar o tamanho</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <br/><br/>
-                            <br/><br/>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Vigência</label>
-                                <div class="col-sm-5">
-                                    <select class="form-control" name="selectRuleVigencia"
-                                            data-ng-model="amazonfee.rules_fee.vigencia"
-                                            data-ng-options="item as item.nome_set for item in listaRules.vigencia track by item._id">
-                                    </select>
-                                </div>
-                            </div> <!-- Form-Group Vigência -->
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Intervalo Data</label>
-                                <div class="col-sm-5">
-                                    <select class="form-control" name="selectRuleIntervaloData"
-                                            data-ng-model="amazonfee.rules_fee.intervalo_data"
-                                            data-ng-options="item as item.nome_set for item in listaRules.intervalo_data track by item._id">
-                                    </select>
-                                </div>
-                            </div> <!-- Form-Group Intervalo Data -->
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Dimensionamento</label>
-                                <div class="col-sm-5">
-                                    <select class="form-control" name="selectRuleDimensionamento"
-                                            data-ng-model="amazonfee.rules_fee.dimensionamento"
-                                            data-ng-options="item as item.nome_set for item in listaRules.dimensionamento track by item._id">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Pesagem</label>
-                                <div class="col-sm-5">
-                                    <select class="form-control" name="selectRulePesagem"
-                                            data-ng-model="amazonfee.rules_fee.pesagem"
-                                            data-ng-options="item as item.nome_set for item in listaRules.pesagem track by item._id">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <input style="margin-left: 15px;" type="submit" class="btn btn-primary pull-right" value="Update">
-                                </div>
-                            </div>
-                        </div>
+                    <div class="ibox-content">
+                        <br/><br/>
+                        <table class="table table-striped no-margins">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th style="text-align: center;">Manhã</th>
+                                <th style="text-align: center;">Tarde</th>
+                                <th style="text-align: center;">Tarde</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Geral</td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManhaf" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.abertura_venda" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardef" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.entradas" placeholder=""></td>
+                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardeg" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.diferenca" placeholder=""></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </section>

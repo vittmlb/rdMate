@@ -19,110 +19,229 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-sm-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Registrar Caixa</h5>
-                        <div ibox-tools></div>
-                    </div>
+                <div class="ibox">
                     <div class="ibox-content">
-                        <br/><br/>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <label for="inputDataCaixa" class="input-group-addon"><i class="fa fa-calendar"></i></label>
-                                <input type="date" id="inputDataCaixa" class="form-control" data-ng-model="caixa.data_caixa">
+                        <h5>Salgados</h5>
+                        <table class="table table-stripped small m-t-md">
+                            <tbody>
+                            <tr>
+                                <td class="no-borders"><i class="fa fa-circle text-navy"></i></td>
+                                <td class="no-borders">Folhados</td>
+                                <td class="no-borders">{{ caixa.controles.salgados.folhados }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td>Outros</td>
+                                <td>{{ caixa.controles.salgados.outros }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td>Total</td>
+                                <td>{{ caixa.mod_virtual.controles.salgados.total }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td>Pão de Queijo</td>
+                                <td>{{ caixa.controles.salgados.pao_de_queijo }}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td>Leitura Z</td>
+                                <td>{{ caixa.controles.leitura_z }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-7">
+
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Caixa</h5>
+                                <div ibox-tools></div>
+                            </div>
+                            <div class="ibox-content">
+                                <table class="table small m-t-md">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="3"></th>
+                                        <th>Manhã</th>
+                                        <th>Tarde</th>
+                                        <th>Totais</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="3">Abertura</td>
+                                        <td>{{ caixa.entradas.abertura.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.entradas.abertura.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.entradas.abertura.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Venda</td>
+                                        <td>{{ caixa.entradas.vendas.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.entradas.vendas.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.entradas.vendas.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Transferência</td>
+                                        <td>{{ caixa.saidas.transferencia.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.saidas.transferencia.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.transferencia.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Cartões</td>
+                                        <td>{{ caixa.mod_virtual.saidas.cartoes.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.cartoes.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.cartoes.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Despesas</td>
+                                        <td>{{ caixa.mod_virtual.saidas.despesas.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.despesas.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.despesas.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Dinheiro</td>
+                                        <td>{{ caixa.saidas.dinheiro.manha.valor | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.dinheiro.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Totais</td>
+                                        <td>{{ caixa.mod_virtual.saidas.total.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.total.tarde | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.mod_virtual.saidas.total.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">Totais</td>
+                                        <td>{{ caixa.mod_virtual.diferenca.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.mod_virtual.diferenca.tarde | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.mod_virtual.diferenca.total | currency: 'R$ ' }}</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table> <!-- Tabela ... -->
                             </div>
                         </div>
 
-                        <table class="table table-striped no-margins">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th style="text-align: center;">Manhã</th>
-                                <th style="text-align: center;">Tarde</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Abertura</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.abertura.manha.valor" placeholder=""></td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.abertura.tarde.valor" placeholder=""></td>
-                            </tr>
-                            <tr>
-                                <td>Venda</td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.vendas.manha.valor" placeholder=""></td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.entradas.vendas.tarde.valor" placeholder=""></td>
-                            </tr>
-                            <tr>
-                                <td>Transferência</td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.transferencia.manha.valor" placeholder=""></td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.transferencia.tarde.valor" placeholder=""></td>
-                            </tr>
-                            <tr>
-                                <td>Cartões</td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.cartoes.manha.valor" placeholder=""></td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.cartoes.tarde.valor" placeholder=""></td>
-                            </tr>
-                            <tr>
-                                <td>Dinheiro</td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.dinheiro.manha.valor" placeholder=""></td>
-                                <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.saidas.dinheiro.tarde.valor" placeholder=""></td>
-                            </tr>
-                            </tbody>
-                        </table> <!-- Tabela ... -->
+                        <br/><br/>
 
-                        <table class="table table-striped no-margins">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th style="text-align: center;">Salgados</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Folhados</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.folhados" placeholder=""></td>
-                            </tr> <!-- Folhados -->
-                            <tr>
-                                <td>Outros</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.outros" placeholder=""></td>
-                            </tr> <!-- Outros -->
-                            <tr>
-                                <td>Pão de Queijo</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.pao_de_queijo" placeholder=""></td>
-                            </tr> <!-- Pão de Queijo -->
-                            <tr>
-                                <td>Leitura Z</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.leitura_z" placeholder=""></td>
-                            </tr> <!-- Leitura Z -->
-                            </tbody>
-                        </table> <!-- Salgados -->
-
-                        <table class="table table-striped no-margins">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th style="text-align: center;">Abertura</th>
-                                <th style="text-align: center;">Fechamento</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Água</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.abertura" placeholder=""></td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.fechamento" placeholder=""></td>
-                            </tr> <!-- Água -->
-                            <tr>
-                                <td>Luz</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.abertura" placeholder=""></td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.fechamento" placeholder=""></td>
-                            </tr> <!-- Luz -->
-                            </tbody>
-                        </table> <!-- Água e Luz -->
-
+                    </div> <!-- ibox Lançamentos Caixa -->
+                    <div class="col-sm-5">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Controles</h5>
+                                <div ibox-tools></div>
+                            </div>
+                            <div class="ibox-content">
+                                <ul class="list-group clear-list m-t">
+                                    <li class="list-group-item fist-item">
+                                        <span class="pull-right"> 09:00 pm</span>
+                                        <span class="label label-success">1</span> Please contact me
+                                    </li>
+                                    <li class="list-group-item fist-item">
+                                        <span class="pull-right"> 09:00 pm</span>
+                                        <span class="label label-success">1</span> Please contact me
+                                    </li>
+                                </ul>
+                                <table class="table no-margins">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="text-align: center;">Salgados</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Folhados</td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.folhados" placeholder=""></td>
+                                    </tr> <!-- Folhados -->
+                                    <tr>
+                                        <td>Outros</td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.outros" placeholder=""></td>
+                                    </tr> <!-- Outros -->
+                                    <tr>
+                                        <td>Pão de Queijo</td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.salgados.pao_de_queijo" placeholder=""></td>
+                                    </tr> <!-- Pão de Queijo -->
+                                    <tr>
+                                        <td>Leitura Z</td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.leitura_z" placeholder=""></td>
+                                    </tr> <!-- Leitura Z -->
+                                    </tbody>
+                                </table> <!-- Salgados -->
+                                <table class="table table-striped no-margins">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="text-align: center;">Abertura</th>
+                                        <th style="text-align: center;">Fechamento</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Água</td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.abertura" placeholder=""></td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.fechamento" placeholder=""></td>
+                                    </tr> <!-- Água -->
+                                    <tr>
+                                        <td>Luz</td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.abertura" placeholder=""></td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.fechamento" placeholder=""></td>
+                                    </tr> <!-- Luz -->
+                                    </tbody>
+                                </table> <!-- Água e Luz -->
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div> <!-- ibox Lançamentos Caixa -->
-            <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Conferências</h5>
+                                <div ibox-tools></div>
+                            </div>
+                            <div class="ibox-content">
+                                <br/><br/>
+                                <table class="table table-striped no-margins">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="text-align: center;">Manhã</th>
+                                        <th style="text-align: center;">Tarde</th>
+                                        <th style="text-align: center;">Tarde</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Geral</td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManhaf" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.abertura_venda" placeholder=""></td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardef" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.entradas" placeholder=""></td>
+                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardeg" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.diferenca" placeholder=""></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+
                 <table class="table no-margins">
                     <thead>
                     <tr>
@@ -130,14 +249,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas.manha">
+                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas | filter: {turno: enums.turnos.manha}">
                         <td>{{ desp_m.descricao }}</td>
                         <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
                         <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
                     </tr>
                     </tbody>
-                </table> <!-- Tabela Saídas - Manhã -->
+                </table> <!-- Tabela Despesas - Manhã -->
                 <br/><br/>
+
                 <table class="table no-margins">
                     <thead>
                     <tr>
@@ -145,14 +265,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas.tarde">
+                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas | filter: {turno: enums.turnos.tarde}">
                         <td>{{ desp_m.descricao }}</td>
                         <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
                         <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
                     </tr>
                     </tbody>
-                </table> <!-- Tabela Saídas - Tarde -->
+                </table> <!-- Tabela Despesas - Tarde -->
                 <br/><br/>
+
                 <table class="table no-margins">
                     <thead>
                     <tr>
@@ -160,7 +281,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.movimentacao.cofre">
+                    <tr data-ng-repeat="desp_m in caixa.movimentacoes | filter: {origem: enums.origens.cofre}">
                         <td>{{ desp_m.descricao }}</td>
                         <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
                         <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_cofre')"></i></td>
@@ -168,6 +289,7 @@
                     </tbody>
                 </table> <!-- Tabela Movimentação - Cofre -->
                 <br/><br/>
+
                 <table class="table no-margins">
                     <thead>
                     <tr>
@@ -175,7 +297,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.movimentacao.geral">
+                    <tr data-ng-repeat="desp_m in caixa.movimentacoes | filter: {origem: enums.origens.geral}">
                         <td>{{ desp_m.descricao }}</td>
                         <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
                         <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_geral')"></i></td>
@@ -183,36 +305,7 @@
                     </tbody>
                 </table> <!-- Tabela Movimentação - Geral -->
             </div>
-            <div class="col-lg-5">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Conferências</h5>
-                        <div ibox-tools></div>
-                    </div>
-                    <div class="ibox-content">
-                        <br/><br/>
-                        <table class="table table-striped no-margins">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th style="text-align: center;">Manhã</th>
-                                <th style="text-align: center;">Tarde</th>
-                                <th style="text-align: center;">Tarde</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Geral</td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManhaf" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.abertura_venda" placeholder=""></td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardef" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.entradas" placeholder=""></td>
-                                <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardeg" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.diferenca" placeholder=""></td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
+
     </div>
 </section>
