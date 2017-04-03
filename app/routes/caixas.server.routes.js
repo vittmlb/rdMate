@@ -19,9 +19,9 @@ module.exports = function(app) {
     app.route('/api/caixas/query')
         .get();
 
-    app.route('/api/caixas/:params')
-        .get();
+    app.route('/api/caixas/:parametros')
+        .get(caixas.results);
 
-    app.param('params', caixas.results);
+    app.param('parametros', caixas.customConferenciaCaixa);
 
 };

@@ -16,6 +16,11 @@ angular.module('caixas').factory('Qcaixas', ['$resource', function ($resource) {
     }, {
         update: {
             method: 'PUT'
+        },
+        conferencia: {
+            method: 'GET',
+            isArray: false,
+            parametros: parametros
         }
     });
 }]);

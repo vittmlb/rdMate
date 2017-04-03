@@ -143,8 +143,7 @@ exports.delete = function(req, res) {
     });
 };
 
-exports.customFechamentoCaixa = function(req, res, next, params) {
-
+exports.customConferenciaCaixa = function(req, res, next, params) {
 
 };
 
