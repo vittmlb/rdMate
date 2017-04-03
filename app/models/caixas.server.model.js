@@ -9,49 +9,29 @@ let CaixasSchema = new Schema({
         type: Date,
         required: `O campo 'data_do_caixa' é obrigatório.`
     },
-    abertura: {
-        manha: {
-            valor: Number,
-            default: 0
-        },
-        tarde: {
-            valor: Number,
-            default: 0
-        }
-    },
-    vendas: {
-        cartoes: {
-            master: {
-                manha: {
-                    valor: Number,
-                    default: 0
-                },
-                tarde: {
-                    valor: Number,
-                    default: 0
-                }
+    entradas: {
+        abertura: {
+            manha: {
+                valor: Number,
+                default: 0
             },
-            visa: {
-                manha: {
-                    valor: Number,
-                    default: 0
-                },
-                tarde: {
-                    valor: Number,
-                    default: 0
-                }
+            tarde: {
+                valor: Number,
+                default: 0
             }
         },
-        manha: {
-            valor: Number,
-            default: 0
+        vendas: {
+            manha: {
+                valor: Number,
+                default: 0
+            },
+            tarde: {
+                valor: Number,
+                default: 0
+            }
         },
-        tarde: {
-            valor: Number,
-            default: 0
-        }
     },
-    lancamentos: {
+    saidas: {
         transferencia: {
             manha: {
                 valor: Number,
@@ -62,23 +42,27 @@ let CaixasSchema = new Schema({
                 default: 0
             }
         },
-        despesas: {
-            total: Number,
-            manha: [{
-                descricao: {
-                    type: String,
-                    trim: true
-                },
+        cartoes: {
+            manha: {
                 valor: Number,
-            }],
-            tarde: [{
-                descricao: {
-                    type: String,
-                    trim: true
-                },
+                default: 0
+            },
+            tarde: {
                 valor: Number,
-            }]
+                default: 0
+            }
         },
+        despesas: [{
+            descricao: {
+                type: String,
+                trim: true
+            },
+            valor: Number,
+            turno: String,
+            tag: String,
+            fornecedor: String,
+            obs: String
+        }],
         dinheiro: {
             manha: {
                 valor: Number,
@@ -137,7 +121,7 @@ let CaixasSchema = new Schema({
             // }
         }]
     },
-    acompanhamentos: {
+    controles: {
         salgados: {
             folhados: {
                 type: Number,
@@ -165,6 +149,7 @@ let CaixasSchema = new Schema({
             fechamento: Number
         }
     },
+    mod_virtual: {},
     conferencias: {
         geral: {
             manha: {
@@ -184,112 +169,111 @@ let CaixasSchema = new Schema({
 });
 
 
-CaixasSchema.virtual('virt.caixa.entradas.vendas.manha').get(function () {
-    return this.vendas.manha.valor;
+CaixasSchema.virtual('mod_virtual.entradas.vendas.manha').get(function () {
+    return this.entradas.vendas.manha.valor;
 });
-CaixasSchema.virtual('virt.caixa.entradas.vendas.tarde').get(function () {
-    return this.vendas.tarde.valor;
+CaixasSchema.virtual('mod_virtual.entradas.vendas.tarde').get(function () {
+    return this.entradas.vendas.tarde.valor;
 });
-CaixasSchema.virtual('virt.caixa.entradas.vendas.total').get(function () {
-    return this.vendas.manha.valor + this.vendas.tarde.valor;
-});
-
-CaixasSchema.virtual('virt.caixa.entradas.abertura.manha').get(function () {
-    return this.abertura.manha.valor;
-});
-CaixasSchema.virtual('virt.caixa.entradas.abertura.tarde').get(function () {
-    return this.abertura.tarde.valor;
-});
-CaixasSchema.virtual('virt.caixa.entradas.abertura.total').get(function () {
-    return this.abertura.manha.valor + this.abertura.tarde.valor;
+CaixasSchema.virtual('mod_virtual.entradas.vendas.total').get(function () {
+    return this.entradas.vendas.manha.valor + this.entradas.vendas.tarde.valor;
 });
 
-CaixasSchema.virtual('virt.caixa.entradas.total.manha').get(function () {
-    return  this.abertura.manha.valor +
-            this.vendas.manha.valor;
+CaixasSchema.virtual('mod_virtual.entradas.abertura.manha').get(function () {
+    return this.entradas.abertura.manha.valor;
 });
-CaixasSchema.virtual('virt.caixa.entradas.total.tarde').get(function () {
-    return  this.abertura.tarde.valor +
-             this.vendas.tarde.valor;
+CaixasSchema.virtual('mod_virtual.entradas.abertura.tarde').get(function () {
+    return this.entradas.abertura.tarde.valor;
 });
-CaixasSchema.virtual('virt.caixa.entradas.total.total').get(function () {
-    return  this.virt.caixa.entradas.total.manha + this.virt.caixa.entradas.total.tarde;
+CaixasSchema.virtual('mod_virtual.entradas.abertura.total').get(function () {
+    return this.entradas.abertura.manha.valor + this.entradas.abertura.tarde.valor;
+});
+
+CaixasSchema.virtual('mod_virtual.entradas.total.manha').get(function () {
+    return  this.entradas.abertura.manha.valor +
+            this.entradas.vendas.manha.valor;
+});
+CaixasSchema.virtual('mod_virtual.entradas.total.tarde').get(function () {
+    return  this.entradas.abertura.tarde.valor +
+            this.entradas.vendas.tarde.valor;
+});
+CaixasSchema.virtual('mod_virtual.entradas.total.total').get(function () {
+    return  this.mod_virtual.entradas.total.manha + this.mod_virtual.entradas.total.tarde;
 });
 
 
-CaixasSchema.virtual('virt.caixa.saidas.transferencias.manha').get(function () {
-    return this.lancamentos.transferencia.manha.valor;
+CaixasSchema.virtual('mod_virtual.saidas.transferencias.manha').get(function () {
+    return this.saidas.transferencia.manha.valor;
 });
-CaixasSchema.virtual('virt.caixa.saidas.transferencias.tarde').get(function () {
-    return this.lancamentos.transferencia.tarde.valor;
+CaixasSchema.virtual('mod_virtual.saidas.transferencias.tarde').get(function () {
+    return this.saidas.transferencia.tarde.valor;
 });
-CaixasSchema.virtual('virt.caixa.saidas.transferencias.total').get(function () {
-    return this.lancamentos.transferencia.manha.valor + this.lancamentos.transferencia.tarde.valor;
-});
-
-CaixasSchema.virtual('virt.caixa.saidas.visa.manha').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
-    return this.vendas.cartoes.visa.manha.valor;
-});
-CaixasSchema.virtual('virt.caixa.saidas.visa.tarde').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
-    return this.vendas.cartoes.visa.tarde.valor;
-});
-CaixasSchema.virtual('virt.caixa.saidas.visa.total').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
-    return this.vendas.cartoes.visa.manha.valor + this.vendas.cartoes.visa.tarde.valor;
+CaixasSchema.virtual('mod_virtual.saidas.transferencias.total').get(function () {
+    return this.saidas.transferencia.manha.valor + this.saidas.transferencia.tarde.valor;
 });
 
-CaixasSchema.virtual('virt.caixa.saidas.despesas.manha').get(function () {
+CaixasSchema.virtual('mod_virtual.saidas.cartoes.manha').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
+    return this.saidas.cartoes.manha.valor;
+});
+CaixasSchema.virtual('mod_virtual.saidas.cartoes.tarde').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
+    return this.saidas.cartoes.tarde.valor;
+});
+CaixasSchema.virtual('mod_virtual.saidas.cartoes.total').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
+    return this.saidas.cartoes.manha.valor + this.saidas.cartoes.tarde.valor;
+});
+
+CaixasSchema.virtual('mod_virtual.saidas.despesas.manha').get(function () {
     let soma = 0;
-    this.lancamentos.despesas.manha.forEach(function (data) {
+    this.saidas.despesas.manha.forEach(function (data) {
         soma += data.valor;
     });
     return soma;
 });
-CaixasSchema.virtual('virt.caixa.saidas.despesas.tarde').get(function () {
+CaixasSchema.virtual('mod_virtual.saidas.despesas.tarde').get(function () {
     let soma = 0;
-    this.lancamentos.despesas.tarde.forEach(function (data) {
+    this.saidas.despesas.tarde.forEach(function (data) {
         soma += data.valor;
     });
     return soma;
 });
-CaixasSchema.virtual('virt.caixa.saidas.despesas.total').get(function () {
-    return this.virt.caixa.saidas.despesas.manha + this.virt.caixa.saidas.despesas.tarde;
+CaixasSchema.virtual('mod_virtual.saidas.despesas.total').get(function () {
+    return this.mod_virtual.saidas.despesas.manha + this.mod_virtual.saidas.despesas.tarde;
 });
 
-CaixasSchema.virtual('virt.caixa.saidas.dinheiro.manha').get(function () {
-    return this.lancamentos.dinheiro.manha.valor;
+CaixasSchema.virtual('mod_virtual.saidas.dinheiro.manha').get(function () {
+    return this.saidas.dinheiro.manha.valor;
 });
-CaixasSchema.virtual('virt.caixa.saidas.dinheiro.tarde').get(function () {
-    return this.lancamentos.dinheiro.tarde.valor;
+CaixasSchema.virtual('mod_virtual.saidas.dinheiro.tarde').get(function () {
+    return this.saidas.dinheiro.tarde.valor;
 });
-CaixasSchema.virtual('virt.caixa.saidas.dinheiro.total').get(function () {
-    return this.lancamentos.dinheiro.manha.valor + this.lancamentos.dinheiro.tarde.valor;
-});
-
-CaixasSchema.virtual('virt.caixa.saidas.total.manha').get(function () {
-    return  this.lancamentos.transferencia.manha.valor +
-            this.vendas.cartoes.visa.manha.valor +
-            this.virt.caixa.saidas.despesas.manha +
-            this.lancamentos.dinheiro.manha.valor;
-});
-CaixasSchema.virtual('virt.caixa.saidas.total.tarde').get(function () {
-    return  this.lancamentos.transferencia.tarde.valor +
-            this.vendas.cartoes.visa.tarde.valor +
-            this.virt.caixa.saidas.despesas.tarde +
-            this.lancamentos.dinheiro.tarde.valor;
-});
-CaixasSchema.virtual('virt.caixa.saidas.total.total').get(function () {
-    return this.virt.caixa.saidas.total.manha + this.virt.caixa.saidas.total.tarde;
+CaixasSchema.virtual('mod_virtual.saidas.dinheiro.total').get(function () {
+    return this.saidas.dinheiro.manha.valor + this.saidas.dinheiro.tarde.valor;
 });
 
+CaixasSchema.virtual('mod_virtual.saidas.total.manha').get(function () {
+    return  this.saidas.transferencia.manha.valor +
+            this.saidas.cartoes.manha.valor +
+            this.mod_virtual.saidas.despesas.manha +
+            this.saidas.dinheiro.manha.valor;
+});
+CaixasSchema.virtual('mod_virtual.saidas.total.tarde').get(function () {
+    return  this.saidas.transferencia.tarde.valor +
+            this.saidas.cartoes.tarde.valor +
+            this.mod_virtual.saidas.despesas.tarde +
+            this.saidas.dinheiro.tarde.valor;
+});
+CaixasSchema.virtual('mod_virtual.saidas.total.total').get(function () {
+    return this.mod_virtual.saidas.total.manha + this.mod_virtual.saidas.total.tarde;
+});
 
-CaixasSchema.virtual('virt.caixa.diferenca.manha').get(function () {
-    return this.virt.caixa.saidas.total.manha - this.virt.caixa.entradas.total.manha;
+CaixasSchema.virtual('mod_virtual.diferenca.manha').get(function () {
+    return this.mod_virtual.saidas.total.manha - this.mod_virtual.entradas.total.manha;
 });
-CaixasSchema.virtual('virt.caixa.diferenca.tarde').get(function () {
-    return this.virt.caixa.saidas.total.tarde - this.virt.caixa.entradas.total.tarde;
+CaixasSchema.virtual('mod_virtual.diferenca.tarde').get(function () {
+    return this.mod_virtual.saidas.total.tarde - this.mod_virtual.entradas.total.tarde;
 });
-CaixasSchema.virtual('virt.caixa.diferenca.total').get(function () {
-    return this.virt.caixa.diferenca.manha - this.virt.caixa.diferenca.tarde
+CaixasSchema.virtual('mod_virtual.diferenca.total').get(function () {
+    return this.mod_virtual.diferenca.manha - this.mod_virtual.diferenca.tarde
 });
 
 CaixasSchema.set('toJSON', {

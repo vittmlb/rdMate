@@ -15,6 +15,7 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <form data-ng-submit="create()">
             <div class="row">
+
                 <div class="col-sm-4">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -23,14 +24,13 @@
                         </div>
                         <div class="ibox-content">
                             <br/><br/>
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <label for="inputDataCaixa" class="input-group-addon"><i class="fa fa-calendar"></i></label>
-                                        <input type="date" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">
-                                    </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="inputDataCaixa" class="input-group-addon"><i class="fa fa-calendar"></i></label>
+                                    <input type="date" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">
                                 </div>
                             </div>
+
                             <table class="table table-striped no-margins">
                                 <thead>
                                 <tr>
@@ -42,46 +42,32 @@
                                 <tbody>
                                 <tr>
                                     <td>Abertura</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManha" name="abertura.manha.valor" data-ng-model="abertura.manha.valor" placeholder=""></td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTarde" name="abertura.tarde.valor" data-ng-model="abertura.tarde.valor" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.abertura.manha.valor" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.abertura.tarde.valor" placeholder=""></td>
                                 </tr>
                                 <tr>
                                     <td>Venda</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVendasManha" name="vendas.manha.valor" data-ng-model="vendas.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVendasTarde" name="vendas.tarde.valor" data-ng-model="vendas.tarde.valor" placeholder=""></td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.vendas.manha.valor" placeholder=""></td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.vendas.tarde.valor" placeholder=""></td>
                                 </tr>
                                 <tr>
                                     <td>Transferência</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTransferenciaManha" name="lancamentos.transferencia.manha.valor" data-ng-model="lancamentos.transferencia.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTransferenciaTarde" name="lancamentos.transferencia.tarde.valor" data-ng-model="lancamentos.transferencia.tarde.valor" placeholder=""></td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.transferencia.manha.valor" placeholder=""></td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.transferencia.tarde.valor" placeholder=""></td>
                                 </tr>
                                 <tr>
-                                    <td>Tickets</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTicketsManha" name="vendas.vales.tickets.manha.valor" data-ng-model="vendas.vales.tickets.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputTicketsTarde" name="vendas.vales.tickets.tarde.valor" data-ng-model="vendas.vales.tickets.tarde.valor" placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td>Visa Vale</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaValeManha" name="vendas.vales.visa_vale.manha.valor" data-ng-model="vendas.vales.visa_vale.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaValeTarde" name="vendas.vales.visa_vale.tarde.valor" data-ng-model="vendas.vales.visa_vale.tarde.valor" placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td>Master</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputMasterManha" name="vendas.cartoes.master.manha.valor" data-ng-model="vendas.cartoes.master.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputMasterTarde" name="vendas.cartoes.master.tarde.valor" data-ng-model="vendas.cartoes.master.tarde.valor" placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td>Visa</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaManha" name="vendas.cartoes.visa.manha.valor" data-ng-model="vendas.cartoes.visa.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputVisaTarde" name="vendas.cartoes.visa.tarde.valor" data-ng-model="vendas.cartoes.visa.tarde.valor" placeholder=""></td>
+                                    <td>Cartões</td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.cartoes.manha.valor" placeholder=""></td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.cartoes.tarde.valor" placeholder=""></td>
                                 </tr>
                                 <tr>
                                     <td>Dinheiro</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputDinheiroManha" name="lancamentos.dinheiro.manha.valor" data-ng-model="lancamentos.dinheiro.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" id="inputDinheiroTarde" name="lancamentos.dinheiro.tarde.valor" data-ng-model="lancamentos.dinheiro.tarde.valor" placeholder=""></td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.dinheiro.manha.valor" placeholder=""></td>
+                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.dinheiro.tarde.valor" placeholder=""></td>
                                 </tr>
                                 </tbody>
-                            </table>
+                            </table> <!-- Tabela ... -->
+
                             <table class="table table-striped no-margins">
                                 <thead>
                                 <tr>
@@ -92,22 +78,23 @@
                                 <tbody>
                                 <tr>
                                     <td>Folhados</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputSalgadosFolhados" name="" data-ng-model="acompanhamentos.salgados.folhados" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.salgados.folhados" placeholder=""></td>
                                 </tr> <!-- Folhados -->
                                 <tr>
                                     <td>Outros</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputSalgadosOutros" name="" data-ng-model="acompanhamentos.salgados.outros" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.salgados.outros" placeholder=""></td>
                                 </tr> <!-- Outros -->
                                 <tr>
                                     <td>Pão de Queijo</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputSalgadosPaoDeQueijo" name="" data-ng-model="acompanhamentos.salgados.pao_de_queijo" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.salgados.pao_de_queijo" placeholder=""></td>
                                 </tr> <!-- Pão de Queijo -->
                                 <tr>
                                     <td>Leitura Z</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputLeituraZ" name="" data-ng-model="acompanhamentos.leitura_z" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.leitura_z" placeholder=""></td>
                                 </tr> <!-- Leitura Z -->
                                 </tbody>
-                            </table>
+                            </table> <!-- Salgados -->
+
                             <table class="table table-striped no-margins">
                                 <thead>
                                 <tr>
@@ -119,19 +106,21 @@
                                 <tbody>
                                 <tr>
                                     <td>Água</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAguaAbertura" name="acompanhamentos.agua.abertura" data-ng-model="acompanhamentos.agua.abertura" placeholder=""></td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAguaFechamento" name="acompanhamentos.agua.fechamento" data-ng-model="acompanhamentos.agua.fechamento" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.agua.abertura" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.agua.fechamento" placeholder=""></td>
                                 </tr> <!-- Água -->
                                 <tr>
                                     <td>Luz</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputLuzAbertura" name="acompanhamentos.luz.abertura" data-ng-model="acompanhamentos.luz.abertura" placeholder=""></td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputLuzFechamento" name="acompanhamentos.luz.fechamento" data-ng-model="acompanhamentos.luz.fechamento" placeholder=""></td>
-                                </tr> <!-- Água -->
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.luz.abertura" placeholder=""></td>
+                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.luz.fechamento" placeholder=""></td>
+                                </tr> <!-- Luz -->
                                 </tbody>
-                            </table>
+                            </table> <!-- Água e Luz -->
+
                         </div>
                     </div>
-                </div>
+                </div> <!-- ibox Lançamentos Caixa -->
+
                 <div class="col-lg-8">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -163,7 +152,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> <!-- ibox INPUT Lançamentos Despesas e Movimentação -->
+
                 <div class="col-lg-3">
                     <table class="table no-margins">
                         <thead>
@@ -172,13 +162,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="desp_m in lancamentos.despesas.manha">
+                            <tr data-ng-repeat="desp_m in saidas.despesas.manha">
                                 <td>{{ desp_m.descricao }}</td>
                                 <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
                                 <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> <!-- Tabela Saídas - Manhã -->
                     <br/><br/>
                     <table class="table no-margins">
                         <thead>
@@ -187,14 +177,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr data-ng-repeat="desp_m in lancamentos.despesas.tarde">
+                        <tr data-ng-repeat="desp_m in saidas.despesas.tarde">
                             <td>{{ desp_m.descricao }}</td>
                             <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
                             <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
                         </tr>
                         </tbody>
-                    </table>
-                </div>
+                    </table> <!-- Tabela Saídas - Tarde -->
+                </div> <!-- Tabelas Lançamentos Despesas -->
+
                 <div class="col-lg-3">
                     <table class="table no-margins">
                         <thead>
@@ -225,7 +216,8 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> <!-- Tabelas Lançamentos Movimentação -->
+
             </div>
             <input type="submit" class="btn btn-primary" value="Cadastrar">
             </form>

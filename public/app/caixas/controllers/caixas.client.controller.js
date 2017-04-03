@@ -25,34 +25,22 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             $scope.listaTurnos = data.listaTurnos;
         });
 
-        $scope.despesas = {
-            manha: [],
-            tarde: []
+        $scope.entradas = {};
+        $scope.saidas = {
+            despesas: []
         };
         $scope.movimentacao = {
             cofre: [],
             geral: []
         };
-        $scope.lancamentos = {
-            despesas: {
-                manha: [],
-                tarde: []
-            }
-        };
-        $scope.objDespesaManha = {};
-        $scope.objDespesaTarde = {};
-
-        $scope.movimentacao = {
-            geral: [],
-            cofre: []
-        };
-        $scope.objMovimentacaoGeral = {};
-        $scope.objMovimentacaoCofre = {};
 
         $scope.objRegistro = {
             descricao: '',
             valor: 0,
             turno: '',
+            tag: '',
+            fornecedor: '',
+            obs: '',
             obj: {}
         };
 
@@ -60,11 +48,10 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
         $scope.create = function() {
             let caixa = new Caixas({
                 data_caixa: this.data_caixa,
-                abertura: this.abertura,
-                vendas: this.vendas,
-                lancamentos: this.lancamentos,
+                entradas: this.entradas,
+                saidas: this.saidas,
                 movimentacao: this.movimentacao,
-                acompanhamentos: this.acompanhamentos
+                controles: this.controles
             });
             caixa.$save(function (response) {
                 $location.path('/caixas/' + response._id);
@@ -88,7 +75,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 caixaId: $stateParams.caixaId
             }).$promise.then(function (data) {
                 $scope.caixa = data;
-                // $scope.caixa.data = new Date(data.data);
+                $scope.caixa.data_caixa = new Date(data.data_caixa);
                 $scope.caixa.conferencias = CompCaixa.teste($scope.caixa);
             });
         };
@@ -137,7 +124,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 });
             }
         };
-
         $scope.deleteAlert = function(caixa) {
             SweetAlert.swal(SweetAlertOptions.removerCaixa,
                 function(isConfirm){
@@ -150,87 +136,15 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 });
         };
 
-        $scope.addDespesaManha = function() {
-            if($scope.caixa) {
-                $scope.caixa.lancamentos.despesas.manha.push($scope.objDespesaManha);
-            } else {
-                $scope.despesas.manha.push($scope.objDespesaManha);
-            }
-            $scope.objDespesaManha = {};
-        };
-        $scope.removeDespesaManha = function(despesa) {
-            if($scope.caixa) {
-                let index = $scope.caixa.lancamentos.despesas.manha.indexOf(despesa);
-                $scope.caixa.despesas.manha.splice(index, 1);
-            } else {
-                let index = $scope.despesas.manha.indexOf(despesa);
-                $scope.despesas.manha.splice(index, 1);
-            }
-        };
-
-        $scope.addDespesaTarde = function() {
-            if($scope.caixa) {
-                $scope.caixa.lancamentos.despesas.tarde.push($scope.objDespesaTarde);
-            } else {
-                $scope.despesas.tarde.push($scope.objDespesaTarde);
-            }
-            $scope.objDespesaTarde = {};
-        };
-        $scope.removeDespesaTarde = function(despesa) {
-            if($scope.caixa) {
-                let index = $scope.caixa.despesas.tarde.indexOf(despesa);
-                $scope.caixa.lancamentos.despesas.tarde.splice(index, 1);
-            } else {
-                let index = $scope.despesas.tarde.indexOf(despesa);
-                $scope.despesas.tarde.splice(index, 1);
-            }
-        };
-
-        $scope.addMovimentacaoCofre = function() {
-            if($scope.caixa) {
-                $scope.caixa.movimentacao.cofre.push($scope.objMovimentacaoCofre);
-            } else {
-                $scope.movimentacao.cofre.push($scope.objMovimentacaoCofre);
-            }
-            $scope.objMovimentacaoCofre = {};
-        };
-        $scope.removeMovimentacaoCofre = function(movimentacao) {
-            if($scope.caixa) {
-                let index = $scope.caixa.movimentacao.cofre.indexOf(movimentacao);
-                $scope.caixa.movimentacao.cofre.splice(index, 1);
-            } else {
-                let index = $scope.movimentacao.cofre.indexOf(movimentacao);
-                $scope.movimentacao.cofre.splice(index, 1);
-            }
-        };
-
-        $scope.addMovimentacaoGeral = function() {
-            if($scope.caixa) {
-                $scope.caixa.movimentacao.geral.push($scope.objMovimentacaoGeral);
-            } else {
-                $scope.movimentacao.geral.push($scope.objMovimentacaoGeral);
-            }
-            $scope.objMovimentacaoGeral = {};
-        };
-        $scope.removeMovimentacaoGeral = function(movimentacao) {
-            if($scope.caixa) {
-                let index = $scope.caixa.movimentacao.geral.indexOf(movimentacao);
-                $scope.caixa.movimentacao.geral.splice(index, 1);
-            } else {
-                let index = $scope.movimentacao.geral.indexOf(movimentacao);
-                $scope.movimentacao.geral.splice(index, 1);
-            }
-        };
-
 
         $scope.addRegistro = function(item) {
             let parent = $scope.caixa ? $scope.caixa: $scope;
             switch ($scope.objRegistro.obj.valor) {
                 case 'despesa':
                     if(item.turno.valor === 'manha') {
-                        parent.lancamentos.despesas.manha.push(item);
+                        parent.saidas.despesas.manha.push(item);
                     } else if(item.turno.valor === 'tarde') {
-                        parent.lancamentos.despesas.tarde.push(item);
+                        parent.saidas.despesas.tarde.push(item);
                     }
                     break;
                 case 'mov_cofre':
@@ -241,6 +155,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             }
             $scope.objRegistro = {};
         };
+
         /**
          * Remove o registro do array/tabela correspondente.
          * @param item: elemento que deverá ser removido do array - contém as propriedades descricao e valor - obj Registro
@@ -252,11 +167,11 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             switch (tipo) {
                 case 'despesa':
                     if(param === 'manha') {
-                        let index = parent.lancamentos.despesas.manha.indexOf(item);
-                        parent.lancamentos.despesas.manha.splice(index, 1);
+                        let index = parent.saidas.despesas.manha.indexOf(item);
+                        parent.saidas.despesas.manha.splice(index, 1);
                     } else if(param === 'tarde') {
-                        let index = parent.lancamentos.despesas.tarde.indexOf(item);
-                        parent.lancamentos.despesas.tarde.splice(index, 1);
+                        let index = parent.saidas.despesas.tarde.indexOf(item);
+                        parent.lancamentos.saidas.tarde.splice(index, 1);
                     }
                     break;
                 case 'mov_cofre':
