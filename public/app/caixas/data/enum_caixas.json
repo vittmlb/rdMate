@@ -14,8 +14,7 @@
   ],
   "listaTiposRegistro": [
     {"valor": "Despesa",      "display": "Despesa"},
-    {"valor": "Movimentação", "display": "Movimentação"},
-    {"valor": "Cartão"      , "display": "Cartão"}
+    {"valor": "Movimentação", "display": "Movimentação"}
   ],
   "listaTurnos": [
     {"valor": "Manhã", "display": "Manhã   "},

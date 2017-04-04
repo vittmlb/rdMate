@@ -1,7 +1,6 @@
 /**
  * Created by Vittorio on 22/03/2017.
  */
-// let parametros = require('../../../../app/data/fornecedores.json');
 angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', 'SweetAlert', '$http',
     function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, SweetAlert, $http) {
         let SweetAlertOptions = {
@@ -24,7 +23,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             tipos: {
                 desp: 'Despesa',
                 mov:  'Movimentação',
-                cartao: 'Cartão'
             },
             origens: {
                 cofre: 'Cofre',

@@ -85,7 +85,6 @@
     {"subcat": "Financeiro", "valor": "Outros"},
     {"subcat": "Entrada", "valor": "Venda"},
     {"subcat": "Entrada", "valor": "Receita"}
-
   ],
   "imovel": ["Aluguel", "Condomínio", "IPTU + Seguro Imóvel", "Fundo de Promoção Shopping", "Seguro", "Outros"],
   "consumo": ["Água", "Luz", "Telefone", "Eng Elétrica Ar Cond. Shopping", "Outros"],
@@ -95,5 +94,5 @@
   "operador": ["Pró-Labore", "Transporte", "Alimentação", "Outros"],
   "financeiro": ["Juros / Tarifas Bancárias", "CPMF", "Gastos Taxas Adm Transações Eletrônicas", "Outros"],
   "venda": ["Dinheiro", "Cartão de Débito"],
-  "outras_receitas": ["Contra-Vales", "Empréstimos / Integralização", "Outras Receitas"],
+  "outras_receitas": ["Contra-Vales", "Empréstimos / Integralização", "Outras Receitas"]
 }
