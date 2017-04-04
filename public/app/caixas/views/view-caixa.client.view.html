@@ -24,7 +24,7 @@
                         <div class="ibox">
                             <div class="ibox-content">
                                 <h5>Venda <small>(total)</small></h5>
-                                <h1 class="no-margins" class="text-success">{{ caixa.mod_virtual.entradas.vendas.total | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins" class="text-success">{{ caixa.v.entradas.vendas.total | currency: 'R$ ' }}</h1>
                                 <div class="stat-percent font-bold text-navy"><i class="fa fa-bolt"></i></div>
                                 <small>alguma coisa</small>
                             </div>
@@ -34,8 +34,8 @@
                         <div class="ibox">
                             <div class="ibox-content">
                                 <h5>Venda <small>(dinheiro)</small></h5>
-                                <h1 class="no-margins">{{ caixa.mod_virtual.widgets.venda.dinheiro.valor | currency: 'R$ ' }}</h1>
-                                <div class="stat-percent font-bold text-navy">{{ caixa.mod_virtual.widgets.venda.dinheiro.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
+                                <h1 class="no-margins">{{ caixa.v.widgets.venda.dinheiro.valor | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy">{{ caixa.v.widgets.venda.dinheiro.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
                                 <small>Percentual</small>
                             </div>
                         </div>
@@ -44,8 +44,8 @@
                         <div class="ibox">
                             <div class="ibox-content">
                                 <h5>Venda <small>(cartão)</small></h5>
-                                <h1 class="no-margins">{{ caixa.mod_virtual.widgets.venda.cartao.valor | currency: 'R$ ' }}</h1>
-                                <div class="stat-percent font-bold text-navy">{{ caixa.mod_virtual.widgets.venda.cartao.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
+                                <h1 class="no-margins">{{ caixa.v.widgets.venda.cartao.valor | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy">{{ caixa.v.widgets.venda.cartao.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
                                 <small>Percentual</small>
                             </div>
                         </div>
@@ -54,9 +54,9 @@
                         <div class="ibox">
                             <div class="ibox-content">
                                 <h5>Diferença <small>(total)</small></h5>
-                                <h1 class="no-margins text-warning" ng-show="caixa.mod_virtual.widgets.diferenca.total > 0">{{ caixa.mod_virtual.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
-                                <h1 class="no-margins text-info" ng-show="caixa.mod_virtual.widgets.diferenca.total == 0">{{ caixa.mod_virtual.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
-                                <h1 class="no-margins text-danger" ng-show="caixa.mod_virtual.widgets.diferenca.total < 0">{{ caixa.mod_virtual.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins text-warning" ng-show="caixa.v.widgets.diferenca.total > 0">{{ caixa.v.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins text-info" ng-show="caixa.v.widgets.diferenca.total == 0">{{ caixa.v.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins text-danger" ng-show="caixa.v.widgets.diferenca.total < 0">{{ caixa.v.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
                                 <div class="stat-percent font-bold text-danger">24% <i class="fa fa-level-down"></i></div>
                                 <small>Total income</small>
                             </div>
@@ -107,38 +107,42 @@
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <h5>Salgados</h5>
-                        <table class="table table-stripped small m-t-md">
-                            <tbody>
-                            <tr>
-                                <td class="no-borders"><i class="fa fa-cutlery text-navy"></i></td>
-                                <td class="no-borders">Folhados</td>
-                                <td class="no-borders">{{ caixa.controles.salgados.folhados }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-cutlery text-navy"></i></td>
-                                <td>Outros</td>
-                                <td>{{ caixa.controles.salgados.outros }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-cutlery text-navy"></i></td>
-                                <td>Total</td>
-                                <td>{{ caixa.v.controles.salgados.total }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-cutlery text-navy"></i></td>
-                                <td>Pão de Queijo</td>
-                                <td>{{ caixa.controles.salgados.pao_de_queijo }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-money text-navy"></i></td>
-                                <td>Leitura Z</td>
-                                <td>{{ caixa.controles.leitura_z | currency: 'R$ ' }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Salgados</h5>
+                                <table class="table table-stripped small m-t-md">
+                                    <tbody>
+                                    <tr>
+                                        <td class="no-borders"><i class="fa fa-cutlery text-navy"></i></td>
+                                        <td class="no-borders">Folhados</td>
+                                        <td class="no-borders">{{ caixa.controles.salgados.folhados }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-cutlery text-navy"></i></td>
+                                        <td>Outros</td>
+                                        <td>{{ caixa.controles.salgados.outros }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-cutlery text-navy"></i></td>
+                                        <td>Total</td>
+                                        <td>{{ caixa.v.controles.salgados.total }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-cutlery text-navy"></i></td>
+                                        <td>Pão de Queijo</td>
+                                        <td>{{ caixa.controles.salgados.pao_de_queijo }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fa fa-money text-navy"></i></td>
+                                        <td>Leitura Z</td>
+                                        <td>{{ caixa.controles.leitura_z | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,6 +158,74 @@
                                 <div ibox-tools></div>
                             </div>
                             <div class="ibox-content">
+
+                                <table class="footable table small table-stripped toggle-arrow-tiny" data-page-size="8">
+                                    <thead>
+                                    <tr>
+                                        <th data-toggle="true">Data</th>
+                                        <th>Manhã</th>
+                                        <th>Tarde</th>
+                                        <th data-hide="all">Totais</th>
+                                        <th data-hide="all">X</th>
+                                        <th data-hide="all">Y</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Abertura</td>
+                                        <td>{{ caixa.entradas.abertura.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.entradas.abertura.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.entradas.abertura.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Venda</td>
+                                        <td>{{ caixa.entradas.vendas.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.entradas.vendas.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.entradas.vendas.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Transferência</td>
+                                        <td>{{ caixa.saidas.transferencia.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.saidas.transferencia.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.transferencia.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cartões</td>
+                                        <td>{{ caixa.v.saidas.cartoes.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.cartoes.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.cartoes.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Despesas</td>
+                                        <td>{{ caixa.v.saidas.despesas.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.despesas.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.despesas.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dinheiro</td>
+                                        <td>{{ caixa.saidas.dinheiro.manha.valor | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.v.saidas.dinheiro.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Totais</td>
+                                        <td>{{ caixa.v.saidas.total.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.total.tarde | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.v.saidas.total.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Totais</td>
+                                        <td>{{ caixa.v.diferenca.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.diferenca.tarde | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.v.diferenca.total | currency: 'R$ ' }}</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table> <!-- Tabela ... -->
+
                                 <table class="table small m-t-md">
                                     <thead>
                                     <tr>

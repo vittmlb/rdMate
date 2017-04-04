@@ -131,36 +131,37 @@
                         <div class="ibox-content">
                             <div class="form-inline">
 
-                                <div class="form-group">
-                                    <input type="text" placeholder="Descrição" class="form-control" data-ng-model="objRegistro.descricao">
+                                <div class="form-group form-group-sm">
+                                    <input type="text" placeholder="Descrição" class="form-control" data-ng-model="objRegistro.descricao" tabindex="15">
                                 </div> <!-- Input Descrição do Registro -->
 
-                                <div class="form-group">
-                                    <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objRegistro.valor">
+                                <div class="form-group form-group-sm">
+                                    <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objRegistro.valor" tabindex="16">
                                 </div> <!-- Input Valor do Registro -->
 
-                                <div class="form-group">
+                                <div class="form-group form-group-sm" tabindex="17">
                                     <select class="form-control"
                                             data-ng-model="objRegistro.tipo"
                                             data-ng-options="item.valor as item.display for item in listaTiposRegistro">
                                     </select>
                                 </div> <!-- Select Tipos do Registro -->
 
-                                <div class="form-group" ng-show="objRegistro.tipo === enums.tipos.desp"> <!-- enum do caixa.client.controller -->
+                                <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.desp" tabindex="18"> <!-- enum do caixa.client.controller -->
                                     <select class="form-control"
                                             data-ng-model="objRegistro.turno"
                                             data-ng-options="item.valor as item.display for item in listaTurnos">
                                     </select>
                                 </div> <!-- Select Turnos -->
 
-                                <div class="form-group" ng-show="objRegistro.tipo === enums.tipos.mov"> <!-- enum do caixa.client.controller -->
+                                <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.mov" tabindex="18"> <!-- enum do caixa.client.controller -->
                                     <select class="form-control"
                                             data-ng-model="objRegistro.origem"
                                             data-ng-options="item.valor as item.display for item in listaOrigens">
                                     </select>
                                 </div> <!-- Select Origem -->
-
-                                <a style="margin-top: 6px; margin-left: 15px;" class="btn btn-info" ng-click="addRegistro(objRegistro)"><i class="fa fa-plus"></i></a>
+                                <div class="form-group form-group-sm">
+                                    <a style="margin-top: 6px; margin-left: 15px;" class="btn btn-sm btn-info" ng-click="addRegistro(objRegistro)" tabindex="19"><i class="fa fa-plus"></i></a>
+                                </div>
 
                             </div>
                         </div>
