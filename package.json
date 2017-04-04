@@ -1,7 +1,7 @@
 {
-  "name": "impsys",
+  "name": "rdMate",
   "version": "1.0.0",
-  "description": "Sistema para cálculo de importações.",
+  "description": "Sistema adm rei do mate",
   "main": "server.js",
   "dependencies": {
     "async": "^2.0.1",

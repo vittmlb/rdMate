@@ -18,9 +18,9 @@ module.exports = function() {
 
     let app = express();
 
-    if(process.env.NODE_env === 'development') {
+    if(process.env.NODE_ENV === 'development') {
         app.use(morgan('dev'));
-    } else if(process.env.NODE_env === 'production') {
+    } else if(process.env.NODE_ENV === 'production') {
         app.use(compress());
     }
 

@@ -1,6 +1,6 @@
 {
-  "name": "impsys",
-  "description": "Sistema para cálculo de importações.",
+  "name": "rdMate",
+  "description": "Sistema adm rei do mate",
   "main": "server.js",
   "authors": [
     "Vittorio"
