@@ -185,7 +185,9 @@ let CaixasSchema = new Schema({
             fechamento: Number
         }
     },
-    mod_virtual: {},
+    mod_virtual: {
+        widgets: {}
+    },
     conferencias: {
         geral: {
             manha: {
@@ -311,6 +313,33 @@ CaixasSchema.virtual('mod_virtual.diferenca.tarde').get(function () {
 CaixasSchema.virtual('mod_virtual.diferenca.total').get(function () {
     return this.mod_virtual.diferenca.manha + this.mod_virtual.diferenca.tarde
 });
+
+CaixasSchema.virtual('mod_virtual.widgets.venda.total').get(function () {
+    return this.mod_virtual.entradas.vendas.total;
+});
+CaixasSchema.virtual('mod_virtual.widgets.venda.cartao.valor').get(function () {
+    return this.mod_virtual.saidas.cartoes.total;
+});
+CaixasSchema.virtual('mod_virtual.widgets.venda.cartao.percentual').get(function () {
+    return this.mod_virtual.saidas.cartoes.total / this.mod_virtual.widgets.venda.total;
+});
+CaixasSchema.virtual('mod_virtual.widgets.venda.dinheiro.valor').get(function () {
+    return this.mod_virtual.entradas.vendas.total - this.mod_virtual.saidas.cartoes.total;
+});
+CaixasSchema.virtual('mod_virtual.widgets.venda.dinheiro.percentual').get(function () {
+    return this.mod_virtual.widgets.venda.dinheiro.valor / this.mod_virtual.entradas.vendas.total;
+});
+
+CaixasSchema.virtual('mod_virtual.widgets.diferenca.manha').get(function () {
+    return this.mod_virtual.diferenca.manha;
+});
+CaixasSchema.virtual('mod_virtual.widgets.diferenca.tarde').get(function () {
+    return this.mod_virtual.diferenca.tarde;
+});
+CaixasSchema.virtual('mod_virtual.widgets.diferenca.total').get(function () {
+    return this.mod_virtual.diferenca.total;
+});
+
 
 CaixasSchema.virtual('mod_virtual.controles.salgados.total').get(function () {
     return this.controles.salgados.folhados + this.controles.salgados.outros;

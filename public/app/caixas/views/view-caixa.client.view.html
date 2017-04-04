@@ -18,36 +18,124 @@
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Venda <small>(total)</small></h5>
+                                <h1 class="no-margins" class="text-success">{{ caixa.mod_virtual.entradas.vendas.total | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy"><i class="fa fa-bolt"></i></div>
+                                <small>alguma coisa</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Venda <small>(dinheiro)</small></h5>
+                                <h1 class="no-margins">{{ caixa.mod_virtual.widgets.venda.dinheiro.valor | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy">{{ caixa.mod_virtual.widgets.venda.dinheiro.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
+                                <small>Percentual</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Venda <small>(cartão)</small></h5>
+                                <h1 class="no-margins">{{ caixa.mod_virtual.widgets.venda.cartao.valor | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy">{{ caixa.mod_virtual.widgets.venda.cartao.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
+                                <small>Percentual</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Diferença <small>(total)</small></h5>
+                                <h1 class="no-margins text-warning" ng-show="caixa.mod_virtual.widgets.diferenca.total > 0">{{ caixa.mod_virtual.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins text-info" ng-show="caixa.mod_virtual.widgets.diferenca.total == 0">{{ caixa.mod_virtual.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins text-danger" ng-show="caixa.mod_virtual.widgets.diferenca.total < 0">{{ caixa.mod_virtual.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-danger">24% <i class="fa fa-level-down"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income</h5>
+                                <h1 class="no-margins">886,200</h1>
+                                <div class="stat-percent font-bold text-navy">98% <i class="fa fa-bolt"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income last month</h5>
+                                <h1 class="no-margins">1 738,200</h1>
+                                <div class="stat-percent font-bold text-navy">98% <i class="fa fa-bolt"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income last day</h5>
+                                <h1 class="no-margins">-200,100</h1>
+                                <div class="stat-percent font-bold text-danger">12% <i class="fa fa-level-down"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income all</h5>
+                                <h1 class="no-margins">54,200</h1>
+                                <div class="stat-percent font-bold text-danger">24% <i class="fa fa-level-down"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
                 <div class="ibox">
                     <div class="ibox-content">
                         <h5>Salgados</h5>
                         <table class="table table-stripped small m-t-md">
                             <tbody>
                             <tr>
-                                <td class="no-borders"><i class="fa fa-circle text-navy"></i></td>
+                                <td class="no-borders"><i class="fa fa-cutlery text-navy"></i></td>
                                 <td class="no-borders">Folhados</td>
                                 <td class="no-borders">{{ caixa.controles.salgados.folhados }}</td>
                             </tr>
                             <tr>
-                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td><i class="fa fa-cutlery text-navy"></i></td>
                                 <td>Outros</td>
                                 <td>{{ caixa.controles.salgados.outros }}</td>
                             </tr>
                             <tr>
-                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td><i class="fa fa-cutlery text-navy"></i></td>
                                 <td>Total</td>
                                 <td>{{ caixa.mod_virtual.controles.salgados.total }}</td>
                             </tr>
                             <tr>
-                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td><i class="fa fa-cutlery text-navy"></i></td>
                                 <td>Pão de Queijo</td>
                                 <td>{{ caixa.controles.salgados.pao_de_queijo }}</td>
                             </tr>
                             <tr>
-                                <td><i class="fa fa-circle text-navy"></i></td>
+                                <td><i class="fa fa-money text-navy"></i></td>
                                 <td>Leitura Z</td>
-                                <td>{{ caixa.controles.leitura_z }}</td>
+                                <td>{{ caixa.controles.leitura_z | currency: 'R$ ' }}</td>
                             </tr>
                             </tbody>
                         </table>
