@@ -185,7 +185,7 @@ let CaixasSchema = new Schema({
             fechamento: Number
         }
     },
-    mod_virtual: {
+    v: {
         widgets: {}
     },
     conferencias: {
@@ -207,141 +207,141 @@ let CaixasSchema = new Schema({
 });
 
 
-CaixasSchema.virtual('mod_virtual.entradas.vendas.manha').get(function () {
+CaixasSchema.virtual('v.entradas.vendas.manha').get(function () {
     return this.entradas.vendas.manha.valor;
 });
-CaixasSchema.virtual('mod_virtual.entradas.vendas.tarde').get(function () {
+CaixasSchema.virtual('v.entradas.vendas.tarde').get(function () {
     return this.entradas.vendas.tarde.valor;
 });
-CaixasSchema.virtual('mod_virtual.entradas.vendas.total').get(function () {
+CaixasSchema.virtual('v.entradas.vendas.total').get(function () {
     return this.entradas.vendas.manha.valor + this.entradas.vendas.tarde.valor;
 });
 
-CaixasSchema.virtual('mod_virtual.entradas.abertura.manha').get(function () {
+CaixasSchema.virtual('v.entradas.abertura.manha').get(function () {
     return this.entradas.abertura.manha.valor;
 });
-CaixasSchema.virtual('mod_virtual.entradas.abertura.tarde').get(function () {
+CaixasSchema.virtual('v.entradas.abertura.tarde').get(function () {
     return this.entradas.abertura.tarde.valor;
 });
-CaixasSchema.virtual('mod_virtual.entradas.abertura.total').get(function () {
+CaixasSchema.virtual('v.entradas.abertura.total').get(function () {
     return this.entradas.abertura.manha.valor + this.entradas.abertura.tarde.valor;
 });
 
-CaixasSchema.virtual('mod_virtual.entradas.total.manha').get(function () {
+CaixasSchema.virtual('v.entradas.total.manha').get(function () {
     return  this.entradas.abertura.manha.valor +
             this.entradas.vendas.manha.valor;
 });
-CaixasSchema.virtual('mod_virtual.entradas.total.tarde').get(function () {
+CaixasSchema.virtual('v.entradas.total.tarde').get(function () {
     return  this.entradas.abertura.tarde.valor +
             this.entradas.vendas.tarde.valor;
 });
-CaixasSchema.virtual('mod_virtual.entradas.total.total').get(function () {
-    return  this.mod_virtual.entradas.total.manha + this.mod_virtual.entradas.total.tarde;
+CaixasSchema.virtual('v.entradas.total.total').get(function () {
+    return  this.v.entradas.total.manha + this.v.entradas.total.tarde;
 });
 
 
-CaixasSchema.virtual('mod_virtual.saidas.transferencia.manha').get(function () {
+CaixasSchema.virtual('v.saidas.transferencia.manha').get(function () {
     return this.saidas.transferencia.manha.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.transferencia.tarde').get(function () {
+CaixasSchema.virtual('v.saidas.transferencia.tarde').get(function () {
     return this.saidas.transferencia.tarde.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.transferencia.total').get(function () {
+CaixasSchema.virtual('v.saidas.transferencia.total').get(function () {
     return this.saidas.transferencia.manha.valor + this.saidas.transferencia.tarde.valor;
 });
 
-CaixasSchema.virtual('mod_virtual.saidas.cartoes.manha').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
+CaixasSchema.virtual('v.saidas.cartoes.manha').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
     return this.saidas.cartoes.reduce(function(prevVal, elem) {
         return (elem.turno === 'Manhã') ? prevVal + elem.valor : prevVal;
     }, 0);
 });
-CaixasSchema.virtual('mod_virtual.saidas.cartoes.tarde').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
+CaixasSchema.virtual('v.saidas.cartoes.tarde').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
     return this.saidas.cartoes.reduce(function(prevVal, elem) {
         return (elem.turno === 'Tarde') ? prevVal + elem.valor : 0;
     }, 0);
 });
-CaixasSchema.virtual('mod_virtual.saidas.cartoes.total').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
-    return this.mod_virtual.saidas.cartoes.manha + this.mod_virtual.saidas.cartoes.tarde;
+CaixasSchema.virtual('v.saidas.cartoes.total').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
+    return this.v.saidas.cartoes.manha + this.v.saidas.cartoes.tarde;
 });
 
-CaixasSchema.virtual('mod_virtual.saidas.despesas.manha').get(function () {
+CaixasSchema.virtual('v.saidas.despesas.manha').get(function () {
     return this.saidas.despesas.reduce(function(prevVal, elem) {
         return (elem.turno === 'Manhã') ? prevVal + elem.valor : prevVal;
     }, 0);
 });
-CaixasSchema.virtual('mod_virtual.saidas.despesas.tarde').get(function () {
+CaixasSchema.virtual('v.saidas.despesas.tarde').get(function () {
     return this.saidas.despesas.reduce(function(prevVal, elem) {
         return (elem.turno === 'Tarde') ? prevVal + elem.valor : 0;
     }, 0);
 });
-CaixasSchema.virtual('mod_virtual.saidas.despesas.total').get(function () {
-    return this.mod_virtual.saidas.despesas.manha + this.mod_virtual.saidas.despesas.tarde;
+CaixasSchema.virtual('v.saidas.despesas.total').get(function () {
+    return this.v.saidas.despesas.manha + this.v.saidas.despesas.tarde;
 });
 
-CaixasSchema.virtual('mod_virtual.saidas.dinheiro.manha').get(function () {
+CaixasSchema.virtual('v.saidas.dinheiro.manha').get(function () {
     return this.saidas.dinheiro.manha.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.dinheiro.tarde').get(function () {
+CaixasSchema.virtual('v.saidas.dinheiro.tarde').get(function () {
     return this.saidas.dinheiro.tarde.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.dinheiro.total').get(function () {
+CaixasSchema.virtual('v.saidas.dinheiro.total').get(function () {
     return this.saidas.dinheiro.manha.valor + this.saidas.dinheiro.tarde.valor;
 });
 
-CaixasSchema.virtual('mod_virtual.saidas.total.manha').get(function () {
+CaixasSchema.virtual('v.saidas.total.manha').get(function () {
     return  this.saidas.transferencia.manha.valor +
-            this.mod_virtual.saidas.cartoes.manha +
-            this.mod_virtual.saidas.despesas.manha +
+            this.v.saidas.cartoes.manha +
+            this.v.saidas.despesas.manha +
             this.saidas.dinheiro.manha.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.total.tarde').get(function () {
+CaixasSchema.virtual('v.saidas.total.tarde').get(function () {
     return  this.saidas.transferencia.tarde.valor +
-            this.mod_virtual.saidas.cartoes.tarde +
-            this.mod_virtual.saidas.despesas.tarde +
+            this.v.saidas.cartoes.tarde +
+            this.v.saidas.despesas.tarde +
             this.saidas.dinheiro.tarde.valor;
 });
-CaixasSchema.virtual('mod_virtual.saidas.total.total').get(function () {
-    return this.mod_virtual.saidas.total.manha + this.mod_virtual.saidas.total.tarde;
+CaixasSchema.virtual('v.saidas.total.total').get(function () {
+    return this.v.saidas.total.manha + this.v.saidas.total.tarde;
 });
 
-CaixasSchema.virtual('mod_virtual.diferenca.manha').get(function () {
-    return this.mod_virtual.saidas.total.manha - this.mod_virtual.entradas.total.manha;
+CaixasSchema.virtual('v.diferenca.manha').get(function () {
+    return this.v.saidas.total.manha - this.v.entradas.total.manha;
 });
-CaixasSchema.virtual('mod_virtual.diferenca.tarde').get(function () {
-    return this.mod_virtual.saidas.total.tarde - this.mod_virtual.entradas.total.tarde;
+CaixasSchema.virtual('v.diferenca.tarde').get(function () {
+    return this.v.saidas.total.tarde - this.v.entradas.total.tarde;
 });
-CaixasSchema.virtual('mod_virtual.diferenca.total').get(function () {
-    return this.mod_virtual.diferenca.manha + this.mod_virtual.diferenca.tarde
-});
-
-CaixasSchema.virtual('mod_virtual.widgets.venda.total').get(function () {
-    return this.mod_virtual.entradas.vendas.total;
-});
-CaixasSchema.virtual('mod_virtual.widgets.venda.cartao.valor').get(function () {
-    return this.mod_virtual.saidas.cartoes.total;
-});
-CaixasSchema.virtual('mod_virtual.widgets.venda.cartao.percentual').get(function () {
-    return this.mod_virtual.saidas.cartoes.total / this.mod_virtual.widgets.venda.total;
-});
-CaixasSchema.virtual('mod_virtual.widgets.venda.dinheiro.valor').get(function () {
-    return this.mod_virtual.entradas.vendas.total - this.mod_virtual.saidas.cartoes.total;
-});
-CaixasSchema.virtual('mod_virtual.widgets.venda.dinheiro.percentual').get(function () {
-    return this.mod_virtual.widgets.venda.dinheiro.valor / this.mod_virtual.entradas.vendas.total;
+CaixasSchema.virtual('v.diferenca.total').get(function () {
+    return this.v.diferenca.manha + this.v.diferenca.tarde
 });
 
-CaixasSchema.virtual('mod_virtual.widgets.diferenca.manha').get(function () {
-    return this.mod_virtual.diferenca.manha;
+CaixasSchema.virtual('v.widgets.venda.total').get(function () {
+    return this.v.entradas.vendas.total;
 });
-CaixasSchema.virtual('mod_virtual.widgets.diferenca.tarde').get(function () {
-    return this.mod_virtual.diferenca.tarde;
+CaixasSchema.virtual('v.widgets.venda.cartao.valor').get(function () {
+    return this.v.saidas.cartoes.total;
 });
-CaixasSchema.virtual('mod_virtual.widgets.diferenca.total').get(function () {
-    return this.mod_virtual.diferenca.total;
+CaixasSchema.virtual('v.widgets.venda.cartao.percentual').get(function () {
+    return this.v.saidas.cartoes.total / this.v.widgets.venda.total;
+});
+CaixasSchema.virtual('v.widgets.venda.dinheiro.valor').get(function () {
+    return this.v.entradas.vendas.total - this.v.saidas.cartoes.total;
+});
+CaixasSchema.virtual('v.widgets.venda.dinheiro.percentual').get(function () {
+    return this.v.widgets.venda.dinheiro.valor / this.v.entradas.vendas.total;
+});
+
+CaixasSchema.virtual('v.widgets.diferenca.manha').get(function () {
+    return this.v.diferenca.manha;
+});
+CaixasSchema.virtual('v.widgets.diferenca.tarde').get(function () {
+    return this.v.diferenca.tarde;
+});
+CaixasSchema.virtual('v.widgets.diferenca.total').get(function () {
+    return this.v.diferenca.total;
 });
 
 
-CaixasSchema.virtual('mod_virtual.controles.salgados.total').get(function () {
+CaixasSchema.virtual('v.controles.salgados.total').get(function () {
     return this.controles.salgados.folhados + this.controles.salgados.outros;
 });
 

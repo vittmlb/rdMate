@@ -125,7 +125,7 @@
                             <tr>
                                 <td><i class="fa fa-cutlery text-navy"></i></td>
                                 <td>Total</td>
-                                <td>{{ caixa.mod_virtual.controles.salgados.total }}</td>
+                                <td>{{ caixa.v.controles.salgados.total }}</td>
                             </tr>
                             <tr>
                                 <td><i class="fa fa-cutlery text-navy"></i></td>
@@ -168,55 +168,55 @@
                                         <td colspan="3">Abertura</td>
                                         <td>{{ caixa.entradas.abertura.manha.valor | currency: 'R$ ' }}</td>
                                         <td>{{ caixa.entradas.abertura.tarde.valor | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.entradas.abertura.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.entradas.abertura.total | currency: 'R$ ' }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Venda</td>
                                         <td>{{ caixa.entradas.vendas.manha.valor | currency: 'R$ ' }}</td>
                                         <td>{{ caixa.entradas.vendas.tarde.valor | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.entradas.vendas.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.entradas.vendas.total | currency: 'R$ ' }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Transferência</td>
                                         <td>{{ caixa.saidas.transferencia.manha.valor | currency: 'R$ ' }}</td>
                                         <td>{{ caixa.saidas.transferencia.tarde.valor | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.transferencia.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.transferencia.total | currency: 'R$ ' }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Cartões</td>
-                                        <td>{{ caixa.mod_virtual.saidas.cartoes.manha | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.cartoes.tarde | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.cartoes.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.cartoes.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.cartoes.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.cartoes.total | currency: 'R$ ' }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Despesas</td>
-                                        <td>{{ caixa.mod_virtual.saidas.despesas.manha | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.despesas.tarde | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.despesas.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.despesas.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.despesas.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.despesas.total | currency: 'R$ ' }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Dinheiro</td>
                                         <td>{{ caixa.saidas.dinheiro.manha.valor | currency: 'R$ '}}</td>
                                         <td>{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ '}}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.dinheiro.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.dinheiro.total | currency: 'R$ ' }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Totais</td>
-                                        <td>{{ caixa.mod_virtual.saidas.total.manha | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.total.tarde | currency: 'R$ '}}</td>
-                                        <td>{{ caixa.mod_virtual.saidas.total.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.total.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.total.tarde | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.v.saidas.total.total | currency: 'R$ ' }}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="6"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Totais</td>
-                                        <td>{{ caixa.mod_virtual.diferenca.manha | currency: 'R$ ' }}</td>
-                                        <td>{{ caixa.mod_virtual.diferenca.tarde | currency: 'R$ '}}</td>
-                                        <td>{{ caixa.mod_virtual.diferenca.total | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.diferenca.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.diferenca.tarde | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.v.diferenca.total | currency: 'R$ ' }}</td>
                                     </tr>
 
                                     </tbody>

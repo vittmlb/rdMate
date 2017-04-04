@@ -1,8 +1,8 @@
 /**
  * Created by Vittorio on 22/03/2017.
  */
-angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', 'SweetAlert', '$http',
-    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, SweetAlert, $http) {
+angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', 'SweetAlert', '$http', '$timeout',
+    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, SweetAlert, $http, $timeout) {
         let SweetAlertOptions = {
             removerCaixa: {
                 title: "Deseja remover este Caixa?",
@@ -100,6 +100,9 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
 
             p.then(function (data) {
                 $scope.caixas = data;
+                $timeout(function () {
+                    $('.table').trigger('footable_redraw');
+                }, 100);
             });
 
             p.catch(function (errorResponse) {
