@@ -17,13 +17,21 @@ let CaixasSchema = new Schema({
                     required: `O campo CaixasSchema > 'entradas.abertura.manha.valor' é obrigatório`
                 },
                 obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
             tarde: {
                 valor: {
                     type: Number,
                     required: `O campo CaixasSchema > 'entradas.abertura.tarde.valor' é obrigatório`
                 },
-                obs: String
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             }
         },
         vendas: {
@@ -34,14 +42,22 @@ let CaixasSchema = new Schema({
                 },
                 obs: {
                     type: String
-                }
+                },
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
             tarde: {
                 valor: {
                     type: Number,
                     required: `O campo CaixasSchema > 'entradas.vendas.tarde.valor' é obrigatório`
                 },
-                obs: 0
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             }
         },
     },
@@ -51,14 +67,23 @@ let CaixasSchema = new Schema({
                 valor: {
                     type: Number,
                     required: `O campo CaixasSchema > 'saidas.transferencia.manha.valor' é obrigatório`
-                }
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
             tarde: {
                 valor: {
                     type: Number,
                     required: `O campo CaixasSchema > 'saidas.transferencia.tarde.valor' é obrigatório`
                 },
-                obs: String
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             }
         },
         cartoes: [{
@@ -86,7 +111,11 @@ let CaixasSchema = new Schema({
             obs: {
                 type: String,
                 trim: true
-            }
+            },
+            checked: {
+                type: Boolean,
+                default: false
+            },
         }],
         despesas: [{
             descricao: {
@@ -112,7 +141,11 @@ let CaixasSchema = new Schema({
             obs: {
                 type: String,
                 trim: true
-            }
+            },
+            checked: {
+                type: Boolean,
+                default: false
+            },
         }],
         dinheiro: {
             manha: {
@@ -120,7 +153,11 @@ let CaixasSchema = new Schema({
                     type: Number,
                     required: `O campo CaixasSchema > 'saidas.dinheiro.manha.valor' é obrigatório`
                 },
-                obs: String
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
             tarde: {
                 valor: {
@@ -155,34 +192,106 @@ let CaixasSchema = new Schema({
         },
         obs: {
             type: String
-        }
+        },
+        checked: {
+            type: Boolean,
+            default: false
+        },
     }],
     controles: {
         salgados: {
             folhados: {
-                type: Number,
-                default: 0
+                qtd: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
             outros: {
-                type: Number,
-                default: 0
+                qtd: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
             pao_de_queijo: {
-                type: Number,
-                default: 0
+                qtd: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             }
         },
         leitura_z: {
-            type: Number,
-            default: 0
+            valor: {
+                type: Number,
+                default: 0
+            },
+            obs: String,
+            checked: {
+                type: Boolean,
+                default: false
+            },
         },
         agua: {
-            abertura: Number,
-            fechamento: Number
+            abertura: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
+            },
+            fechamento: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
+            },
         },
         luz: {
-            abertura: Number,
-            fechamento: Number
+            abertura: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
+            },
+            fechamento: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
+            },
         }
     },
     v: {

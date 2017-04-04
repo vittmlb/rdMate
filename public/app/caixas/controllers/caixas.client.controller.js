@@ -174,7 +174,25 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 });
         };
 
+        $scope.defineClass = function(item) {
+            if(item >= 0) {
+                if(item === 0) return 'text-success';
+                return 'text-warning';
+            } else {
+                return 'text-danger';
+            }
+        };
 
+        $scope.defClass = {
+            diferenca: function(item) {
+                if(item >= 0) {
+                    if(item === 0) return 'text-success';
+                    return 'text-warning';
+                } else {
+                    return 'text-danger';
+                }
+            }
+        };
 
         $scope.addRegistro = function(registro) {
             let parent = $scope.caixa ? $scope.caixa: $scope;

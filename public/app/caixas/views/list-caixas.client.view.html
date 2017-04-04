@@ -33,7 +33,7 @@
                                 <th data-hide="all">Dinheiro</th>
                                 <th data-hide="all">Cartão</th>
                                 <th data-hide="all">Despesas</th>
-                                <th>Conferido</th>
+                                <th>Opções</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -44,7 +44,10 @@
                                 <td><span class="pie">0.52/1.561</span></td>
                                 <td>{{ cx.v.saidas.cartoes.total | currency: 'R$ '}}</td>
                                 <td>{{ cx.v.saidas.despesas.total | currency: 'R$ ' }}</td>
-                                <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+                                <td>
+                                    <a ng-href="#!/caixas/{{ cx._id }}/edit"><i class="fa fa-pencil text-primary" style="font-size: 1.1em;"></i></a>
+                                    <a ng-click="deleteAlert(cx)"><i class="fa fa-remove text-danger" style="font-size: 1.1em; margin-left: 8px;"></i></a>
+                                </td>
                             </tr>
                             </tbody>
                             <tfoot>
