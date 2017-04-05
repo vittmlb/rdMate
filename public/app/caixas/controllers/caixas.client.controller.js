@@ -15,7 +15,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 closeOnCancel: false }
         };
 
-        $scope.DefC = MyDefineClass;
+        $scope.defC = MyDefineClass;
 
         $scope.enums = {
             turnos: {

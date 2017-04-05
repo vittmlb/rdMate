@@ -15,3 +15,10 @@ angular.module('caixas').directive('iboxConferenciaDespesas', function() {
         templateUrl: 'app/caixas/views/edit/_ibox-conferencia-despesas.html'
     }
 });
+angular.module('caixas').directive('iboxConferenciaCartoes', function() {
+    return {
+        restrict: 'AE',
+        replace: true,
+        templateUrl: 'app/caixas/views/edit/_ibox-conferencia-cartoes.html'
+    }
+});

@@ -13,7 +13,7 @@
                             <tr>
                                 <th colspan="2">Descrição</th>
                                 <th>Valor</th>
-                                <th>Turno</th>
+                                <th class="text-center">Turno</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -21,7 +21,7 @@
                                 <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="desp.checked"></td>
                                 <td ng-class="desp.checked ? 'text-strikethrough': ''">{{ desp.descricao }}</td>
                                 <td ng-class="desp.checked ? 'text-strikethrough': ''">{{ desp.valor | currency: 'R$ ' }}</td>
-                                <td ng-class="desp.checked ? 'text-strikethrough': ''">{{ desp.turno }}</td>
+                                <td ng-class="desp.checked ? 'text-strikethrough': ''" class="text-center"><i ng-class="defC.turnoIcon(desp.turno)" class="text-center"></i></td>
                             </tr>
                             </tbody>
                         </table> <!-- Despesas -->

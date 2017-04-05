@@ -61,6 +61,16 @@ angular.module('admin_panel').factory('MyDefineClass', [function () {
         }
     }
 
+    function turnoIcon(item) {
+        if(item === 'Tarde') return 'fa fa-coffee';
+        return 'fa fa-sun-o';
+    }
+
+    function bandeiraIcon(item) {
+        if(item === 'Visa') return 'fa fa-cc-visa';
+        return 'fa fa-cc-mastercard';
+    }
+
     function strikeThrough(condition) {
         return condition ? 'text-strikethrough': ''
     }
@@ -73,6 +83,12 @@ angular.module('admin_panel').factory('MyDefineClass', [function () {
         },
         strikeThrough: function(condition) {
             return strikeThrough(condition);
+        },
+        turnoIcon: function(turno) {
+            return turnoIcon(turno);
+        },
+        bandeiraIcon: function(bandeira) {
+            return bandeiraIcon(bandeira);
         }
     }
 

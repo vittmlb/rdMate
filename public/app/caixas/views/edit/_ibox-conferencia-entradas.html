@@ -11,50 +11,58 @@
                         <table class="table small table-striped">
                             <thead>
                             <tr>
-                                <th>Descrição</th>
-                                <th>Turno</th>
+                                <th colspan="2">Descrição</th>
+                                <th class="text-center">Turno</th>
                                 <th>Valor</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.abertura.manha.checked">&nbsp;&nbsp;&nbsp; Abertura</td>
-                                <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">Manhã</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.abertura.manha.checked"></td>
+                                <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">Abertura</td>
+                                <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></i></td>
                                 <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">{{ caixa.entradas.abertura.manha.valor | currency: 'R$ ' }}</td>
                             </tr>
                             <tr>
-                                <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.abertura.tarde.checked">&nbsp;&nbsp;&nbsp;Abertura</td>
-                                <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''">Tarde</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.abertura.tarde.checked"></td>
+                                <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''">Abertura</td>
+                                <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
                                 <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''">{{ caixa.entradas.abertura.tarde.valor | currency: 'R$ ' }}</td>
                             </tr>
                             <tr>
-                                <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.vendas.manha.checked">&nbsp;&nbsp;&nbsp;Vendas</td>
-                                <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''">Manhã</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.vendas.manha.checked"></td>
+                                <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''">Vendas</td>
+                                <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
                                 <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''">{{ caixa.entradas.vendas.manha.valor | currency: 'R$ ' }}</td>
                             </tr>
                             <tr>
-                                <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.vendas.tarde.checked">&nbsp;&nbsp;&nbsp;Vendas</td>
-                                <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''">Tarde</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.entradas.vendas.tarde.checked"></td>
+                                <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''">Vendas</td>
+                                <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
                                 <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''">{{ caixa.entradas.vendas.tarde.valor | currency: 'R$ ' }}</td>
                             </tr>
                             <tr>
-                                <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.transferencia.manha.checked">&nbsp;&nbsp;&nbsp;Transferências</td>
-                                <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''">Manhã</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.transferencia.manha.checked"></td>
+                                <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''">Transferências</td>
+                                <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
                                 <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''">{{ caixa.saidas.transferencia.manha.valor | currency: 'R$ ' }}</td>
                             </tr>
                             <tr>
-                                <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.transferencia.tarde.checked">&nbsp;&nbsp;&nbsp;Transferências</td>
-                                <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''">Tarde</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.transferencia.tarde.checked"></td>
+                                <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''">Transferências</td>
+                                <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
                                 <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.transferencia.tarde.valor | currency: 'R$ ' }}</td>
                             </tr>
                             <tr>
-                                <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.dinheiro.manha.checked">&nbsp;&nbsp;&nbsp;Dinheiro</td>
-                                <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''">Manhã</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.dinheiro.manha.checked"></td>
+                                <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''">Dinheiro</td>
+                                <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
                                 <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.manha.valor | currency: 'R$ ' }}</td>
                             </tr>
                             <tr>
-                                <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''"><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.dinheiro.tarde.checked">&nbsp;&nbsp;&nbsp;Dinheiro</td>
-                                <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">Tarde</td>
+                                <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="caixa.saidas.dinheiro.tarde.checked"></td>
+                                <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">Dinheiro</td>
+                                <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
                                 <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ ' }}</td>
                             </tr>
                             </tbody>
