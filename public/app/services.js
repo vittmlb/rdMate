@@ -71,9 +71,16 @@ angular.module('admin_panel').factory('MyDefineClass', [function () {
         return 'fa fa-cc-mastercard';
     }
 
+    function origemIcon(item) {
+        if(item === 'Cofre') return 'fa fa-lock';
+        return 'fa fa-unlock';
+    }
+
     function strikeThrough(condition) {
         return condition ? 'text-strikethrough': ''
     }
+
+
 
 
 
@@ -89,6 +96,9 @@ angular.module('admin_panel').factory('MyDefineClass', [function () {
         },
         bandeiraIcon: function(bandeira) {
             return bandeiraIcon(bandeira);
+        },
+        origemIcon: function(origem) {
+            return origemIcon(origem);
         }
     }
 
