@@ -1,8 +1,8 @@
 /**
  * Created by Vittorio on 22/03/2017.
  */
-angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', '$http', '$timeout', 'MySweetAlert',
-    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert) {
+angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', '$http', '$timeout', 'MySweetAlert', 'MyDefineClass',
+    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass) {
         let SweetAlertOptions = {
             removerCaixa: {
                 title: "Deseja remover este Caixa?",
@@ -14,6 +14,8 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 closeOnConfirm: false,
                 closeOnCancel: false }
         };
+
+        $scope.DefC = MyDefineClass;
 
         $scope.enums = {
             turnos: {

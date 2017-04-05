@@ -2,43 +2,6 @@
  * Created by Vittorio on 04/04/2017.
  */
 angular.module('admin_panel').factory('MySweetAlert', [function () {
-    function MySweetAlert ($scope) {
-
-        let p = swal({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        });
-
-        return p;
-
-        // let p = swal({
-        //     title: 'Are you sure?',
-        //     text: "You won't be able to revert this!",
-        //     type: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     confirmButtonText: 'Yes, delete it!'
-        // }).then(function () {
-        //     caixa._id = '58e2b7f129b96efc39be6d7z';
-        //     let p = $scope.delete(caixa);
-        //     p.then(function(data) {
-        //         alert(data);
-        //     });
-        //     p.catch(function(errorResponse) {
-        //         $scope.popToaster(errorResponse);
-        //     });
-        //
-        // }).catch(function (alow) {
-        //     alert(alow);
-        // });
-
-    }
 
     let def = {
         title: 'Tem certeza?',
@@ -87,3 +50,68 @@ angular.module('admin_panel').factory('MySweetAlert', [function () {
     }
 
 }]);
+angular.module('admin_panel').factory('MyDefineClass', [function () {
+
+    function diferenca(item) {
+        if(item >= 0) {
+            if(item === 0) return 'text-success';
+            return 'text-warning';
+        } else {
+            return 'text-danger';
+        }
+    }
+
+    function strikeThrough(condition) {
+        return condition ? 'text-strikethrough': ''
+    }
+
+
+
+    return {
+        diferenca: function(item) {
+            return diferenca(item);
+        },
+        strikeThrough: function(condition) {
+            return strikeThrough(condition);
+        }
+    }
+
+}]);
+
+// function MySweetAlert ($scope) {
+//
+//     let p = swal({
+//         title: 'Are you sure?',
+//         text: "You won't be able to revert this!",
+//         type: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         confirmButtonText: 'Yes, delete it!'
+//     });
+//
+//     return p;
+//
+//     // let p = swal({
+//     //     title: 'Are you sure?',
+//     //     text: "You won't be able to revert this!",
+//     //     type: 'warning',
+//     //     showCancelButton: true,
+//     //     confirmButtonColor: '#3085d6',
+//     //     cancelButtonColor: '#d33',
+//     //     confirmButtonText: 'Yes, delete it!'
+//     // }).then(function () {
+//     //     caixa._id = '58e2b7f129b96efc39be6d7z';
+//     //     let p = $scope.delete(caixa);
+//     //     p.then(function(data) {
+//     //         alert(data);
+//     //     });
+//     //     p.catch(function(errorResponse) {
+//     //         $scope.popToaster(errorResponse);
+//     //     });
+//     //
+//     // }).catch(function (alow) {
+//     //     alert(alow);
+//     // });
+//
+// }

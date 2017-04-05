@@ -9,6 +9,20 @@ let CaixasSchema = new Schema({
         type: Date,
         required: `O campo 'data_do_caixa' é obrigatório.`
     },
+    funcionarios: {
+        manha: {
+            nome: {
+                type: String,
+                enum: ['a', 'b']
+            }
+        },
+        tarde: {
+            nome: {
+                type: String,
+                enum: ['a', 'b']
+            }
+        }
+    },
     entradas: {
         abertura: {
             manha: {
@@ -292,6 +306,25 @@ let CaixasSchema = new Schema({
                     default: false
                 },
             },
+        }
+    },
+    fechamento: {
+        diferenca: {
+            manha: {
+                type: Number,
+                default: 0
+            },
+            tarde: Number,
+            total: Number
+        },
+        obs: {
+            type: String,
+            trim: true,
+            default: ''
+        },
+        checked: {
+            type: Boolean,
+            default: false
         }
     },
     v: {
