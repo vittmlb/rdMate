@@ -1,8 +1,8 @@
 /**
  * Created by Vittorio on 30/03/2017.
  */
-angular.module('lancamentos').controller('LancamentosController', ['$scope', '$stateParams', '$location', 'Lancamentos', 'toaster', 'SweetAlert', '$http',
-    function($scope, $stateParams, $location, Lancamentos, toaster, SweetAlert, $http) {
+angular.module('lancamentos').controller('LancamentosController', ['$scope', '$stateParams', '$location', 'Lancamentos', 'toaster', '$http',
+    function($scope, $stateParams, $location, Lancamentos, toaster, $http) {
         let SweetAlertOptions = {
             removerLancamento: {
                 title: "Deseja remover este Lançamento?",

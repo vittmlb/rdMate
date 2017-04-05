@@ -115,11 +115,11 @@ exports.findByIdMap = function(req, res, next, id) {
 
 exports.update = function(req, res) {
     let caixa = req.caixa;
-    caixa.data_caixa = this.data_caixa;
-    caixa.entradas = this.entradas;
-    caixa.saidas = this.saidas;
-    caixa.movimentacoes = this.movimentacoes;
-    caixa.controles = this.controles;
+    caixa.data_caixa = req.body.data_caixa;
+    caixa.entradas = req.body.entradas;
+    caixa.saidas = req.body.saidas;
+    caixa.movimentacoes = req.body.movimentacoes;
+    caixa.controles = req.body.controles;
     caixa.save(function (err) {
         if(err) {
             return res.status(400).send({

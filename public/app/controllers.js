@@ -15,6 +15,7 @@ function ModalInstanceCtrl ($scope, $uibModalInstance) {
 
 }
 
+
 angular
     .module('admin_panel')
     .controller('ModalInstanceCtrl', ModalInstanceCtrl);

@@ -1,8 +1,8 @@
 /**
  * Created by Vittorio on 31/03/2017.
  */
-angular.module('demonstrativos').controller('DemonstrativosController', ['$scope', '$stateParams', '$location', 'Demonstrativos', 'CompDemonstrativos', 'toaster', 'SweetAlert',
-    function($scope, $stateParams, $location, Demonstrativos, CompDemonstrativos, toaster, SweetAlert) {
+angular.module('demonstrativos').controller('DemonstrativosController', ['$scope', '$stateParams', '$location', 'Demonstrativos', 'CompDemonstrativos', 'toaster',
+    function($scope, $stateParams, $location, Demonstrativos, CompDemonstrativos, toaster) {
         let SweetAlertOptions = {
             removerDemonstrativo: {
                 title: "Deseja remover este Demonstrativo?",

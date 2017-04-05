@@ -15,9 +15,9 @@ let UsersSchema = new Schema({
     email: {
         type: String,
         trim: true,
-        unique: true,
-        match: [/.+\@.+\..+/, "Please fill a valid e-mail address"],
-        required: `O campo 'email' é obrigatório`
+        // unique: true,
+        // match: [/.+\@.+\..+/, "Please fill a valid e-mail address"],
+        // required: `O campo 'email' é obrigatório`
     },
     senha: {
         type: String,

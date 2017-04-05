@@ -15,7 +15,8 @@ let mainAppModule = angular.module('admin_panel', [
     'ngAnimate',
     'ui.bootstrap',
     'ngFileUpload',
-    'oitozero.ngSweetAlert'
+    // 'oitozero.ngSweetAlert',
+    // '19degrees.ngSweetAlert2'
 ]);
 //todo: Ver se dá pra tirar o ui.router daí.
 

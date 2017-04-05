@@ -34,9 +34,9 @@ function icheck($timeout) {
                 });
 
                 return $(element).iCheck({
-                    checkboxClass: 'icheckbox_square-green',
-                    radioClass: 'iradio_square-green'
-
+                    checkboxClass: 'icheckbox_minimal-green',
+                    increaseArea: '15%',
+                    radioClass: 'iradio_square-green',
                 }).on('ifChanged', function(event) {
                     if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
                         $scope.$apply(function() {

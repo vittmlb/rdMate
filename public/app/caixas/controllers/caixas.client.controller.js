@@ -1,8 +1,8 @@
 /**
  * Created by Vittorio on 22/03/2017.
  */
-angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', 'SweetAlert', '$http', '$timeout',
-    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, SweetAlert, $http, $timeout) {
+angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', '$http', '$timeout', 'MySweetAlert',
+    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert) {
         let SweetAlertOptions = {
             removerCaixa: {
                 title: "Deseja remover este Caixa?",
@@ -29,6 +29,8 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 geral: 'Geral'
             }
         };
+
+        MySweetAlert.set.text = `Tem certeza de que deseja remover este Caixa?`;
 
         function popToaster(errorResponse) {
             console.log(errorResponse);
@@ -133,46 +135,38 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
 
         $scope.delete = function(caixa) {
             if(caixa) {
-                caixa.$remove(function () {
+                return caixa.$remove(function () {
                     for(let i in $scope.caixas) {
                         if($scope.caixas[i] === caixa) {
                             $scope.caixas.splice(i, 1);
                         }
                     }
                 }, function(errorResponse) {
-                    console.log(errorResponse);
-                    toaster.pop({
-                        type: 'error',
-                        title: 'Erro',
-                        body: errorResponse.data,
-                        timeout: 4000
-                    });
+                    return errorResponse;
                 });
             } else {
-                $scope.caixa.$remove(function () {
+                return $scope.caixa.$remove(function () {
                     $location.path('/caixas');
                 }, function(errorResponse) {
-                    console.log(errorResponse);
-                    toaster.pop({
-                        type: 'error',
-                        title: 'Erro',
-                        body: errorResponse.data,
-                        timeout: 4000
-                    });
+                    return errorResponse;
                 });
             }
         };
+
         $scope.deleteAlert = function(caixa) {
-            SweetAlert.swal(SweetAlertOptions.removerCaixa,
-                function(isConfirm){
-                    if (isConfirm) {
-                        $scope.delete(caixa);
-                        SweetAlert.swal("Removido!", "O Caixa foi removido.", "success");
-                    } else {
-                        SweetAlert.swal("Cancelado", "O Caixa não foi removido :)", "error");
-                    }
+            let p = MySweetAlert.deleteAlert();
+            p.then(function () {
+                let pp = $scope.delete(caixa);
+                pp.then(function(data) {
+                    swal("Removido!", "O Caixa foi removido.", "success"); // todo: Melhorar essa resposta.
                 });
+                pp.catch(function(errorResponse) {
+                    popToaster(errorResponse);
+                });
+
+            }).catch(swal.noop);
         };
+
 
         $scope.defineClass = function(item) {
             if(item >= 0) {
@@ -282,6 +276,13 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             // }
 
             return true;
+        }
+
+        $scope.showTab = {
+            valor: 'Despesas',
+            set: function(value) {
+                this.valor = value;
+            }
         }
 
     }
