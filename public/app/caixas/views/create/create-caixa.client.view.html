@@ -115,28 +115,172 @@
                         </div>
                     </div>
                 </div> <!-- ibox Lançamentos Caixa -->
+
                 <div class="col-lg-6">
                     <div class="tabs-container">
 
                         <tabset>
                             <tab>
                                 <tab-heading>
-                                    <i class="fa fa-cc-visa"></i>Cartões
+                                    <i class="fa fa-money"></i>Despesas e Mov
                                 </tab-heading>
                                 <div class="panel-body">
+                                    <div class="form-inline">
 
+                                        <div class="form-group form-group-sm">
+                                            <input type="text" placeholder="Descrição" class="form-control" data-ng-model="objRegistro.descricao">
+                                        </div> <!-- Input Descrição do Registro -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objRegistro.valor">
+                                        </div> <!-- Input Valor do Registro -->
+
+                                        <div class="form-group form-group-sm">
+                                            <select class="form-control"
+                                                    data-ng-model="objRegistro.tipo"
+                                                    data-ng-options="item.valor as item.display for item in lista.tiposRegistro">
+                                            </select>
+                                        </div> <!-- Select Tipos do Registro -->
+
+                                        <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.desp"> <!-- enum do caixa.client.controller -->
+                                            <select class="form-control"
+                                                    data-ng-model="objRegistro.turno"
+                                                    data-ng-options="item.valor as item.display for item in lista.turnos">
+                                            </select>
+                                        </div> <!-- Select Turnos -->
+
+                                        <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.mov"> <!-- enum do caixa.client.controller -->
+                                            <select class="form-control"
+                                                    data-ng-model="objRegistro.origem"
+                                                    data-ng-options="item.valor as item.display for item in lista.origens">
+                                            </select>
+                                        </div> <!-- Select Origem -->
+                                        <div class="form-group form-group-sm">
+                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addRegistro(objRegistro)"><i class="fa fa-plus"></i></a>
+                                        </div>
+
+                                    </div> <!-- Form Input Despesas e Movimentação -->
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+
+                                            <table class="table no-margins">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="3" class="text-danger">Despesas</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="desp_m in saidas.despesas | orderBy: 'turno'">
+                                                    <td>{{ desp_m.descricao }}</td>
+                                                    <td><i ng-class="defC.turnoIcon(desp_m.turno)"></i></td>
+                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
+                                                </tr>
+                                                </tbody>
+                                            </table> <!-- Tabela Despesas -->
+
+                                        </div> <!-- Tabela Despesas -->
+                                        <div class="col-lg-6">
+                                            <table class="table no-margins">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="3">Movimentação</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="desp_m in movimentacoes | orderBy: 'origem'">
+                                                    <td>{{ desp_m.descricao }}</td>
+                                                    <td><i ng-class="defC.origemIcon(desp_m.origem)"></i></td>
+                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_cofre')"></i></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
-                            </tab>
+                            </tab> <!-- Tab Form Despesas e Movimentação -->
+
                             <tab>
                                 <tab-heading>
-                                    <i class="fa fa-desktop"></i>Despesas
+                                    <i class="fa fa-credit-card-alt"></i>Cartões
                                 </tab-heading>
                                 <div class="panel-body">
-                                    <strong>Donec quam felis</strong>
 
+                                    <div class="form-inline">
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="hidden" name="tipo_cartao" data-ng-model="objCartao.tipo" ng-value="tipo_cartao" ng-init="tipo_cartao='Cartão'">
+                                        </div> <!-- Input INVISÍVEL para informar o tipo do lancamento para facilitar a função que joga o obj no array correspondente -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objCartao.valor">
+                                        </div> <!-- Input Valor do Registro -->
+
+                                        <div class="form-group form-group-sm">
+                                            <select class="form-control"
+                                                    data-ng-model="objCartao.bandeira"
+                                                    data-ng-options="item.valor as item.display for item in lista.bandeiras">
+                                            </select>
+                                        </div> <!-- Select Bandeiras -->
+
+                                        <div class="form-group form-group-sm">
+                                            <select class="form-control"
+                                                    data-ng-model="objCartao.turno"
+                                                    data-ng-options="item.valor as item.display for item in lista.turnos">
+                                            </select>
+                                        </div> <!-- Select Turnos -->
+
+                                        <div class="form-group form-group-sm"> <!-- Botão + -->
+                                            <a style="border-color:white;" class="btn btn-info btn-sm" ng-click="addCartao(objCartao)"><i class="fa fa-plus"></i></a>
+                                        </div>
+
+
+                                    </div>
+                                    <br/><br/>
+
+                                    <div class="row">
+
+                                        <div class="col-lg-6">
+                                            <table class="table no-margins">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="3" class="text-info">Cartões Manhã</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="desp_m in saidas.cartoes | filter: {turno: enums.turnos.manha}">
+                                                    <td>{{ desp_m.bandeira }}</td>
+                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
+                                                </tr>
+                                                </tbody>
+                                            </table> <!-- Tabela Cartões -->
+                                        </div> <!-- Tabela Cartões - Manhã -->
+
+                                        <div class="col-lg-6">
+                                            <table class="table no-margins">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="3" class="text-info">Cartões Tarde</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="desp_m in saidas.cartoes | filter: {turno: enums.turnos.tarde}">
+                                                    <td>{{ desp_m.bandeira }}</td>
+                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
+                                                </tr>
+                                                </tbody>
+                                            </table> <!-- Tabela Cartões - Tarde -->
+                                        </div> <!-- Tabela Cartões - Tarde -->
+
+                                    </div> <!-- Tabelas com cartões no TabSet -->
 
                                 </div>
-                            </tab>
+                            </tab> <!-- Tab Form Cartões -->
+
                             <tab>
                                 <tab-heading>
                                     <i class="fa fa-database"></i>
@@ -146,202 +290,36 @@
 
                                 </div>
                             </tab>
+
                         </tabset>
 
                     </div>
                 </div>
-
-                <div class="col-lg-8">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Inline form</h5>
-
-                            <div ibox-tools></div>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="form-inline">
-
-                                <div class="form-group form-group-sm">
-                                    <input type="text" placeholder="Descrição" class="form-control" data-ng-model="objRegistro.descricao" tabindex="15">
-                                </div> <!-- Input Descrição do Registro -->
-
-                                <div class="form-group form-group-sm">
-                                    <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objRegistro.valor" tabindex="16">
-                                </div> <!-- Input Valor do Registro -->
-
-                                <div class="form-group form-group-sm" tabindex="17">
-                                    <select class="form-control"
-                                            data-ng-model="objRegistro.tipo"
-                                            data-ng-options="item.valor as item.display for item in listaTiposRegistro">
-                                    </select>
-                                </div> <!-- Select Tipos do Registro -->
-
-                                <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.desp" tabindex="18"> <!-- enum do caixa.client.controller -->
-                                    <select class="form-control"
-                                            data-ng-model="objRegistro.turno"
-                                            data-ng-options="item.valor as item.display for item in listaTurnos">
-                                    </select>
-                                </div> <!-- Select Turnos -->
-
-                                <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.mov" tabindex="18"> <!-- enum do caixa.client.controller -->
-                                    <select class="form-control"
-                                            data-ng-model="objRegistro.origem"
-                                            data-ng-options="item.valor as item.display for item in listaOrigens">
-                                    </select>
-                                </div> <!-- Select Origem -->
-                                <div class="form-group form-group-sm">
-                                    <a style="margin-top: 6px; margin-left: 15px;" class="btn btn-sm btn-info" ng-click="addRegistro(objRegistro)" tabindex="19"><i class="fa fa-plus"></i></a>
-                                </div>
-
-                            </div> <!-- Form Input Despesas e Movimentação -->
-                        </div>
-                    </div>
-                </div> <!-- ibox INPUTs ObjRegistro -->
-
-                <div class="col-lg-3">
-
-                    <table class="table no-margins">
-                        <thead>
-                            <tr>
-                                <th colspan="3" class="text-danger">Despesas Manhã</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-ng-repeat="desp_m in saidas.despesas | filter: {turno: enums.turnos.manha}">
-                                <td>{{ desp_m.descricao }}</td>
-                                <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                                <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
-                            </tr>
-                        </tbody>
-                    </table> <!-- Tabela Saídas - Manhã -->
-                    <br/><br/>
-
-                    <table class="table no-margins">
-                        <thead>
-                        <tr>
-                            <th colspan="3" class="text-danger">Despesas Tarde</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="desp_m in saidas.despesas | filter: {turno: enums.turnos.tarde}">
-                            <td>{{ desp_m.descricao }}</td>
-                            <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                            <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
-                        </tr>
-                        </tbody>
-                    </table> <!-- Tabela Saídas - Tarde -->
-
-                </div> <!-- Tabelas Lançamentos Despesas -->
-
-                <div class="col-lg-3">
-                    <table class="table no-margins">
-                        <thead>
-                        <tr>
-                            <th colspan="3">Movimentação Cofre</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="desp_m in movimentacoes | filter: {origem: enums.origens.cofre}">
-                            <td>{{ desp_m.descricao }}</td>
-                            <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                            <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_cofre')"></i></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <br/><br/>
-                    <table class="table no-margins">
-                        <thead>
-                        <tr>
-                            <th colspan="3">Movimentação Geral</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="desp_m in movimentacoes | filter: {origem: enums.origens.geral}">
-                            <td>{{ desp_m.descricao }}</td>
-                            <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                            <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_geral')"></i></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div> <!-- Tabelas Lançamentos Movimentação -->
-
-                <div class="col-lg-8">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Lançamento de Cartões</h5>
-
-                            <div ibox-tools></div>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="form-inline">
-
-                                <div class="form-group">
-                                    <input type="hidden" name="tipo_cartao" data-ng-model="objCartao.tipo" ng-value="tipo_cartao" ng-init="tipo_cartao='Cartão'">
-                                </div> <!-- Input INVISÍVEL para informar o tipo do lancamento para facilitar a função que joga o obj no array correspondente -->
-
-                                <div class="form-group">
-                                    <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objCartao.valor">
-                                </div> <!-- Input Valor do Registro -->
-
-                                <div class="form-group">
-                                    <select class="form-control"
-                                            data-ng-model="objCartao.bandeira"
-                                            data-ng-options="item.valor as item.display for item in listaBandeiras">
-                                    </select>
-                                </div> <!-- Select Bandeiras -->
-
-                                <div class="form-group">
-                                    <select class="form-control"
-                                            data-ng-model="objCartao.turno"
-                                            data-ng-options="item.valor as item.display for item in listaTurnos">
-                                    </select>
-                                </div> <!-- Select Turnos -->
-
-                                <a style="margin-top: 6px; margin-left: 15px;" class="btn btn-info" ng-click="addCartao(objCartao)"><i class="fa fa-plus"></i></a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- ibox INPUTs Cartões -->
-
-                <div class="col-lg-3">
-
-                    <table class="table no-margins">
-                        <thead>
-                        <tr>
-                            <th colspan="3" class="text-info">Cartões Manhã</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="desp_m in saidas.cartoes | filter: {turno: enums.turnos.manha}">
-                            <td>{{ desp_m.bandeira }}</td>
-                            <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                            <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
-                        </tr>
-                        </tbody>
-                    </table> <!-- Tabela Cartões - Manhã -->
-                    <br/><br/>
-
-                    <table class="table no-margins">
-                        <thead>
-                        <tr>
-                            <th colspan="3" class="text-info">Cartões Tarde</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="desp_m in saidas.cartoes | filter: {turno: enums.turnos.tarde}">
-                            <td>{{ desp_m.bandeira }}</td>
-                            <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                            <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
-                        </tr>
-                        </tbody>
-                    </table> <!-- Tabela Saídas - Tarde -->
-
-                </div> <!-- Tabelas Lançamentos Cartões -->
-
             </div>
             <input type="submit" class="btn btn-primary" value="Cadastrar">
             </form>
         </form>
     </div>
 </section>
+
+<!--<div class="col-lg-3">-->
+
+
+    <!--<br/><br/>-->
+
+    <!--<table class="table no-margins">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th colspan="3" class="text-danger">Despesas Tarde</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr data-ng-repeat="desp_m in saidas.despesas | filter: {turno: enums.turnos.tarde}">-->
+            <!--<td>{{ desp_m.descricao }}</td>-->
+            <!--<td>{{ desp_m.valor | currency: 'R$ ' }}</td>-->
+            <!--<td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table> &lt;!&ndash; Tabela Saídas - Tarde &ndash;&gt;-->
+
+<!--</div> &lt;!&ndash; Tabelas Lançamentos Despesas &ndash;&gt;-->

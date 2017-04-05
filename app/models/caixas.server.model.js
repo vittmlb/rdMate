@@ -213,41 +213,92 @@ let CaixasSchema = new Schema({
         },
     }],
     controles: {
-        salgados: {
-            folhados: {
-                qtd: {
-                    type: Number,
-                    default: 0
-                },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
-                },
+        produtos: [{
+            nome: {
+                type: String,
+                trim: true,
+                enum: ["Folhado", "Pão de Queijo", "Salgado"]
             },
-            outros: {
-                qtd: {
+            venda: {
+                valor: {
                     type: Number,
                     default: 0
                 },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
-                },
+                label: {
+                    type: String,
+                    default: '' // todo: Colocar enum???
+                }
             },
-            pao_de_queijo: {
-                qtd: {
+            perda: {
+                valor: {
                     type: Number,
                     default: 0
                 },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
+                label: {
+                    type: String,
+                    default: '' // todo: Colocar enum???
+                }
+            },
+            usado: {
+                valor: {
+                    type: Number,
+                    default: 0
                 },
-            }
-        },
+                label: {
+                    type: String,
+                    default: '' // todo: Colocar enum???
+                }
+            },
+            tag: [{
+                type: String,
+                default: ''
+            }],
+            obs: {
+                type: String
+            },
+            checked: {
+                type: Boolean,
+                default: false
+            },
+        }],
+        consumo: [{
+            nome: {
+                type: String,
+                trim: true,
+                enum: ["Folhado", "Pão de Queijo", "Salgado"]
+            },
+            inicial: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                label: {
+                    type: String,
+                    default: '' // todo: Colocar enum???
+                }
+            },
+            final: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                label: {
+                    type: String,
+                    default: '' // todo: Colocar enum???
+                }
+            },
+            tag: [{
+                type: String,
+                default: ''
+            }],
+            obs: {
+                type: String
+            },
+            checked: {
+                type: Boolean,
+                default: false
+            },
+        }],
         leitura_z: {
             valor: {
                 type: Number,
@@ -259,54 +310,6 @@ let CaixasSchema = new Schema({
                 default: false
             },
         },
-        agua: {
-            abertura: {
-                valor: {
-                    type: Number,
-                    default: 0
-                },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
-                },
-            },
-            fechamento: {
-                valor: {
-                    type: Number,
-                    default: 0
-                },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
-                },
-            },
-        },
-        luz: {
-            abertura: {
-                valor: {
-                    type: Number,
-                    default: 0
-                },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
-                },
-            },
-            fechamento: {
-                valor: {
-                    type: Number,
-                    default: 0
-                },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
-                },
-            },
-        }
     },
     fechamento: {
         diferenca: {

@@ -62,7 +62,7 @@ angular.module('admin_panel').factory('MyDefineClass', [function () {
     }
 
     function turnoIcon(item) {
-        if(item === 'Tarde') return 'fa fa-coffee';
+        if(item === 'Manhã') return 'fa fa-coffee';
         return 'fa fa-sun-o';
     }
 

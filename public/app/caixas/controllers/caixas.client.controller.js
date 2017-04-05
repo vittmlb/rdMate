@@ -29,7 +29,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             origens: {
                 cofre: 'Cofre',
                 geral: 'Geral'
-            }
+            },
         };
 
         MySweetAlert.set.text = `Tem certeza de que deseja remover este Caixa?`;
@@ -48,15 +48,22 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             toaster.pop(msgObj);
         }
 
-        $scope.listaTiposRegistros = {};
-        $scope.listaTiposRegistro = {};
-        $scope.listaBandeiras = {};
+        $scope.lista = {
+            tiposRegistro: {},
+            turnos: {},
+            bandeiras: {},
+            produtos: {},
+            consumos: {}
+        };
+
 
         $http.get('/app/caixas/data/enum_caixas.json').success(function (data) {
-            $scope.listaTiposRegistro = data.listaTiposRegistro;
-            $scope.listaTurnos = data.listaTurnos;
-            $scope.listaOrigens = data.listaOrigens;
-            $scope.listaBandeiras = data.listaBandeiras;
+            $scope.lista.tiposRegistro = data.tiposRegistro;
+            $scope.lista.turnos = data.turnos;
+            $scope.lista.origens = data.origens;
+            $scope.lista.bandeiras = data.bandeiras;
+            $scope.lista.produtos = data.controles.produtos;
+            $scope.lista.consumos = data.controles.consumos;
         });
 
         $scope.entradas = {};
@@ -204,9 +211,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                     break;
                 case $scope.enums.tipos.mov:
                     parent.movimentacoes.push(registro);
-                    break;
-                case $scope.enums.tipos.cartao:
-                    parent.saidas.cartoes.push(registro);
                     break;
             }
 

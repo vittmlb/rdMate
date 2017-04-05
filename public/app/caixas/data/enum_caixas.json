@@ -1,5 +1,5 @@
 {
-  "listaTiposRegistros": [
+  "tiposRegistros": [
     {"tipo": "Despesa", "origem": "", "turno": "Manhã", "valor": "desp_m", "display": "Despesa Manhã"},
     {"tipo": "Despesa", "origem": "", "turno": "Tarde", "valor": "desp_t", "display": "Despesa Tarde"},
     {"tipo": "Movimentação", "origem": "Cofre", "turno": "Manhã", "valor": "mov_cm", "display": "Movimentação Cofre - Manhã"},
@@ -7,25 +7,36 @@
     {"tipo": "Movimentação", "origem": "Geral", "turno": "Manhã", "valor": "mov_gm", "display": "Movimentação Geral - Manhã"},
     {"tipo": "Movimentação", "origem": "Geral", "turno": "Tarde", "valor": "mov_gt", "display": "Movimentação Geral - Tarde"}
   ],
-  "listaTiposRegistroOld": [
+  "tiposRegistroOld": [
     {"display": "Despesa              ", "tipo": "Despesa",      "origem": "",      "turno": "Manhã", "valor": "despesa"},
     {"display": "Movimentação Cofre   ", "tipo": "Movimentação", "origem": "Cofre", "turno": "Manhã", "valor": "mov_cofre"},
     {"display": "Movimentação Geral   ", "tipo": "Movimentação", "origem": "Geral", "turno": "Tarde", "valor": "mov_geral"}
   ],
-  "listaTiposRegistro": [
+  "tiposRegistro": [
     {"valor": "Despesa",      "display": "Despesa"},
     {"valor": "Movimentação", "display": "Movimentação"}
   ],
-  "listaTurnos": [
+  "turnos": [
     {"valor": "Manhã", "display": "Manhã   "},
     {"valor": "Tarde", "display": "Tarde   "}
   ],
-  "listaOrigens": [
+  "origens": [
     {"valor": "Geral", "display": "Geral   "},
     {"valor": "Cofre", "display": "Cofre   "}
   ],
-  "listaBandeiras": [
+  "bandeiras": [
     {"valor": "Visa",   "display": "Visa"},
     {"valor": "Master", "display": "Master"}
-  ]
+  ],
+  "controles": {
+    "listaProdutos": [
+      {"valor": "pao_de_queijo", "display": "Pão de Queijo"},
+      {"valor": "folhados", "display": "Folhados"},
+      {"valor": "salgados", "display": "Salgados"}
+    ],
+    "listaConsumos": [
+      {"valor": "Água", "display": "Água"},
+      {"valor": "Luz", "display": "Luz"}
+    ]
+  }
 }
