@@ -15,6 +15,8 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 closeOnCancel: false }
         };
 
+        $scope.testeLimite = 18;
+
         $scope.defC = MyDefineClass;
 
         $scope.enums = {

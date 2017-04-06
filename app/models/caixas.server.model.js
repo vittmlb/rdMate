@@ -406,7 +406,7 @@ CaixasSchema.virtual('v.saidas.cartoes.manha').get(function () { // Schema 'saí
 });
 CaixasSchema.virtual('v.saidas.cartoes.tarde').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
     return this.saidas.cartoes.reduce(function(prevVal, elem) {
-        return (elem.turno === 'Tarde') ? prevVal + elem.valor : 0;
+        return (elem.turno === 'Tarde') ? prevVal + elem.valor : prevVal;
     }, 0);
 });
 CaixasSchema.virtual('v.saidas.cartoes.total').get(function () { // Schema 'saída' > dinheiro da venda não entra no caixa
@@ -420,7 +420,7 @@ CaixasSchema.virtual('v.saidas.despesas.manha').get(function () {
 });
 CaixasSchema.virtual('v.saidas.despesas.tarde').get(function () {
     return this.saidas.despesas.reduce(function(prevVal, elem) {
-        return (elem.turno === 'Tarde') ? prevVal + elem.valor : 0;
+        return (elem.turno === 'Tarde') ? prevVal + elem.valor : prevVal;
     }, 0);
 });
 CaixasSchema.virtual('v.saidas.despesas.total').get(function () {
@@ -489,7 +489,6 @@ CaixasSchema.virtual('v.widgets.diferenca.total').get(function () {
     return this.v.diferenca.total;
 });
 
-
 CaixasSchema.virtual('v.controles.salgados.total').get(function () {
     return this.controles.produtos.reduce(function(prevVal, elem) {
         return (elem.nome === 'Salgado') ? prevVal + elem.valor : prevVal;
@@ -504,6 +503,20 @@ CaixasSchema.virtual('v.controles.salgados.total').get(function () {
     return this.controles.produtos.reduce(function(prevVal, elem) {
         return (elem.nome === 'Folhado') ? prevVal + elem.valor : prevVal;
     }, 0);
+});
+
+CaixasSchema.virtual('v.movimentacoes.cofre').get(function () {
+    return this.movimentacoes.reduce(function(prevVal, elem) {
+        return (elem.origem === 'Cofre') ? prevVal + elem.valor : prevVal;
+    }, 0);
+});
+CaixasSchema.virtual('v.movimentacoes.geral').get(function () {
+    return this.movimentacoes.reduce(function(prevVal, elem) {
+        return (elem.origem === 'Geral') ? prevVal + elem.valor : prevVal;
+    }, 0);
+});
+CaixasSchema.virtual('v.movimentacoes.saldo').get(function () {
+    return this.v.movimentacoes.geral - this.v.movimentacoes.cofre;
 });
 
 // Normatizações

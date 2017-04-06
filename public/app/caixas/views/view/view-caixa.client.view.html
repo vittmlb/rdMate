@@ -109,53 +109,8 @@
                     </div>
                 </div> <!-- Widgets - Linha 2 -->
 
-            </div> <!-- Widgets -->
-
-            <div class="col-lg-3">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox">
-                            <div class="ibox-content">
-                                <h5>Salgados</h5>
-                                <table class="table table-stripped small m-t-md">
-                                    <tbody>
-                                    <tr>
-                                        <td class="no-borders"><i class="fa fa-cutlery text-navy"></i></td>
-                                        <td class="no-borders">Folhados</td>
-                                        <td class="no-borders">{{ caixa.controles.salgados.folhados.qtd }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fa fa-cutlery text-navy"></i></td>
-                                        <td>Outros</td>
-                                        <td>{{ caixa.controles.salgados.outros.qtd }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fa fa-cutlery text-navy"></i></td>
-                                        <td>Total</td>
-                                        <td>{{ caixa.v.controles.salgados.total.qtd }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fa fa-cutlery text-navy"></i></td>
-                                        <td>Pão de Queijo</td>
-                                        <td>{{ caixa.controles.salgados.pao_de_queijo.qtd }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fa fa-money text-navy"></i></td>
-                                        <td>Leitura Z</td>
-                                        <td>{{ caixa.controles.leitura_z.valor | currency: 'R$ ' }}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- Tabela Salgados -->
-        </div>
-        <div class="row">
-            <div class="col-sm-9">
-                <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-lg-6">
 
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
@@ -238,7 +193,7 @@
 
                     </div> <!-- ibox Lançamentos Caixa -->
 
-                    <div class="col-sm-5">
+                    <div class="col-lg-6">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>Controles</h5>
@@ -267,140 +222,48 @@
                         </div>
                     </div> <!-- ibox Controles -->
                 </div>
-                <div class="row">
-                    <div class="col-lg-5">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Conferências</h5>
-                                <div ibox-tools></div>
-                            </div>
-                            <div class="ibox-content">
-                                <br/><br/>
-                                <table class="table table-striped no-margins">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th style="text-align: center;">Manhã</th>
-                                        <th style="text-align: center;">Tarde</th>
-                                        <th style="text-align: center;">Tarde</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>Geral</td>
-                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaManhaf" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.abertura_venda" placeholder=""></td>
-                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardef" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.entradas" placeholder=""></td>
-                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" id="inputAberturaCaixaTardeg" name="" data-ng-model="caixa.caixa.conferencias.geral.manha.diferenca" placeholder=""></td>
-                                    </tr>
 
-                                    </tbody>
-                                </table>
+            </div> <!-- Widgets -->
+
+            <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div ng-show="caixa.saidas.despesas.length">
+                                    <h5>Despesas</h5>
+                                    <table class="table table-stripped small m-t-md">
+                                        <tbody>
+                                        <tr data-ng-repeat="desp_m in caixa.saidas.despesas | orderBy: 'turno'">
+                                            <td ng-class="{'no-borders':$first}"><i ng-class="defC.turnoIcon(desp_m.turno)"></i></td>
+                                            <td ng-class="{'no-borders':$first}">{{ desp_m.descricao | limitTo: 22 }}</td>
+                                            <td ng-class="{'no-borders':$first}">{{ desp_m.valor | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-danger">Despesas: {{ caixa.v.saidas.despesas.total | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <table class="table table-stripped small m-t-md">
+                                        <tbody>
+                                        <tr data-ng-repeat="mov in caixa.movimentacoes | orderBy: 'origem'">
+                                            <td ng-class="{'no-borders':$first}"><i ng-class="defC.origemIcon(mov.origem)"></i></td>
+                                            <td ng-class="{'no-borders':$first}">{{ mov.descricao | limitTo: 22 }}</td>
+                                            <td ng-class="{'no-borders':$first}">{{ mov.valor | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-danger">Movimentação: {{ caixa.v.movimentacoes.saldo | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <h5>Salgados</h5>
-                        <table class="table table-stripped small m-t-md">
-                            <tbody>
-                            <tr>
-                                <td class="no-borders"><i class="fa fa-cutlery text-navy"></i></td>
-                                <td class="no-borders">Folhados</td>
-                                <td class="no-borders">{{ caixa.controles.salgados.folhados }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-cutlery text-navy"></i></td>
-                                <td>Outros</td>
-                                <td>{{ caixa.controles.salgados.outros }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-cutlery text-navy"></i></td>
-                                <td>Total</td>
-                                <td>{{ caixa.v.controles.salgados.total }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-cutlery text-navy"></i></td>
-                                <td>Pão de Queijo</td>
-                                <td>{{ caixa.controles.salgados.pao_de_queijo }}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fa fa-money text-navy"></i></td>
-                                <td>Leitura Z</td>
-                                <td>{{ caixa.controles.leitura_z | currency: 'R$ ' }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-
-                <table class="table no-margins">
-                    <thead>
-                    <tr>
-                        <th colspan="3" class="text-danger">Despesas Manhã</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas | filter: {turno: enums.turnos.manha}">
-                        <td>{{ desp_m.descricao }}</td>
-                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
-                    </tr>
-                    </tbody>
-                </table> <!-- Tabela Despesas - Manhã -->
-                <br/><br/>
-
-                <table class="table no-margins">
-                    <thead>
-                    <tr>
-                        <th colspan="3" class="text-danger">Despesas Tarde</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.saidas.despesas | filter: {turno: enums.turnos.tarde}">
-                        <td>{{ desp_m.descricao }}</td>
-                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
-                    </tr>
-                    </tbody>
-                </table> <!-- Tabela Despesas - Tarde -->
-                <br/><br/>
-
-                <table class="table no-margins">
-                    <thead>
-                    <tr>
-                        <th colspan="3">Movimentação Cofre</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.movimentacoes | filter: {origem: enums.origens.cofre}">
-                        <td>{{ desp_m.descricao }}</td>
-                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_cofre')"></i></td>
-                    </tr>
-                    </tbody>
-                </table> <!-- Tabela Movimentação - Cofre -->
-                <br/><br/>
-
-                <table class="table no-margins">
-                    <thead>
-                    <tr>
-                        <th colspan="3">Movimentação Geral</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="desp_m in caixa.movimentacoes | filter: {origem: enums.origens.geral}">
-                        <td>{{ desp_m.descricao }}</td>
-                        <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                        <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_geral')"></i></td>
-                    </tr>
-                    </tbody>
-                </table> <!-- Tabela Movimentação - Geral -->
-            </div>
+            </div> <!-- Tabela Salgados -->
         </div>
     </div>
 </section>
