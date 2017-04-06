@@ -229,9 +229,12 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox">
+
                             <div class="ibox-content">
+
+                                <h5>Lançamentos</h5>
                                 <div ng-show="caixa.saidas.despesas.length">
-                                    <h5>Despesas</h5>
+
                                     <table class="table table-stripped small m-t-md">
                                         <tbody>
                                         <tr data-ng-repeat="desp_m in caixa.saidas.despesas | orderBy: 'turno'">
@@ -240,12 +243,13 @@
                                             <td ng-class="{'no-borders':$first}">{{ desp_m.valor | currency: 'R$ ' }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3" class="text-danger">Despesas: {{ caixa.v.saidas.despesas.total | currency: 'R$ ' }}</td>
+                                            <td colspan="3">Despesas:&nbsp;&nbsp {{ caixa.v.saidas.despesas.total | currency: 'R$ ' }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <div>
+                                </div> <!-- Div Despesas -->
+
+                                <div ng-show="caixa.movimentacoes.length">
                                     <table class="table table-stripped small m-t-md">
                                         <tbody>
                                         <tr data-ng-repeat="mov in caixa.movimentacoes | orderBy: 'origem'">
@@ -254,11 +258,27 @@
                                             <td ng-class="{'no-borders':$first}">{{ mov.valor | currency: 'R$ ' }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3" class="text-danger">Movimentação: {{ caixa.v.movimentacoes.saldo | currency: 'R$ ' }}</td>
+                                            <td colspan="3" >Movimentação &nbsp;&nbsp;{{ caixa.v.movimentacoes.saldo | currency: 'R$ ' }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div> <!-- Div Movimentações -->
+
+                                <div ng-show="caixa.movimentacoes.length">
+                                    <table class="table table-stripped small m-t-md">
+                                        <tbody>
+                                        <tr data-ng-repeat="card in caixa.saidas.cartoes | orderBy: 'turno'">
+                                            <td ng-class="{'no-borders':$first}"><i ng-class="defC.turnoIcon(card.turno)"></i></td>
+                                            <td ng-class="{'no-borders':$first}">{{ card.bandeira | limitTo: 22 }}</td>
+                                            <td ng-class="{'no-borders':$first}">{{ card.valor | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" >Cartões &nbsp;&nbsp;{{ caixa.v.saidas.cartoes.total | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div> <!-- Div Cartões -->
+
                             </div>
                         </div>
                     </div>
