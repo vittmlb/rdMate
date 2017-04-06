@@ -72,54 +72,79 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Folhados</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.salgados.folhados.qtd" placeholder=""></td>
-                                </tr> <!-- Folhados -->
-                                <tr>
-                                    <td>Outros</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.salgados.outros.qtd" placeholder=""></td>
-                                </tr> <!-- Outros -->
-                                <tr>
-                                    <td>Pão de Queijo</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.salgados.pao_de_queijo.qtd" placeholder=""></td>
-                                </tr> <!-- Pão de Queijo -->
-                                <tr>
                                     <td>Leitura Z</td>
                                     <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.leitura_z.valor" placeholder=""></td>
                                 </tr> <!-- Leitura Z -->
                                 </tbody>
                             </table> <!-- Salgados -->
 
-                            <table class="table table-striped no-margins">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th style="text-align: center;">Abertura</th>
-                                    <th style="text-align: center;">Fechamento</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Água</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.agua.abertura.valor" placeholder=""></td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.agua.fechamento.valor" placeholder=""></td>
-                                </tr> <!-- Água -->
-                                <tr>
-                                    <td>Luz</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.luz.abertura.valor" placeholder=""></td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.luz.fechamento.valor" placeholder=""></td>
-                                </tr> <!-- Luz -->
-                                </tbody>
-                            </table> <!-- Água e Luz -->
 
                         </div>
                     </div>
                 </div> <!-- ibox Lançamentos Caixa -->
 
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <div class="tabs-container">
 
                         <tabset>
+
+                            <tab>
+                                <tab-heading>
+                                    <i class="fa fa-lightbulb-o"></i> Consumo
+                                </tab-heading>
+                                <div class="panel-body">
+
+                                    <div class="form-inline">
+
+                                        <div class="form-group form-group-sm">
+                                            <select class="form-control"
+                                                    data-ng-model="obj.consumo.nome"
+                                                    data-ng-options="item.valor as item.display for item in lista.consumos">
+                                            </select>
+                                        </div> <!-- Select Nome do Consumo -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Abertura" class="form-control" data-ng-model="obj.consumo.inicial.valor">
+                                        </div> <!-- Input Consumo Inicial -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Encerramento" class="form-control" data-ng-model="obj.consumo.final.valor">
+                                        </div> <!-- Input Qtd Perdida -->
+
+                                        <div class="form-group form-group-sm">
+                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addConsumo(obj.consumo)"><i class="fa fa-plus"></i></a>
+                                        </div> <!-- Botão Add Produto -->
+
+                                    </div> <!-- Form Input Produtos (Salgados) -->
+                                    <br/>
+
+                                    <div class="row">
+                                        <div class="col-lg-8">
+
+                                            <table class="table no-margins">
+                                                <thead>
+                                                <tr>
+                                                    <th>Serviços</th>
+                                                    <th><i class="fa fa-hourglass-start"></i></th>
+                                                    <th><i class="fa fa-hourglass-end"></i></th>
+                                                    <th><i class="fa fa-bolt"></i></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="servico in controles.consumo">
+                                                    <td>{{ servico.nome }}</td>
+                                                    <td>{{ servico.inicial.valor }}</td>
+                                                    <td>{{ servico.final.valor }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(prod, 'despesa', 'manha')"></i></td>
+                                                </tr>
+                                                </tbody>
+                                            </table> <!-- Tabela Salgados -->
+
+                                        </div> <!-- Tabela Produtos (Salgados) -->
+                                    </div>
+                                </div>
+                            </tab> <!-- Tab Form Consumo (Luz Água) -->
+
                             <tab>
                                 <tab-heading>
                                     <i class="fa fa-money"></i>Despesas e Mov
@@ -283,18 +308,73 @@
 
                             <tab>
                                 <tab-heading>
-                                    <i class="fa fa-database"></i>
+                                    <i class="fa fa-cutlery"></i> Salgados
                                 </tab-heading>
                                 <div class="panel-body">
-                                    <strong>Lorem ipsum dolor sit amet, consectetuer adipiscing</strong>
 
+                                    <div class="form-inline">
+
+                                        <div class="form-group form-group-sm">
+                                            <select class="form-control"
+                                                    data-ng-model="obj.produto.nome"
+                                                    data-ng-options="item.valor as item.display for item in lista.produtos">
+                                            </select>
+                                        </div> <!-- Select Nome do Produto -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Vendido" class="form-control" data-ng-model="obj.produto.venda.valor">
+                                        </div> <!-- Input Qtd Vendida -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Perdido" class="form-control" data-ng-model="obj.produto.perda.valor">
+                                        </div> <!-- Input Qtd Perdida -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Usado" class="form-control" data-ng-model="obj.produto.uso.valor">
+                                        </div> <!-- Input Qtd Usada -->
+
+                                        <div class="form-group form-group-sm">
+                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addProduto(obj.produto)"><i class="fa fa-plus"></i></a>
+                                        </div> <!-- Botão Add Produto -->
+
+                                    </div> <!-- Form Input Produtos (Salgados) -->
+                                    <br/>
+
+                                    <div class="row">
+                                        <div class="col-lg-8">
+
+                                            <table class="table no-margins">
+                                                <thead>
+                                                <tr>
+                                                    <th colspan="2">Salgados</th>
+                                                    <th><i class="fa fa-money"></i></th>
+                                                    <th><i class="fa fa-trash"></i></th>
+                                                    <th><i class="fa fa-refresh"></i></th>
+                                                    <th><i class="fa fa-bolt"></i></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr data-ng-repeat="prod in controles.produtos">
+                                                    <td><i class="fa fa-cutlery"></i></td>
+                                                    <td>{{ prod.nome }}</td>
+                                                    <td>{{ prod.venda.valor }}</td>
+                                                    <td>{{ prod.perda.valor }}</td>
+                                                    <td>{{ prod.uso.valor }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(prod, 'despesa', 'manha')"></i></td>
+                                                </tr>
+                                                </tbody>
+                                            </table> <!-- Tabela Salgados -->
+
+                                        </div> <!-- Tabela Produtos (Salgados) -->
+                                    </div>
                                 </div>
-                            </tab>
+                            </tab> <!-- Tab Form Produtos (Salgados) -->
+
 
                         </tabset>
 
                     </div>
-                </div>
+                </div> <!-- Tab Lançamentos -->
             </div>
             <input type="submit" class="btn btn-primary" value="Cadastrar">
             </form>

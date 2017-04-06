@@ -239,7 +239,7 @@ let CaixasSchema = new Schema({
                     default: '' // todo: Colocar enum???
                 }
             },
-            usado: {
+            uso: {
                 valor: {
                     type: Number,
                     default: 0
@@ -249,6 +249,10 @@ let CaixasSchema = new Schema({
                     default: '' // todo: Colocar enum???
                 }
             },
+            categoria: [{
+                type: String,
+                default: ''
+            }],
             tag: [{
                 type: String,
                 default: ''
@@ -265,7 +269,7 @@ let CaixasSchema = new Schema({
             nome: {
                 type: String,
                 trim: true,
-                enum: ["Folhado", "Pão de Queijo", "Salgado"]
+                enum: ["Água", "Luz"]
             },
             inicial: {
                 valor: {
@@ -487,8 +491,22 @@ CaixasSchema.virtual('v.widgets.diferenca.total').get(function () {
 
 
 CaixasSchema.virtual('v.controles.salgados.total').get(function () {
-    return this.controles.salgados.folhados + this.controles.salgados.outros;
+    return this.controles.produtos.reduce(function(prevVal, elem) {
+        return (elem.nome === 'Salgado') ? prevVal + elem.valor : prevVal;
+    }, 0);
 });
+CaixasSchema.virtual('v.controles.pao_de_queijo.total').get(function () {
+    return this.controles.produtos.reduce(function(prevVal, elem) {
+        return (elem.nome === 'Pão de Queijo') ? prevVal + elem.valor : prevVal;
+    }, 0);
+});
+CaixasSchema.virtual('v.controles.salgados.total').get(function () {
+    return this.controles.produtos.reduce(function(prevVal, elem) {
+        return (elem.nome === 'Folhado') ? prevVal + elem.valor : prevVal;
+    }, 0);
+});
+
+// Normatizações
 
 CaixasSchema.set('toJSON', {
     getters: true,

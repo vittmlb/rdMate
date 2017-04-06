@@ -29,12 +29,12 @@
     {"valor": "Master", "display": "Master"}
   ],
   "controles": {
-    "listaProdutos": [
-      {"valor": "pao_de_queijo", "display": "Pão de Queijo"},
-      {"valor": "folhados", "display": "Folhados"},
-      {"valor": "salgados", "display": "Salgados"}
+    "produtos": [
+      {"valor": "Pão de Queijo", "display": "Pão de Queijo"},
+      {"valor": "Folhado", "display": "Folhado"},
+      {"valor": "Salgado", "display": "Salgado"}
     ],
-    "listaConsumos": [
+    "consumos": [
       {"valor": "Água", "display": "Água"},
       {"valor": "Luz", "display": "Luz"}
     ]

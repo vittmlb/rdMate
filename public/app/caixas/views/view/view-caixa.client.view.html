@@ -245,27 +245,24 @@
                                 <div ibox-tools></div>
                             </div>
                             <div class="ibox-content">
-                                <table class="table table-striped no-margins">
+                                <table class="footable table m-t-md toggle-arrow-tiny" data-page-size="8">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th style="text-align: center;">Abertura</th>
-                                        <th style="text-align: center;">Fechamento</th>
+                                        <th data-toggle="true">Nome</th>
+                                        <th>Vendidos</th>
+                                        <th data-hide="all">Perdidos</th>
+                                        <th data-hide="all">Usados</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>Água</td>
-                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.abertura" placeholder=""></td>
-                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.agua.fechamento" placeholder=""></td>
-                                    </tr> <!-- Água -->
-                                    <tr>
-                                        <td>Luz</td>
-                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.abertura" placeholder=""></td>
-                                        <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="caixa.controles.luz.fechamento" placeholder=""></td>
-                                    </tr> <!-- Luz -->
+                                    <tr ng-repeat="prod in caixa.controles.produtos">
+                                        <td>{{ prod.nome }}</td>
+                                        <td>{{ prod.venda.valor }}</td>
+                                        <td>{{ prod.perda.valor }}</td>
+                                        <td>{{ prod.uso.valor }}</td>
+                                    </tr>
                                     </tbody>
-                                </table> <!-- Água e Luz -->
+                                </table> <!-- Tabela ... -->
                             </div>
                         </div>
                     </div> <!-- ibox Controles -->
