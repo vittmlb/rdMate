@@ -220,3 +220,7 @@ footer {
 .text-strikethrough {
     text-decoration: line-through;
 }
+
+body.modal-open {
+    overflow: visible;
+}
