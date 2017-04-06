@@ -3,14 +3,15 @@
  */
 
 
-function ModalInstanceCtrl ($scope, $uibModalInstance) {
+
+function ModalInstanceCtrl ($scope, $modalInstance) {
 
     $scope.ok = function () {
-        $uibModalInstance.close();
+        $modalInstance.close();
     };
 
     $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
+        $modalInstance.dismiss('cancel');
     };
 
 }

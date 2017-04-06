@@ -15,6 +15,7 @@
                                 <th class="text-center">Bandeiras</th>
                                 <th>Valor</th>
                                 <th class="text-center">Turno</th>
+                                <th><i class="fa fa-bolt"></i></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -24,6 +25,7 @@
                                 <td ng-class="card.checked ? 'text-strikethrough': ''" class="text-center"><i ng-class="defC.bandeiraIcon(card.bandeira)" class="text-center"></i></td>
                                 <td ng-class="card.checked ? 'text-strikethrough': ''">{{ card.valor | currency: 'R$ ' }}</td>
                                 <td ng-class="card.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="left" popover="{{ card.turno }}" ng-class="defC.turnoIcon(card.turno)" class="text-center"></i></td>
+                                <td><i class="fa fa-pencil-square clickable" ng-click="teste(card)"></i></td>
                             </tr>
                             </tbody>
                         </table> <!-- Cartões -->

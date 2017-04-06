@@ -2,8 +2,8 @@
  * Created by Vittorio on 22/03/2017.
  */
 angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster',
-                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio',
-    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio) {
+                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal',
+    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal) {
         let SweetAlertOptions = {
             removerCaixa: {
                 title: "Deseja remover este Caixa?",
@@ -15,6 +15,16 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 closeOnConfirm: false,
                 closeOnCancel: false }
         };
+
+        $scope.teste = function(obj) {
+            $scope.currentObj = obj;
+            let modalInstance = $modal.open({
+                templateUrl: 'app/caixas/views/modals/teste.html',
+                controller: ModalInstanceCtrl,
+                scope: $scope,
+                windowClass: 'animated flipInY'
+            });
+        }; // todo Mudar o nome da função
 
         $scope.sounds = MyAudio;
 
@@ -395,45 +405,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
         };
 
 
-        /**
-         * Remove o registro do array/tabela correspondente.
-         * @param item: elemento que deverá ser removido do array - contém as propriedades descricao e valor - obj Registro
-         * @param tipo: tipo do elemento: Despesa ou Movimentação
-         * @param param: parâmetro que representa turno (no caso de uma despesa) ou origem (cofre ou geral - caso da movimentação
-         */
-        $scope.removeRegistro = function(item) {
-            let parent = $scope.caixa ? $scope.caixa: $scope;
-            switch (item.tipo) {
-                case $scope.enums.tipos.desp: // enum: "Despesas"
-                    parent.saidas.despesas.filter(function (elem, item) { return elem !== item; });
-                    break;
-                case $scope.enums.tipos.mov:
-                    parent.movimentacoes.filter(function (elem, item) { return elem !== item; });
-                    break;
-            }
-        };
-
-
-        // $scope.addCartao = function(registro) {
-        //     let parent = $scope.caixa ? $scope.caixa: $scope;
-        //
-        //     parent.saidas.cartoes.push(registro);
-        //
-        //     $scope.objCartao = {};
-        //
-        // };
-
-        // $scope.addProduto = function(produto) {
-        //     let parent = $scope.caixa ? $scope.caixa: $scope;
-        //     parent.controles.produtos.push(produto);
-        //     $scope.obj.unset($scope.enums.tipos.prod);
-        // };
-        //
-        // $scope.addConsumo = function(consumo) {
-        //     let parent = $scope.caixa ? $scope.caixa: $scope;
-        //     parent.controles.consumo.push(consumo);
-        //     $scope.obj.unset($scope.enums.tipos.consumo);
-        // };
 
         function validateObjRegistro() {
 
