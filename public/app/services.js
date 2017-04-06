@@ -108,7 +108,8 @@ angular.module('admin_panel').factory('MyAudio', ['ngAudio', function (ngAudio) 
     let sounds = {
         click: {
             add: ngAudio.load('sounds/click_add.mp3'),
-            remove: ngAudio.load('sounds/click_remove.wav')
+            remove: ngAudio.load('sounds/click_remove.mp3'),
+            check: ngAudio.load('sounds/click_check.mp3'),
         }
     };
 
@@ -122,6 +123,9 @@ angular.module('admin_panel').factory('MyAudio', ['ngAudio', function (ngAudio) 
                     break;
                 case 'remove':
                     sounds.click.remove.play();
+                    break;
+                case 'check':
+                    sounds.click.check.play();
             }
         },
         add: function() {
