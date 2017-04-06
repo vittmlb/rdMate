@@ -16,10 +16,11 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 closeOnCancel: false }
         };
 
-        $scope.teste = function(obj) {
+        $scope.modalEditCaixas = function(obj, tipo) {
             $scope.currentObj = obj;
+            $scope.currentObj.tipoAux = tipo;
             let modalInstance = $modal.open({
-                templateUrl: 'app/caixas/views/modals/teste.html',
+                templateUrl: 'app/caixas/views/modals/_modal_edit_lancamentos.html',
                 controller: ModalInstanceCtrl,
                 scope: $scope,
                 windowClass: 'animated flipInY'
@@ -48,7 +49,8 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 mov:  'Movimentação',
                 prod: 'Produto',
                 consumo: 'Consumo',
-                cartao: 'Cartão'
+                cartao: 'Cartão',
+                entrada: 'Entrada'
             }
         };
 
