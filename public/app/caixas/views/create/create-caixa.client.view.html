@@ -84,6 +84,7 @@
                 </div> <!-- ibox Lançamentos Caixa -->
 
                 <div class="col-lg-8">
+
                     <div class="tabs-container">
 
                         <tabset>
@@ -112,7 +113,8 @@
                                         </div> <!-- Input Qtd Perdida -->
 
                                         <div class="form-group form-group-sm">
-                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addConsumo(obj.consumo)"><i class="fa fa-plus"></i></a>
+                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.consumo); sounds.play('add')">
+                                                <i class="fa fa-plus"></i></a>
                                         </div> <!-- Botão Add Produto -->
 
                                     </div> <!-- Form Input Produtos (Salgados) -->
@@ -131,61 +133,52 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr data-ng-repeat="servico in controles.consumo">
-                                                    <td>{{ servico.nome }}</td>
-                                                    <td>{{ servico.inicial.valor }}</td>
-                                                    <td>{{ servico.final.valor }}</td>
-                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(prod, 'despesa', 'manha')"></i></td>
+                                                <tr data-ng-repeat="consumo in controles.consumo">
+                                                    <td>{{ consumo.nome }}</td>
+                                                    <td>{{ consumo.inicial.valor }}</td>
+                                                    <td>{{ consumo.final.valor }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeReg(consumo); sounds.play('remove')"></i></td>
                                                 </tr>
                                                 </tbody>
                                             </table> <!-- Tabela Salgados -->
 
                                         </div> <!-- Tabela Produtos (Salgados) -->
                                     </div>
+
                                 </div>
+
                             </tab> <!-- Tab Form Consumo (Luz Água) -->
 
                             <tab>
                                 <tab-heading>
-                                    <i class="fa fa-money"></i>Despesas e Mov
+                                    <i class="fa fa-money"></i>Despesas
                                 </tab-heading>
                                 <div class="panel-body">
+
                                     <div class="form-inline">
 
                                         <div class="form-group form-group-sm">
-                                            <input type="text" placeholder="Descrição" class="form-control" data-ng-model="objRegistro.descricao">
+                                            <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.despesa.descricao">
                                         </div> <!-- Input Descrição do Registro -->
 
                                         <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objRegistro.valor">
+                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.despesa.valor">
                                         </div> <!-- Input Valor do Registro -->
 
-                                        <div class="form-group form-group-sm">
+                                        <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
                                             <select class="form-control"
-                                                    data-ng-model="objRegistro.tipo"
-                                                    data-ng-options="item.valor as item.display for item in lista.tiposRegistro">
-                                            </select>
-                                        </div> <!-- Select Tipos do Registro -->
-
-                                        <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.desp"> <!-- enum do caixa.client.controller -->
-                                            <select class="form-control"
-                                                    data-ng-model="objRegistro.turno"
+                                                    data-ng-model="obj.despesa.turno"
                                                     data-ng-options="item.valor as item.display for item in lista.turnos">
                                             </select>
                                         </div> <!-- Select Turnos -->
 
-                                        <div class="form-group form-group-sm" ng-show="objRegistro.tipo === enums.tipos.mov"> <!-- enum do caixa.client.controller -->
-                                            <select class="form-control"
-                                                    data-ng-model="objRegistro.origem"
-                                                    data-ng-options="item.valor as item.display for item in lista.origens">
-                                            </select>
-                                        </div> <!-- Select Origem -->
                                         <div class="form-group form-group-sm">
-                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addRegistro(objRegistro)"><i class="fa fa-plus"></i></a>
+                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.despesa); sounds.play('add')"><i class="fa fa-plus"></i></a>
                                         </div>
 
                                     </div> <!-- Form Input Despesas e Movimentação -->
                                     <br/>
+
                                     <div class="row">
                                         <div class="col-lg-6">
 
@@ -196,16 +189,52 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr data-ng-repeat="desp_m in saidas.despesas | orderBy: 'turno'">
-                                                    <td>{{ desp_m.descricao }}</td>
-                                                    <td><i ng-class="defC.turnoIcon(desp_m.turno)"></i></td>
-                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
+                                                <tr data-ng-repeat="desp in saidas.despesas | orderBy: 'turno'">
+                                                    <td>{{ desp.descricao }}</td>
+                                                    <td><i ng-class="defC.turnoIcon(desp.turno)"></i></td>
+                                                    <td>{{ desp.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeReg(desp); sounds.play('remove');"></i></td>
                                                 </tr>
                                                 </tbody>
                                             </table> <!-- Tabela Despesas -->
 
                                         </div> <!-- Tabela Despesas -->
+                                    </div> <!-- Row Tabela Despesas -->
+                                </div>
+                            </tab> <!-- Tab Form Despesas -->
+
+                            <tab>
+                                <tab-heading>
+                                    <i class="fa fa-money"></i>Movimentação
+                                </tab-heading>
+                                <div class="panel-body">
+
+                                    <div class="form-inline">
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.movimentacao.descricao">
+                                        </div> <!-- Input Descrição do Registro -->
+
+                                        <div class="form-group form-group-sm">
+                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.movimentacao.valor">
+                                        </div> <!-- Input Valor do Registro -->
+
+                                        <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
+                                            <select class="form-control"
+                                                    data-ng-model="obj.movimentacao.origem"
+                                                    data-ng-options="item.valor as item.display for item in lista.origens">
+                                            </select>
+                                        </div> <!-- Select Origem -->
+
+                                        <div class="form-group form-group-sm">
+                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.movimentacao); sounds.play('add')"><i class="fa fa-plus"></i></a>
+                                        </div> <!-- Botão Cadastro -->
+
+                                    </div> <!-- Form Input Movimentação -->
+                                    <br/>
+
+                                    <div class="row">
+
                                         <div class="col-lg-6">
                                             <table class="table no-margins">
                                                 <thead>
@@ -214,20 +243,23 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr data-ng-repeat="desp_m in movimentacoes | orderBy: 'origem'">
-                                                    <td>{{ desp_m.descricao }}</td>
-                                                    <td><i ng-class="defC.origemIcon(desp_m.origem)"></i></td>
-                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'mov_cofre')"></i></td>
+                                                <tr data-ng-repeat="mov in movimentacoes | orderBy: 'origem'">
+                                                    <td>{{ mov.descricao }}</td>
+                                                    <td><i ng-class="defC.origemIcon(mov.origem)"></i></td>
+                                                    <td>{{ mov.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeReg(mov); sounds.play('remove');"></i></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
-                                    </div>
+                                        </div> <!-- Tabela Movimentações -->
+
+                                    </div> <!-- Row Tabela Movimentações -->
+
                                 </div>
-                            </tab> <!-- Tab Form Despesas e Movimentação -->
+                            </tab> <!-- Tab Form Movimentação -->
 
                             <tab>
+
                                 <tab-heading>
                                     <i class="fa fa-credit-card-alt"></i>Cartões
                                 </tab-heading>
@@ -240,29 +272,29 @@
                                         </div> <!-- Input INVISÍVEL para informar o tipo do lancamento para facilitar a função que joga o obj no array correspondente -->
 
                                         <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="objCartao.valor">
+                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.cartao.valor">
                                         </div> <!-- Input Valor do Registro -->
 
                                         <div class="form-group form-group-sm">
                                             <select class="form-control"
-                                                    data-ng-model="objCartao.bandeira"
+                                                    data-ng-model="obj.cartao.bandeira"
                                                     data-ng-options="item.valor as item.display for item in lista.bandeiras">
                                             </select>
                                         </div> <!-- Select Bandeiras -->
 
                                         <div class="form-group form-group-sm">
                                             <select class="form-control"
-                                                    data-ng-model="objCartao.turno"
+                                                    data-ng-model="obj.cartao.turno"
                                                     data-ng-options="item.valor as item.display for item in lista.turnos">
                                             </select>
                                         </div> <!-- Select Turnos -->
 
-                                        <div class="form-group form-group-sm"> <!-- Botão + -->
-                                            <a style="border-color:white;" class="btn btn-info btn-sm" ng-click="addCartao(objCartao)"><i class="fa fa-plus"></i></a>
-                                        </div>
+                                        <div class="form-group form-group-sm">
+                                            <a style="border-color:white;" class="btn btn-info btn-sm" ng-click="addReg(obj.cartao); sounds.play('add')"><i class="fa fa-plus"></i></a>
+                                        </div> <!-- Botão + -->
 
 
-                                    </div>
+                                    </div> <!-- Form Cartões -->
                                     <br/><br/>
 
                                     <div class="row">
@@ -275,10 +307,10 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr data-ng-repeat="desp_m in saidas.cartoes | filter: {turno: enums.turnos.manha}">
-                                                    <td>{{ desp_m.bandeira }}</td>
-                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'manha')"></i></td>
+                                                <tr data-ng-repeat="cartao in saidas.cartoes | filter: {turno: enums.turnos.manha}">
+                                                    <td>{{ cartao.bandeira }}</td>
+                                                    <td>{{ cartao.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeReg(cartao); sounds.play('remove');"></i></td>
                                                 </tr>
                                                 </tbody>
                                             </table> <!-- Tabela Cartões -->
@@ -292,10 +324,10 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr data-ng-repeat="desp_m in saidas.cartoes | filter: {turno: enums.turnos.tarde}">
-                                                    <td>{{ desp_m.bandeira }}</td>
-                                                    <td>{{ desp_m.valor | currency: 'R$ ' }}</td>
-                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(desp_m, 'despesa', 'tarde')"></i></td>
+                                                <tr data-ng-repeat="cartao in saidas.cartoes | filter: {turno: enums.turnos.tarde}">
+                                                    <td>{{ cartao.bandeira }}</td>
+                                                    <td>{{ cartao.valor | currency: 'R$ ' }}</td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeReg(cartao); sounds.play('remove');"></i></td>
                                                 </tr>
                                                 </tbody>
                                             </table> <!-- Tabela Cartões - Tarde -->
@@ -334,7 +366,7 @@
                                         </div> <!-- Input Qtd Usada -->
 
                                         <div class="form-group form-group-sm">
-                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addProduto(obj.produto)"><i class="fa fa-plus"></i></a>
+                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.produto); sounds.play('add')"><i class="fa fa-plus"></i></a>
                                         </div> <!-- Botão Add Produto -->
 
                                     </div> <!-- Form Input Produtos (Salgados) -->
@@ -360,13 +392,13 @@
                                                     <td>{{ prod.venda.valor }}</td>
                                                     <td>{{ prod.perda.valor }}</td>
                                                     <td>{{ prod.uso.valor }}</td>
-                                                    <td><i class="fa fa-remove clickable" ng-click="removeRegistro(prod, 'despesa', 'manha')"></i></td>
+                                                    <td><i class="fa fa-remove clickable" ng-click="removeReg(prod); sounds.play('remove');"></i></td>
                                                 </tr>
                                                 </tbody>
                                             </table> <!-- Tabela Salgados -->
 
                                         </div> <!-- Tabela Produtos (Salgados) -->
-                                    </div>
+                                    </div> <!-- Row Tabela Produtos (Salgados) -->
                                 </div>
                             </tab> <!-- Tab Form Produtos (Salgados) -->
 

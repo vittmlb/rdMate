@@ -33,6 +33,7 @@
     "angular-moment-picker": "moment-picker#^0.9.10",
     "iCheck": "icheck#^1.0.2",
     "sweetalert2": "^6.5.5",
-    "ngSweetAlert2": "angular-sweetalert-2#^2.1.1"
+    "ngSweetAlert2": "angular-sweetalert-2#^2.1.1",
+    "angular-audio": "^1.7.3"
   }
 }

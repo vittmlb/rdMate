@@ -1,8 +1,9 @@
 /**
  * Created by Vittorio on 22/03/2017.
  */
-angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster', '$http', '$timeout', 'MySweetAlert', 'MyDefineClass',
-    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass) {
+angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster',
+                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio',
+    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio) {
         let SweetAlertOptions = {
             removerCaixa: {
                 title: "Deseja remover este Caixa?",
@@ -15,7 +16,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 closeOnCancel: false }
         };
 
-        $scope.testeLimite = 18;
+        $scope.sounds = MyAudio;
 
         $scope.defC = MyDefineClass;
 
@@ -27,13 +28,18 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             tipos: {
                 desp: 'Despesa',
                 mov:  'Movimentação',
-                prod: 'Produto',
-                consumo: 'Consumo'
             },
             origens: {
                 cofre: 'Cofre',
                 geral: 'Geral'
             },
+            tiposAux: {
+                desp: 'Despesa',
+                mov:  'Movimentação',
+                prod: 'Produto',
+                consumo: 'Consumo',
+                cartao: 'Cartão'
+            }
         };
 
         MySweetAlert.set.text = `Tem certeza de que deseja remover este Caixa?`;
@@ -91,19 +97,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             obs: '',
             obj: {}
         };
-        $scope.objCartao = {
-            bandeira: '',
-            valor: 0,
-            turno: '',
-            tipo: '', // usado apenas para passar pelo switch da função
-            obs: '',
-        };
-        $scope.objProduto = {
-            nome: '',
-            venda: {},
-            perda: {},
-            uso: {},
-        };
 
         $scope.obj = {
             produto: {
@@ -117,6 +110,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 uso: {
                     valor: ''
                 },
+                tipoAux: $scope.enums.tiposAux.prod
             },
             consumo: {
                 nome: '',
@@ -126,10 +120,37 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 final: {
                     valor: ''
                 },
+                tipoAux: $scope.enums.tiposAux.consumo
+            },
+            cartao: {
+                bandeira: '',
+                valor: '',
+                turno: '',
+                tipo: '', // usado apenas para passar pelo switch da função
+                obs: '',
+                tipoAux: $scope.enums.tiposAux.cartao
+            },
+            despesa: {
+                descricao: '',
+                valor: '',
+                turno: '',
+                tag: '',
+                fornecedor: '',
+                obs: '',
+                tipoAux: $scope.enums.tiposAux.desp
+            },
+            movimentacao: {
+                descricao: '',
+                valor: '',
+                tag: '',
+                obs: '',
+                tipoAux: $scope.enums.tiposAux.mov
             },
             unset: function(tipo) {
+                let tp = $scope.enums.tiposAux;
                 switch (tipo) {
-                    case $scope.enums.tipos.prod:
+                    case tp.prod:
+                        this.produto = {};
                         this.produto = {
                             nome: '',
                             venda: {
@@ -141,9 +162,11 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                             uso: {
                                 valor: ''
                             },
+                            tipoAux: $scope.enums.tiposAux.prod
                         };
                         break;
-                    case $scope.enums.tipos.consumo:
+                    case tp.consumo:
+                        this.consumo = {};
                         this.consumo = {
                             nome: '',
                             inicial: {
@@ -152,12 +175,46 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                             final: {
                                 valor: ''
                             },
+                            tipoAux: $scope.enums.tiposAux.consumo
                         };
                         break;
+                    case tp.cartao:
+                        this.cartao = {};
+                        this.cartao = {
+                            bandeira: '',
+                            valor: '',
+                            turno: '',
+                            tipo: '', // usado apenas para passar pelo switch da função
+                            obs: '',
+                            tipoAux: $scope.enums.tiposAux.cartao
+                        };
+                        break;
+                    case tp.desp:
+                        this.despesa = {};
+                        this.despesa = {
+                            descricao: '',
+                                valor: '',
+                                turno: '',
+                                tag: '',
+                                fornecedor: '',
+                                obs: '',
+                                tipoAux: $scope.enums.tiposAux.desp
+                        };
+                        break;
+                    case tp.mov:
+                        this.movimentacao = {};
+                        this.movimentacao = {
+                        descricao: '',
+                            valor: '',
+                            tag: '',
+                            obs: '',
+                            tipoAux: $scope.enums.tiposAux.mov
+                    };
+                        break;
                 }
-
-            }
+            },
         };
+
 
         $scope.create = function() {
             let caixa = new Caixas({
@@ -267,6 +324,56 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             }
         };
 
+        $scope.addReg = function(registro) {
+            let parent = $scope.caixa ? $scope.caixa : $scope;
+            switch (registro.tipoAux) {
+                case $scope.enums.tiposAux.prod:
+                    parent.controles.produtos.push(registro);
+                    break;
+                case $scope.enums.tiposAux.cartao:
+                    parent.saidas.cartoes.push(registro);
+                    break;
+                case $scope.enums.tiposAux.consumo:
+                    parent.controles.consumo.push(registro);
+                    break;
+                case $scope.enums.tiposAux.desp:
+                    parent.saidas.despesas.push(registro);
+                    break;
+                case $scope.enums.tiposAux.mov:
+                    parent.movimentacoes.push(registro);
+                    break;
+            }
+            $scope.obj.unset(registro.tipoAux);
+        };
+
+        $scope.removeReg = function(registro, tipo) {
+            let tp = $scope.enums.tiposAux;
+            let parent = $scope;
+
+            if($scope.caixa) {
+                parent = $scope.caixa;
+                registro.tipoAux = tipo ? tipo : '';
+            }
+
+            switch (registro.tipoAux) {
+                case tp.prod:
+                    parent.controles.produtos = parent.controles.produtos.filter(function (elem) { return elem !== registro; });
+                    break;
+                case tp.cartao:
+                    parent.saidas.cartoes = parent.saidas.cartoes.filter(function (elem) { return elem !== registro; });
+                    break;
+                case tp.consumo:
+                    parent.controles.consumo = parent.controles.consumo.filter(function (elem) {return elem !== registro;});
+                    break;
+                case tp.desp:
+                    parent.saidas.despesas = parent.saidas.despesas.filter(function (elem) { return elem !== registro; });
+                    break;
+                case tp.mov:
+                    parent.movimentacoes = parent.movimentacoes.filter(function (elem) { return elem !== registro; });
+                    break;
+            }
+        };
+
         $scope.addRegistro = function(registro) {
             let parent = $scope.caixa ? $scope.caixa: $scope;
 
@@ -307,26 +414,26 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
         };
 
 
-        $scope.addCartao = function(registro) {
-            let parent = $scope.caixa ? $scope.caixa: $scope;
+        // $scope.addCartao = function(registro) {
+        //     let parent = $scope.caixa ? $scope.caixa: $scope;
+        //
+        //     parent.saidas.cartoes.push(registro);
+        //
+        //     $scope.objCartao = {};
+        //
+        // };
 
-            parent.saidas.cartoes.push(registro);
-
-            $scope.objCartao = {};
-
-        };
-
-        $scope.addProduto = function(produto) {
-            let parent = $scope.caixa ? $scope.caixa: $scope;
-            parent.controles.produtos.push(produto);
-            $scope.obj.unset($scope.enums.tipos.prod);
-        };
-
-        $scope.addConsumo = function(consumo) {
-            let parent = $scope.caixa ? $scope.caixa: $scope;
-            parent.controles.consumo.push(consumo);
-            $scope.obj.unset($scope.enums.tipos.consumo);
-        };
+        // $scope.addProduto = function(produto) {
+        //     let parent = $scope.caixa ? $scope.caixa: $scope;
+        //     parent.controles.produtos.push(produto);
+        //     $scope.obj.unset($scope.enums.tipos.prod);
+        // };
+        //
+        // $scope.addConsumo = function(consumo) {
+        //     let parent = $scope.caixa ? $scope.caixa: $scope;
+        //     parent.controles.consumo.push(consumo);
+        //     $scope.obj.unset($scope.enums.tipos.consumo);
+        // };
 
         function validateObjRegistro() {
 

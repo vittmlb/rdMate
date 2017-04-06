@@ -103,6 +103,35 @@ angular.module('admin_panel').factory('MyDefineClass', [function () {
     }
 
 }]);
+angular.module('admin_panel').factory('MyAudio', ['ngAudio', function (ngAudio) {
+
+    let sounds = {
+        click: {
+            add: ngAudio.load('sounds/click_add.mp3'),
+            remove: ngAudio.load('sounds/click_remove.wav')
+        }
+    };
+
+    let teste = ngAudio.load('sounds/click_add.mp3');
+
+    return {
+        play: function(tipo) {
+            switch (tipo) {
+                case 'add':
+                    sounds.click.add.play();
+                    break;
+                case 'remove':
+                    sounds.click.remove.play();
+            }
+        },
+        add: function() {
+            sounds.click.add.play();
+        },
+        remove: function() {
+            sounds.click.remove.play();
+        }
+    }
+}]);
 
 // function MySweetAlert ($scope) {
 //

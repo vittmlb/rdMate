@@ -15,6 +15,7 @@ let mainAppModule = angular.module('admin_panel', [
     'ngAnimate',
     'ui.bootstrap',
     'ngFileUpload',
+    'ngAudio'
     // 'oitozero.ngSweetAlert',
     // '19degrees.ngSweetAlert2'
 ]);
