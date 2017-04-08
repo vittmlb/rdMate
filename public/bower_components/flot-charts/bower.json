@@ -1,0 +1,33 @@
+{
+  "name": "flot-charts",
+  "version": "1.0.0",
+  "authors": [
+    "Jalal Fathi <jfathi.mail@gmail.com>"
+  ],
+  "description": "The Polymer integration of the Flot library.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "flot",
+    "charts",
+    "graphs"
+  ],
+  "main": "flot-charts.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/JaySunSyn/flot-charts",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "flot": "~0.8.3",
+    "jquery-ui": "~1.11.4"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}

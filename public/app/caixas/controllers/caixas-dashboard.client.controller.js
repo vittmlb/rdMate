@@ -2,8 +2,8 @@
  * Created by Vittorio on 07/04/2017.
  */
 angular.module('caixas').controller('DashboardsController', ['$scope', '$stateParams', '$location', 'CaixasDashboard', 'toaster',
-                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal', 'moment',
-    function($scope, $stateParams, $location, CaixasDashboard, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal, moment) {
+                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal', 'moment', 'MyFlot',
+    function($scope, $stateParams, $location, CaixasDashboard, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal, moment, MyFlot) {
         let a = 'a';
 
         function popToaster(errorResponse) {
@@ -39,6 +39,15 @@ angular.module('caixas').controller('DashboardsController', ['$scope', '$statePa
             });
 
         };
+
+
+        $scope.load = function() {
+            $scope.flot = {
+                dataset: MyFlot.flotData(),
+                options: MyFlot.flotOptions()
+            };
+            let b = 10;
+        }();
 
     }
 ]);

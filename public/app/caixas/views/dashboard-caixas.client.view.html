@@ -74,9 +74,9 @@
                 <div class="ibox-content">
                     <div class="row">
                         <div class="col-lg-9">
-                            <!--<div class="flot-chart" ng-controller="dashboardFlotTwo as chart">-->
-                                <!--<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>-->
-                            <!--</div>-->
+                            <div class="flot-chart">
+                                <div flot class="flot-chart-content" dataset="flot.dataset" options="flot.options"></div>
+                            </div>
                         </div>
                         <div class="col-lg-3">
                             <ul class="stat-list">
@@ -379,9 +379,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="col-lg-6" ng-controller="dashboardMap as map">
-                                    <div vector-map style="height: 300px;" my-map-data="map.data"></div>
-                                </div>
+
                             </div>
                         </div>
                     </div>

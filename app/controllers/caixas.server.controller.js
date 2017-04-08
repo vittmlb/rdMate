@@ -280,9 +280,11 @@ let Relatorios = function(req, res, next, param) {
     };
 
     this.geral = function() {
+
         promises.push(this.base());
         promises.push(this.cartoes());
         promises.push(this.despesas());
+        promises.push(this.produtos());
 
         let prom = Promise.all(promises);
 
@@ -362,9 +364,32 @@ let Relatorios = function(req, res, next, param) {
             query.group
         ]).exec();
 
-        promise.then(function (cartoes) {
-            cartoes[0]._controle = "despesas";
+        promise.then(function (despesas) {
+            despesas[0]._controle = "despesas";
             return despesas;
+        });
+
+        promise.catch(function (err) {
+            return err;
+        });
+
+        return promise;
+
+    };
+
+    this.produtos = function() {
+
+        let query = buildQuery.totais.produtos();
+
+        let promise = Caixas.aggregate([
+            intervalo,
+            query.unwind,
+            query.group,
+            query.project
+        ]).exec();
+
+        promise.then(function (produtos) {
+            return produtos;
         });
 
         promise.catch(function (err) {
@@ -416,6 +441,28 @@ let buildQuery = {
             return {
                 unwind: {"$unwind": "$saidas.despesas"},
                 group: {"$group": {"_id": null, "total": {"$sum": "$saidas.despesas.valor"}, "elem": {"$push": "$$ROOT"}}}
+            }
+        },
+        produtos: function() {
+            return {
+                unwind: {"$unwind": "$controles.produtos"},
+                group: {"$group": { "_id": "$controles.produtos.nome",
+                                    "venda": {"$sum": "$controles.produtos.venda.valor"},
+                                    "perda": {"$sum": "$controles.produtos.perda.valor"},
+                                    "uso": {"$sum": "$controles.produtos.uso.valor"},
+                                    "_c": {"$literal": 54},
+                                    "elem": {"$push": "$$ROOT"}}},
+                project: {
+                    "$project": {
+                        "nome": "$_id",
+                        "venda": 1,
+                        "perda": 1,
+                        "uso": 1,
+                        "elem": 1,
+                        "_controle": "$_id",
+                        "_c": 1
+                    }
+                }
             }
         }
     }
