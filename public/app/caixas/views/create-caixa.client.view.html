@@ -1,5 +1,5 @@
 <section data-ng-controller="CaixasController" data-ng-init="">
-    
+
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Caixas</h2>
@@ -16,78 +16,129 @@
 
     <div class="wrapper wrapper-content animated fadeInRight">
 
+
+
         <form data-ng-submit="create()">
 
             <div class="row">
 
-                <div class="col-lg-4">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Registrar Caixa</h5>
-                            <div ibox-tools></div>
-                        </div>
-                        <div class="ibox-content">
-                            <br/><br/>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="On the Left!"><i class="fa fa-calendar"></i></label>
-                                    <input type="date" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">
+                <div class="col-lg-4 m-b-lg">
+
+                    <div class="tabs-container">
+
+                        <tabset>
+
+                            <tab>
+                                <tab-heading>
+                                    <i class="fa fa-money"></i>Entradas
+                                </tab-heading>
+
+                                <div class="panel-body">
+
+                                    <div class="row m-b-md">
+
+                                        <div class="col-lg-12 p-w-lg m-t-md">
+
+                                            <div class="form-group form-group-sm">
+                                                <div class="input-group">
+                                                    <label class="input-group-addon"><i class="fa fa-calendar"></i></label>
+                                                    <input type="date" class="form-control" data-ng-model="caralho" ng-change="onChange()">
+                                                </div>
+                                            </div> <!-- Grupo Data do Caixa -->
+
+
+                                            <div class="form-group form-group-sm">
+                                                <label><small>Abertura</small></label>
+                                                <div class="input-group m-b-sm">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="entradas.abertura.manha.valor">
+                                                </div>
+                                                <div class="input-group">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="entradas.abertura.tarde.valor">
+                                                </div>
+                                            </div> <!-- Grupo Abertura -->
+
+
+                                            <div class="form-group form-group-sm">
+                                                <label><small>Venda</small></label>
+                                                <div class="input-group m-b-sm">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="entradas.vendas.manha.valor">
+                                                </div>
+                                                <div class="input-group">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="entradas.vendas.tarde.valor">
+                                                </div>
+                                            </div> <!-- Grupo Venda -->
+
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </div>
 
-                            <table class="table table-striped no-margins">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th style="text-align: center;">Manhã</th>
-                                    <th style="text-align: center;">Tarde</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Abertura</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.abertura.manha.valor" placeholder=""></td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.abertura.tarde.valor" placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td>Venda</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.vendas.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.vendas.tarde.valor" placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td>Transferência</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.transferencia.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.transferencia.tarde.valor" placeholder=""></td>
-                                </tr>
-                                <tr>
-                                    <td>Dinheiro</td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.dinheiro.manha.valor" placeholder=""></td>
-                                    <td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.dinheiro.tarde.valor" placeholder=""></td>
-                                </tr>
-                                </tbody>
-                            </table> <!-- Tabela ... -->
+                            </tab> <!-- Tab Form Entradas -->
 
-                            <table class="table table-striped no-margins">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th style="text-align: center;">Salgados</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Leitura Z</td>
-                                    <td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.leitura_z.valor" placeholder=""></td>
-                                </tr> <!-- Leitura Z -->
-                                </tbody>
-                            </table> <!-- Salgados -->
+                            <tab>
+                                <tab-heading>
+                                    <i class="fa fa-money"></i>Saídas
+                                </tab-heading>
+
+                                <div class="panel-body">
+
+                                    <div class="row m-b-md">
+
+                                        <div class="col-lg-12 p-w-lg m-t-md">
+
+                                            <div class="form-group form-group-sm">
+                                                <!--<div class="input-group">-->
+                                                    <!--<label class="input-group-addon"><i class="fa fa-calendar"></i></label>-->
+                                                    <!--<input type="date" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+                                                <!--</div>-->
+                                            </div> <!-- Grupo Data do Caixa -->
 
 
-                        </div>
+                                            <div class="form-group form-group-sm">
+                                                <label><small>Transferências</small></label>
+                                                <div class="input-group m-b-sm">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="saidas.transferencia.manha.valor">
+                                                </div>
+                                                <div class="input-group">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="saidas.transferencia.tarde.valor">
+                                                </div>
+                                            </div> <!-- Grupo Transferência -->
+
+
+                                            <div class="form-group form-group-sm">
+                                                <label><small>Dinheiro</small></label>
+                                                <div class="input-group m-b-sm">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="saidas.dinheiro.manha.valor">
+                                                </div>
+                                                <div class="input-group">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="saidas.dinheiro.tarde.valor">
+                                                </div>
+                                            </div> <!-- Grupo Dinheiro -->
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </tab> <!-- Tab Form Saídas -->
+
+
+                        </tabset>
+
                     </div>
-                </div> <!-- ibox Lançamentos Caixa -->
 
-                <div class="col-lg-8">
+                </div>
+
+
+                <div class="col-lg-8 m-b-lg">
 
                     <div class="tabs-container">
 
@@ -477,8 +528,137 @@
                 </div>
             </div>
 
-
         </form>
+
     </div>
 
 </section>
+
+<!--<div class="col-lg-4">-->
+<!--<div class="ibox float-e-margins">-->
+<!--<div class="ibox-title">-->
+<!--<h5>Registrar Caixa</h5>-->
+<!--<div ibox-tools></div>-->
+<!--</div>-->
+<!--<div class="ibox-content">-->
+
+<!--<div class="row">-->
+
+<!--<div class="col-lg-12">-->
+<!--<div class="form m-t-md">-->
+
+<!--<div class="form-group form-group-sm">-->
+<!--<div class="input-group">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="On the Left!"><i class="fa fa-calendar"></i></label>-->
+<!--<input type="date" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--</div>-->
+<!--<br/>-->
+
+
+
+<!--<div class="form-group form-group-sm">-->
+<!--<label><small>Abertura</small></label>-->
+<!--<div class="input-group m-b-sm">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--<div class="input-group">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-sun-o"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="form-group form-group-sm">-->
+<!--<label><small>Venda</small></label>-->
+<!--<div class="input-group m-b-sm">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--<div class="input-group">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-sun-o"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="form-group form-group-sm">-->
+<!--<label><small>Transferência</small></label>-->
+<!--<div class="input-group m-b-sm">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--<div class="input-group">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-sun-o"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="form-group form-group-sm">-->
+<!--<label><small>Dinheiro</small></label>-->
+<!--<div class="input-group m-b-sm">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--<div class="input-group">-->
+<!--<label for="inputDataCaixa" class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-sun-o"></i></label>-->
+<!--<input type="number" step="any" id="inputDataCaixa" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
+<!--</div>-->
+<!--</div>-->
+
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash;<table class="table table-striped no-margins">&ndash;&gt;-->
+<!--&lt;!&ndash;<thead>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<th></th>&ndash;&gt;-->
+<!--&lt;!&ndash;<th style="text-align: center;">Manhã</th>&ndash;&gt;-->
+<!--&lt;!&ndash;<th style="text-align: center;">Tarde</th>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;</thead>&ndash;&gt;-->
+<!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>Abertura</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.abertura.manha.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.abertura.tarde.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>Venda</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.vendas.manha.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="entradas.vendas.tarde.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>Transferência</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.transferencia.manha.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.transferencia.tarde.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>Dinheiro</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.dinheiro.manha.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="saidas.dinheiro.tarde.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;</table> &lt;!&ndash; Tabela ... &ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;<table class="table table-striped no-margins">&ndash;&gt;-->
+<!--&lt;!&ndash;<thead>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<th></th>&ndash;&gt;-->
+<!--&lt;!&ndash;<th style="text-align: center;">Salgados</th>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;</thead>&ndash;&gt;-->
+<!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>Leitura Z</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td><input style="text-align:center;" type="number" step="any" class="form-control input-transparente-tabela" data-ng-model="controles.leitura_z.valor" placeholder=""></td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr> &lt;!&ndash; Leitura Z &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;</table> &lt;!&ndash; Salgados &ndash;&gt;&ndash;&gt;-->
+
+
+<!--</div>-->
+<!--</div>-->
+<!--</div> &lt;!&ndash; ibox Lançamentos Caixa &ndash;&gt;-->

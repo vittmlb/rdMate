@@ -7,7 +7,7 @@ let Schema = mongoose.Schema;
 let CaixasSchema = new Schema({
     data_caixa: {
         type: Date,
-        required: `O campo 'data_do_caixa' é obrigatório.`
+        required: `O campo 'data_caixa' é obrigatório.`
     },
     funcionarios: {
         manha: {

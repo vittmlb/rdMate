@@ -2,8 +2,8 @@
  * Created by Vittorio on 22/03/2017.
  */
 angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster',
-                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal',
-    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal) {
+                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal', 'AppConfig',
+    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal, AppConfig) {
         let SweetAlertOptions = {
             removerCaixa: {
                 title: "Deseja remover este Caixa?",
@@ -70,30 +70,33 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             toaster.pop(msgObj);
         }
 
-        $scope.lista = {
-            tiposRegistro: {},
-            turnos: {},
-            bandeiras: {},
-            produtos: {},
-            consumos: {},
-            fornecedores: {},
-            categorias: {}
+        // $scope.lista = {
+        //     tiposRegistro: {},
+        //     turnos: {},
+        //     bandeiras: {},
+        //     produtos: {},
+        //     consumos: {},
+        //     fornecedores: {},
+        //     categorias: {}
+        // };
+
+        $scope.lista = AppConfig.lista.controller('CaixasController');
+
+        // $http.get('/app/caixas/data/enum_caixas.json').success(function (data) {
+        //     $scope.lista.turnos = data.turnos;
+        //     $scope.lista.origens = data.origens;
+        //     $scope.lista.bandeiras = data.bandeiras;
+        //     $scope.lista.produtos = data.controles.produtos;
+        //     $scope.lista.consumos = data.controles.consumos;
+        // });
+        // $http.get('/app/data/enum_data.json').success(function (data) {
+        //     $scope.lista.fornecedores = data.fornecedores;
+        //     $scope.lista.categorias = data.categorias;
+        // });
+
+        $scope.data_caixa = {
+            valor: ''
         };
-
-
-        $http.get('/app/caixas/data/enum_caixas.json').success(function (data) {
-            $scope.lista.tiposRegistro = data.tiposRegistro;
-            $scope.lista.turnos = data.turnos;
-            $scope.lista.origens = data.origens;
-            $scope.lista.bandeiras = data.bandeiras;
-            $scope.lista.produtos = data.controles.produtos;
-            $scope.lista.consumos = data.controles.consumos;
-        });
-        $http.get('/app/data/enum_data.json').success(function (data) {
-            $scope.lista.fornecedores = data.fornecedores;
-            $scope.lista.categorias = data.categorias;
-        });
-
         $scope.entradas = {};
         $scope.saidas = {
             despesas: [],
@@ -238,7 +241,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
 
         $scope.create = function() {
             let caixa = new Caixas({
-                data_caixa: this.data_caixa,
+                data_caixa: $scope.data_caixa.valor,
                 entradas: this.entradas,
                 saidas: this.saidas,
                 movimentacoes: this.movimentacoes,
@@ -250,6 +253,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 popToaster(errorResponse);
             });
         };
+        $scope.data_caixa.valor = ''; // todo: Foi preciso recorrer a esse artificio pois (acredito) o campo da data, por estar em uma tab, deve ter o seu próprio escopo e não consegue "pegar" o this.data_caixa
         $scope.find = function() {
             let p = Caixas.query().$promise;
 

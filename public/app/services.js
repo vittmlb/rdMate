@@ -405,3 +405,55 @@ angular.module('admin_panel').factory('MyFlot', [function () {
     }
 
 }]);
+
+angular.module('admin_panel').factory('AppConfig', ['$http', function ($http) {
+
+    /**
+     * Lista utilizada em CaixasController > caixas.client.controller.js
+     * @type {{tiposRegistro: {}, turnos: {}, origens: {}, bandeiras: {}, produtos: {}, consumos: {}, fornecedores: {}, categorias: {}}}
+     */
+    let lista_ctrl_caixa = {
+        tiposRegistro: {},
+        turnos: {},
+        origens: {},
+        bandeiras: {},
+        produtos: {},
+        consumos: {},
+        fornecedores: {},
+        categorias: {}
+    };
+
+    function gera_lista(nomeCtrl) {
+        switch (nomeCtrl) {
+            case 'CaixasController':
+                return gera_lista_ctrl_caixa();
+
+        }
+    }
+
+    function gera_lista_ctrl_caixa() {
+        return lista_ctrl_caixa;
+    }
+    
+    $http.get('/app/caixas/data/enum_caixas.json').success(function (data) {
+        lista_ctrl_caixa.tiposRegistro = data.tiposRegistro;
+        lista_ctrl_caixa.turnos = data.turnos;
+        lista_ctrl_caixa.origens = data.origens;
+        lista_ctrl_caixa.bandeiras = data.bandeiras;
+        lista_ctrl_caixa.produtos = data.controles.produtos;
+        lista_ctrl_caixa.consumos = data.controles.consumos;
+    });
+    $http.get('/app/data/enum_data.json').success(function (data) {
+        lista_ctrl_caixa.fornecedores = data.fornecedores;
+        lista_ctrl_caixa.categorias = data.categorias;
+    });
+
+    return {
+        lista: {
+            controller: function(nomeCtrl) {
+                return gera_lista(nomeCtrl);
+            }
+        }
+    };
+    
+}]);
