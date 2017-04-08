@@ -274,10 +274,6 @@ let Relatorios = function(req, res, next, param) {
     let parent = this;
     let promises = [];
     let intervalo = buildQuery.intervalo(param.inicial, param.final);
-    req.relatorio = {
-        cartoes: {},
-        base: {}
-    };
 
     this.geral = function() {
 
@@ -389,6 +385,9 @@ let Relatorios = function(req, res, next, param) {
         ]).exec();
 
         promise.then(function (produtos) {
+            produtos.forEach(function (data) {
+                data._controle = "produtos"
+            });
             return produtos;
         });
 
@@ -412,6 +411,7 @@ let buildQuery = {
     intervalo: function(data_inicial, data_final) {
         return {$match: {"data_caixa": {"$gte": new Date(data_inicial), "$lte": new Date(data_final)}}}
     },
+
     totais: {
         cartoes: function() {
             return {
@@ -450,7 +450,6 @@ let buildQuery = {
                                     "venda": {"$sum": "$controles.produtos.venda.valor"},
                                     "perda": {"$sum": "$controles.produtos.perda.valor"},
                                     "uso": {"$sum": "$controles.produtos.uso.valor"},
-                                    "_c": {"$literal": 54},
                                     "elem": {"$push": "$$ROOT"}}},
                 project: {
                     "$project": {
@@ -459,8 +458,6 @@ let buildQuery = {
                         "perda": 1,
                         "uso": 1,
                         "elem": 1,
-                        "_controle": "$_id",
-                        "_c": 1
                     }
                 }
             }
