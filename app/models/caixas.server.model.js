@@ -150,7 +150,13 @@ let CaixasSchema = new Schema({
                 type: String
             }],
             fornecedor: {
-                type: String
+                type: String,
+                enum: ["Starmate", "Starchá", "Coca-Cola", "Tradicional", "Fast & Food", "Parmalat", "Dinorma", "Outros"]
+            },
+            categoria: {
+                type: String,
+                // enum: ["Custo Variável", "Despesa Operacional", "Investimento", "Outras Saídas"],
+                default: 'Outras Saídas'
             },
             obs: {
                 type: String,
@@ -303,15 +309,28 @@ let CaixasSchema = new Schema({
                 default: false
             },
         }],
-        leitura_z: {
-            valor: {
-                type: Number,
-                default: 0
+        fiscal: {
+            leitura_z: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
-            obs: String,
-            checked: {
-                type: Boolean,
-                default: false
+            fita_branca: {
+                valor: {
+                    type: Number,
+                    default: 0
+                },
+                obs: String,
+                checked: {
+                    type: Boolean,
+                    default: false
+                },
             },
         },
     },

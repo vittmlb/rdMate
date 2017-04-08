@@ -1,5 +1,5 @@
 {
-  "fornecedores": ["Starmate", "Starchá", "Coca-Cola", "Tradicional", "Fast & Food", "Parmalat", "Dinorma"],
+  "fornecedores": ["Starmate", "Starchá", "Coca-Cola", "Tradicional", "Fast & Food", "Parmalat", "Dinorma", "Outros"],
   "categorias": ["Entrada", "Custo Variável", "Despesa Operacional", "Investimento", "Outras Saídas"],
   "subcategorias": [
     {"cat": "Entrada", "valor": "Venda"},

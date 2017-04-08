@@ -75,7 +75,9 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             turnos: {},
             bandeiras: {},
             produtos: {},
-            consumos: {}
+            consumos: {},
+            fornecedores: {},
+            categorias: {}
         };
 
 
@@ -86,6 +88,10 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             $scope.lista.bandeiras = data.bandeiras;
             $scope.lista.produtos = data.controles.produtos;
             $scope.lista.consumos = data.controles.consumos;
+        });
+        $http.get('/app/data/enum_data.json').success(function (data) {
+            $scope.lista.fornecedores = data.fornecedores;
+            $scope.lista.categorias = data.categorias;
         });
 
         $scope.entradas = {};
@@ -146,8 +152,9 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 descricao: '',
                 valor: '',
                 turno: '',
-                tag: '',
+                tags: [],
                 fornecedor: '',
+                categoria: '',
                 obs: '',
                 tipoAux: $scope.enums.tiposAux.desp
             },
@@ -205,18 +212,19 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                         this.despesa = {};
                         this.despesa = {
                             descricao: '',
-                                valor: '',
-                                turno: '',
-                                tag: '',
-                                fornecedor: '',
-                                obs: '',
-                                tipoAux: $scope.enums.tiposAux.desp
+                            valor: '',
+                            turno: '',
+                            tags: [],
+                            fornecedor: '',
+                            categoria: '',
+                            obs: '',
+                            tipoAux: $scope.enums.tiposAux.desp
                         };
                         break;
                     case tp.mov:
                         this.movimentacao = {};
                         this.movimentacao = {
-                        descricao: '',
+                            descricao: '',
                             valor: '',
                             tag: '',
                             obs: '',
@@ -314,7 +322,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
 
             }).catch(swal.noop);
         };
-
 
         $scope.defineClass = function(item) {
             if(item >= 0) {
