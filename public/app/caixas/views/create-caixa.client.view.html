@@ -1,4 +1,5 @@
 <section data-ng-controller="CaixasController" data-ng-init="">
+    
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Caixas</h2>
@@ -12,8 +13,11 @@
             </ol>
         </div>
     </div>
+
     <div class="wrapper wrapper-content animated fadeInRight">
+
         <form data-ng-submit="create()">
+
             <div class="row">
 
                 <div class="col-lg-4">
@@ -93,51 +97,56 @@
                                 <tab-heading>
                                     <i class="fa fa-money"></i>Despesas
                                 </tab-heading>
+
                                 <div class="panel-body">
 
-                                    <div class="form-inline">
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.despesa.descricao">
-                                        </div> <!-- Input Descrição do Registro -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.despesa.valor">
-                                        </div> <!-- Input Valor do Registro -->
-
-                                        <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
-                                            <select class="form-control"
-                                                    data-ng-model="obj.despesa.fornecedor"
-                                                    data-ng-options="item as item for item in lista.fornecedores">
-                                            </select>
-                                        </div> <!-- Select Fornecedor -->
-
-                                        <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
-                                            <select class="form-control"
-                                                    data-ng-model="obj.despesa.turno"
-                                                    data-ng-options="item.valor as item.display for item in lista.turnos">
-                                            </select>
-                                        </div> <!-- Select Turno -->
-
-                                        <div class="form-group form-group-sm">
-                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.despesa); sounds.play('add')"><i class="fa fa-plus"></i></a>
-                                        </div>
-
-                                    </div> <!-- Form Input Despesas e Movimentação -->
-                                    <br/>
-
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
 
-                                            <table class="table no-margins">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="3" class="text-danger">Despesas</th>
-                                                </tr>
-                                                </thead>
+                                            <div class="form">
+
+                                                <h4 class="m-b-lg">Lançamento de Despesas</h4>
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.despesa.descricao">
+                                                </div> <!-- Input Descrição do Registro -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.despesa.valor">
+                                                </div> <!-- Input Valor do Registro -->
+
+                                                <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
+                                                    <select class="form-control"
+                                                            data-ng-model="obj.despesa.fornecedor"
+                                                            data-ng-options="item as item for item in lista.fornecedores">
+                                                    </select>
+                                                </div> <!-- Select Fornecedor -->
+
+                                                <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
+                                                    <select class="form-control"
+                                                            data-ng-model="obj.despesa.turno"
+                                                            data-ng-options="item.valor as item.display for item in lista.turnos">
+                                                    </select>
+                                                </div> <!-- Select Turno -->
+
+                                                <div class="form-group form-group-sm m-t-md">
+                                                    <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.despesa); sounds.play('add')">Adicionar</span>
+                                                </div>
+
+                                            </div> <!-- Form Input Despesas -->
+                                        </div>
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+                                            <h4 class="m-b-md">Lista de Despesas</h4>
+                                            <table class="table no-margins p-md">
+                                                <!--<thead>-->
+                                                <!--<tr>-->
+                                                    <!--<th colspan="3" class="text-danger">Despesas</th>-->
+                                                <!--</tr>-->
+                                                <!--</thead>-->
                                                 <tbody>
                                                 <tr data-ng-repeat="desp in saidas.despesas | orderBy: 'turno'">
-                                                    <td>{{ desp.descricao }}</td>
+                                                    <td>{{ desp.descricao | limitTo: 20 }}</td>
+                                                    <td>{{ desp.fornecedor | limitTo: 8 }}</td>
                                                     <td><i ng-class="defC.turnoIcon(desp.turno)"></i></td>
                                                     <td>{{ desp.valor | currency: 'R$ ' }}</td>
                                                     <td><i class="fa fa-remove clickable" ng-click="removeReg(desp); sounds.play('remove');"></i></td>
@@ -146,8 +155,10 @@
                                             </table> <!-- Tabela Despesas -->
 
                                         </div> <!-- Tabela Despesas -->
-                                    </div> <!-- Row Tabela Despesas -->
+                                    </div> <!-- Linha Cadastro e Lista de DESPESAS -->
+
                                 </div>
+
                             </tab> <!-- Tab Form Despesas -->
 
                             <tab>
@@ -156,43 +167,49 @@
                                 </tab-heading>
                                 <div class="panel-body">
 
-                                    <div class="form-inline">
-
-                                        <div class="form-group form-group-sm">
-                                            <select class="form-control"
-                                                    data-ng-model="obj.consumo.nome"
-                                                    data-ng-options="item.valor as item.display for item in lista.consumos">
-                                            </select>
-                                        </div> <!-- Select Nome do Consumo -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Abertura" class="form-control" data-ng-model="obj.consumo.inicial.valor">
-                                        </div> <!-- Input Consumo Inicial -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Encerramento" class="form-control" data-ng-model="obj.consumo.final.valor">
-                                        </div> <!-- Input Qtd Perdida -->
-
-                                        <div class="form-group form-group-sm">
-                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.consumo); sounds.play('add')">
-                                                <i class="fa fa-plus"></i></a>
-                                        </div> <!-- Botão Add Produto -->
-
-                                    </div> <!-- Form Input Produtos (Salgados) -->
-                                    <br/>
-
                                     <div class="row">
-                                        <div class="col-lg-8">
 
-                                            <table class="table no-margins">
-                                                <thead>
-                                                <tr>
-                                                    <th>Serviços</th>
-                                                    <th><i class="fa fa-hourglass-start"></i></th>
-                                                    <th><i class="fa fa-hourglass-end"></i></th>
-                                                    <th><i class="fa fa-bolt"></i></th>
-                                                </tr>
-                                                </thead>
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                            <div class="form">
+
+                                                <h4 class="m-b-lg">Lançamento de Serviços</h4>
+
+                                                <div class="form-group form-group-sm">
+                                                    <select class="form-control"
+                                                            data-ng-model="obj.consumo.nome"
+                                                            data-ng-options="item.valor as item.display for item in lista.consumos">
+                                                    </select>
+                                                </div> <!-- Select Nome do Consumo -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Abertura" class="form-control" data-ng-model="obj.consumo.inicial.valor">
+                                                </div> <!-- Input Consumo Inicial -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Encerramento" class="form-control" data-ng-model="obj.consumo.final.valor">
+                                                </div> <!-- Input Qtd Perdida -->
+
+                                                <div class="form-group form-group-sm m-t-md">
+                                                    <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.consumo); sounds.play('add')">Adicionar</span>
+                                                </div> <!-- Botão Add Produto -->
+
+                                            </div> <!-- Form Input Produtos (Salgados) -->
+
+                                        </div> <!-- Coluna Input Produtos (Salgados) -->
+
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+                                            <h4 class="m-b-md">Lista de Serviços</h4>
+
+                                            <table class="table no-margins p-md">
+                                                <!--<thead>-->
+                                                <!--<tr>-->
+                                                    <!--<th>Serviços</th>-->
+                                                    <!--<th><i class="fa fa-hourglass-start"></i></th>-->
+                                                    <!--<th><i class="fa fa-hourglass-end"></i></th>-->
+                                                    <!--<th><i class="fa fa-bolt"></i></th>-->
+                                                <!--</tr>-->
+                                                <!--</thead>-->
                                                 <tbody>
                                                 <tr data-ng-repeat="consumo in controles.consumo">
                                                     <td>{{ consumo.nome }}</td>
@@ -203,8 +220,10 @@
                                                 </tbody>
                                             </table> <!-- Tabela Salgados -->
 
-                                        </div> <!-- Tabela Produtos (Salgados) -->
-                                    </div>
+                                        </div>
+
+                                    </div> <!-- Coluna Input Produtos (Salgados) Produtos (Salgados) -->
+
 
                                 </div>
 
@@ -216,40 +235,42 @@
                                 </tab-heading>
                                 <div class="panel-body">
 
-                                    <div class="form-inline">
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.movimentacao.descricao">
-                                        </div> <!-- Input Descrição do Registro -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.movimentacao.valor">
-                                        </div> <!-- Input Valor do Registro -->
-
-                                        <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
-                                            <select class="form-control"
-                                                    data-ng-model="obj.movimentacao.origem"
-                                                    data-ng-options="item.valor as item.display for item in lista.origens">
-                                            </select>
-                                        </div> <!-- Select Origem -->
-
-                                        <div class="form-group form-group-sm">
-                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.movimentacao); sounds.play('add')"><i class="fa fa-plus"></i></a>
-                                        </div> <!-- Botão Cadastro -->
-
-                                    </div> <!-- Form Input Movimentação -->
-                                    <br/>
-
                                     <div class="row">
 
-                                        <div class="col-lg-6">
-                                            <table class="table no-margins">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="3">Movimentação</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                            <div class="form">
+
+                                                <h4 class="m-b-lg">Lançamento de Movimentação</h4>
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.movimentacao.descricao">
+                                                </div> <!-- Input Descrição do Registro -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.movimentacao.valor">
+                                                </div> <!-- Input Valor do Registro -->
+
+                                                <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
+                                                    <select class="form-control"
+                                                            data-ng-model="obj.movimentacao.origem"
+                                                            data-ng-options="item.valor as item.display for item in lista.origens">
+                                                    </select>
+                                                </div> <!-- Select Origem -->
+
+                                                <div class="form-group form-group-sm m-t-md">
+                                                    <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.movimentacao); sounds.play('add')">Adicionar</span>
+                                                </div> <!-- Botão Cadastro -->
+
+                                            </div> <!-- Form Input Movimentação -->
+
+                                        </div>
+
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                            <h4 class="m-b-lg">Lista de Movimentações</h4>
+
+                                            <table class="table no-margins p-md">
                                                 <tr data-ng-repeat="mov in movimentacoes | orderBy: 'origem'">
                                                     <td>{{ mov.descricao }}</td>
                                                     <td><i ng-class="defC.origemIcon(mov.origem)"></i></td>
@@ -257,8 +278,18 @@
                                                     <td><i class="fa fa-remove clickable" ng-click="removeReg(mov); sounds.play('remove');"></i></td>
                                                 </tr>
                                                 </tbody>
-                                            </table>
-                                        </div> <!-- Tabela Movimentações -->
+                                            </table> <!-- Tabela Movimentações -->
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-lg-6">
+
+                                        </div>
 
                                     </div> <!-- Row Tabela Movimentações -->
 
@@ -272,56 +303,64 @@
                                 </tab-heading>
                                 <div class="panel-body">
 
-                                    <div class="form-inline">
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="hidden" name="tipo_cartao" data-ng-model="objCartao.tipo" ng-value="tipo_cartao" ng-init="tipo_cartao='Cartão'">
-                                        </div> <!-- Input INVISÍVEL para informar o tipo do lancamento para facilitar a função que joga o obj no array correspondente -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.cartao.valor">
-                                        </div> <!-- Input Valor do Registro -->
-
-                                        <div class="form-group form-group-sm">
-                                            <select class="form-control"
-                                                    data-ng-model="obj.cartao.bandeira"
-                                                    data-ng-options="item.valor as item.display for item in lista.bandeiras">
-                                            </select>
-                                        </div> <!-- Select Bandeiras -->
-
-                                        <div class="form-group form-group-sm">
-                                            <select class="form-control"
-                                                    data-ng-model="obj.cartao.turno"
-                                                    data-ng-options="item.valor as item.display for item in lista.turnos">
-                                            </select>
-                                        </div> <!-- Select Turnos -->
-
-                                        <div class="form-group form-group-sm">
-                                            <a style="border-color:white;" class="btn btn-info btn-sm" ng-click="addReg(obj.cartao); sounds.play('add')"><i class="fa fa-plus"></i></a>
-                                        </div> <!-- Botão + -->
-
-
-                                    </div> <!-- Form Cartões -->
-                                    <br/><br/>
-
                                     <div class="row">
 
-                                        <div class="col-lg-6">
-                                            <table class="table no-margins">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="3" class="text-info">Cartões Manhã</th>
-                                                </tr>
-                                                </thead>
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                            <div class="form">
+
+                                                <h4 class="m-b-lg">Lançamento de Cartões</h4>
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="hidden" name="tipo_cartao" data-ng-model="objCartao.tipo" ng-value="tipo_cartao" ng-init="tipo_cartao='Cartão'">
+                                                </div> <!-- Input INVISÍVEL para informar o tipo do lancamento para facilitar a função que joga o obj no array correspondente -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.cartao.valor">
+                                                </div> <!-- Input Valor do Registro -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <select class="form-control"
+                                                            data-ng-model="obj.cartao.bandeira"
+                                                            data-ng-options="item.valor as item.display for item in lista.bandeiras">
+                                                    </select>
+                                                </div> <!-- Select Bandeiras -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <select class="form-control"
+                                                            data-ng-model="obj.cartao.turno"
+                                                            data-ng-options="item.valor as item.display for item in lista.turnos">
+                                                    </select>
+                                                </div> <!-- Select Turnos -->
+
+                                                <div class="form-group form-group-sm m-t-md">
+                                                    <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.cartao); sounds.play('add')">Adicionar</span>
+                                                </div> <!-- Botão + -->
+
+
+                                            </div> <!-- Form Cartões -->
+
+                                        </div>
+
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+                                            <h4 class="m-b-md">Lista de Cartões</h4>
+                                            <table class="table no-margins p-md">
                                                 <tbody>
-                                                <tr data-ng-repeat="cartao in saidas.cartoes | filter: {turno: enums.turnos.manha}">
+                                                <tr data-ng-repeat="cartao in saidas.cartoes | orderBy: 'turno'">
                                                     <td>{{ cartao.bandeira }}</td>
+                                                    <td><i ng-class="defC.turnoIcon(cartao.turno)"></i></td>
                                                     <td>{{ cartao.valor | currency: 'R$ ' }}</td>
                                                     <td><i class="fa fa-remove clickable" ng-click="removeReg(cartao); sounds.play('remove');"></i></td>
                                                 </tr>
                                                 </tbody>
                                             </table> <!-- Tabela Cartões -->
                                         </div> <!-- Tabela Cartões - Manhã -->
+
+                                    </div>
+
+                                    <div class="row">
+
+
 
                                         <div class="col-lg-6">
                                             <table class="table no-margins">
@@ -351,45 +390,53 @@
                                 </tab-heading>
                                 <div class="panel-body">
 
-                                    <div class="form-inline">
-
-                                        <div class="form-group form-group-sm">
-                                            <select class="form-control"
-                                                    data-ng-model="obj.produto.nome"
-                                                    data-ng-options="item.valor as item.display for item in lista.produtos">
-                                            </select>
-                                        </div> <!-- Select Nome do Produto -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Vendido" class="form-control" data-ng-model="obj.produto.venda.valor">
-                                        </div> <!-- Input Qtd Vendida -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Perdido" class="form-control" data-ng-model="obj.produto.perda.valor">
-                                        </div> <!-- Input Qtd Perdida -->
-
-                                        <div class="form-group form-group-sm">
-                                            <input type="number" step="any" placeholder="Usado" class="form-control" data-ng-model="obj.produto.uso.valor">
-                                        </div> <!-- Input Qtd Usada -->
-
-                                        <div class="form-group form-group-sm">
-                                            <a style="border-color: white;" class="btn btn-sm btn-info" ng-click="addReg(obj.produto); sounds.play('add')"><i class="fa fa-plus"></i></a>
-                                        </div> <!-- Botão Add Produto -->
-
-                                    </div> <!-- Form Input Produtos (Salgados) -->
-                                    <br/>
-
                                     <div class="row">
-                                        <div class="col-lg-8">
 
-                                            <table class="table no-margins">
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                            <div class="form">
+
+                                                <h4 class="m-b-lg">Lançamento de Produtos</h4>
+
+                                                <div class="form-group form-group-sm">
+                                                    <select class="form-control"
+                                                            data-ng-model="obj.produto.nome"
+                                                            data-ng-options="item.valor as item.display for item in lista.produtos">
+                                                    </select>
+                                                </div> <!-- Select Nome do Produto -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Vendido" class="form-control" data-ng-model="obj.produto.venda.valor">
+                                                </div> <!-- Input Qtd Vendida -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Perdido" class="form-control" data-ng-model="obj.produto.perda.valor">
+                                                </div> <!-- Input Qtd Perdida -->
+
+                                                <div class="form-group form-group-sm">
+                                                    <input type="number" step="any" placeholder="Usado" class="form-control" data-ng-model="obj.produto.uso.valor">
+                                                </div> <!-- Input Qtd Usada -->
+
+                                                <div class="form-group form-group-sm m-t-md">
+                                                    <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.produto); sounds.play('add')">Adicionar</span>
+                                                </div> <!-- Botão Add Produto -->
+
+                                            </div> <!-- Form Input Produtos (Salgados) -->
+
+                                        </div> <!-- Coluna Form Input Produtos (Salgados) -->
+
+
+                                        <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+
+                                            <table class="table no-margins p-w-md m-t-lg">
                                                 <thead>
                                                 <tr>
                                                     <th colspan="2">Salgados</th>
-                                                    <th><i class="fa fa-money"></i></th>
-                                                    <th><i class="fa fa-trash"></i></th>
-                                                    <th><i class="fa fa-refresh"></i></th>
-                                                    <th><i class="fa fa-bolt"></i></th>
+                                                    <th><i class="fa fa-money" popover-placement="left" popover="Vendidos"></i></th>
+                                                    <th><i class="fa fa-trash" popover-placement="left" popover="Perdidos"></i></th>
+                                                    <th><i class="fa fa-refresh" popover-placement="left" popover="Usados"></i></th>
+                                                    <th><i class="fa fa-bolt" popover-placement="left" popover="Ações"></i></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -405,6 +452,13 @@
                                             </table> <!-- Tabela Salgados -->
 
                                         </div> <!-- Tabela Produtos (Salgados) -->
+
+
+                                    </div>
+
+
+                                    <div class="row">
+
                                     </div> <!-- Row Tabela Produtos (Salgados) -->
                                 </div>
                             </tab> <!-- Tab Form Produtos (Salgados) -->
@@ -413,10 +467,18 @@
                         </tabset>
 
                     </div>
+
                 </div> <!-- Tab Lançamentos -->
             </div>
-            <input type="submit" class="btn btn-primary" value="Cadastrar">
-            </form>
+
+            <div class="row">
+                <div class="col-lg-12 m-t-lg">
+                    <input type="submit" class="btn btn-primary" value="Cadastrar">
+                </div>
+            </div>
+
+
         </form>
     </div>
+
 </section>
