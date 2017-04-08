@@ -7,6 +7,11 @@ angular.module('caixas').factory('Caixas', ['$resource', function ($resource) {
     }, {
         update: {
             method: 'PUT'
+        },
+        dashboard: {
+            method: 'GET',
+            isArray: false,
+            teste_param: 'teste_param'
         }
     });
 }]);
@@ -21,6 +26,20 @@ angular.module('caixas').factory('Qcaixas', ['$resource', function ($resource) {
             method: 'GET',
             isArray: false,
             parametros: parametros
+        }
+    });
+}]);
+angular.module('caixas').factory('CaixasDashboard', ['$resource', function ($resource) {
+    return $resource('/api/caixas/dashboard/:teste', {
+        teste: 'teste'
+    }, {
+        update: {
+            method: 'PUT'
+        },
+        dashboard: {
+            method: 'GET',
+            isArray: false,
+            teste: 'teste',
         }
     });
 }]);

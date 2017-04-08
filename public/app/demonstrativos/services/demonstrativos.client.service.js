@@ -12,7 +12,7 @@ angular.module('demonstrativos').factory('Demonstrativos', ['$resource', functio
 }]);
 angular.module('demonstrativos').factory('DemonstrativosQueries', ['$resource', function ($resource) {
     return $resource('/api/demonstrativos/query/:params', {
-        params: 'params'
+        // params: 'params'
     }, {
         query: {
             method: 'GET',

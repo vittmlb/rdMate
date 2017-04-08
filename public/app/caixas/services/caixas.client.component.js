@@ -1,8 +1,9 @@
 /**
  * Created by Vittorio on 02/04/2017.
  */
-let ModuloCaixa = function() {
+let ModuloCaixa = function(obj_moment) {
     let parent = this;
+    let moment = obj_moment;
     this.modulo = {
         geral: {
             manha: {
@@ -36,7 +37,9 @@ let ModuloCaixa = function() {
     };
 };
 
-angular.module('caixas').factory('CompCaixa', ['Caixas', function (Caixas) {
+angular.module('caixas').factory('CompCaixa', ['Caixas', 'moment', function (Caixas, moment) {
+
+    let modCaixa = new ModuloCaixa(moment);
 
     function confereCaixa(caixa) {
         let modCx = new ModuloCaixa();

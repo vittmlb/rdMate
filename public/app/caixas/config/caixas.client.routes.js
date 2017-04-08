@@ -23,4 +23,8 @@ angular.module('caixas').config(['$stateProvider', function ($stateProvider) {
             templateUrl: 'app/caixas/views/edit-caixa.client.view.html',
             controller: 'CaixasController'
         })
+        .state('caixa_dashboard', {
+            url: '/dashboard',
+            templateUrl: 'app/caixas/views/dashboard-caixas.client.view.html',
+        });
 }]);

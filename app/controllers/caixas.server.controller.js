@@ -2,7 +2,11 @@
  * Created by Vittorio on 22/03/2017.
  */
 let mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 let Caixas = mongoose.model('Caixa');
+
+let moment = require('moment');
+moment.locale('pt-br');
 
 exports.create = function(req, res) {
     let caixa = new Caixas(req.body);
@@ -144,10 +148,6 @@ exports.delete = function(req, res) {
     });
 };
 
-exports.customConferenciaCaixa = function(req, res, next, params) {
-
-};
-
 exports.findCustoms = function(req, res, next, params) {
     let obj = {
         req: req,
@@ -211,31 +211,212 @@ exports.results = function(req, res) {
     res.json(req.lancamentos);
 };
 
+exports.generateDashboard = function(req, res, next, params) {
+    let param = JSON.parse(params);
+    let rel = new Relatorios(req, res, next, param);
+    rel.geral();
+};
 
-function testQueries(params) {
-    let teste = "2017-04-01T03:00:00.000Z";
-    let nd = new Date(teste);
-    let promise = Lancamentos.aggregate([
-        {$match: {"data": {"$gte": params.intervalo.ini, "$lte": nd }}},
-        {$group: {
-            "_id": {
-                titulo: "$" + params.criterio,
-            },
-            "lancamentos": {$push: "$$ROOT"},
-            total: {"$sum": "$valor"}
-        }},
-        {$project: {
-            _id: 0,
-            categoria: "$_id.titulo",
-            lancamentos: '$lancamentos',
-            total: 1
-        }}
+exports.generateDashboardOld = function(req, res, next, params) {
+    let param = JSON.parse(params);
+    let intervalo = buildQuery.intervalo(param.inicial, param.final);
+    let obj = buildQuery.totais.cartoes();
+    let promise = Caixas.aggregate([
+        // {$match: {"saidas.despesas.turno": "Tarde"}}
+        intervalo,
+        // {$match: {"data_caixa": {"$gte": new Date(param.inicial), "$lte": new Date(param.final)}}},
+        obj.unwind,
+        obj.group,
+        // {$group:
+        //     {
+        //         "_id": null,
+        //         "lancamentos": {$push: "$$ROOT"},
+        //         total_venda_manha: {"$sum": "$entradas.vendas.manha.valor"},
+        //         total_venda_tarde: {"$sum": "$entradas.vendas.tarde.valor"},
+        //         // total_venda_cartoes: {"$sum": "$saidas.cartoes.valor"}
+        //     }
+        // },
+
+        // {$project: {
+        //     total_venda_manha: 1,
+        //     total_venda_tarde: 1,
+        //     total_venda: {"$add": ["$total_venda_manha", "$total_venda_tarde"]},
+        //     total_venda_cartoes: 1
+        // }
+        // }
+        // {$unwind: "$entradas.vendas"}
+        // {$unwind: "$movimentacoes"},
+        // {$group:
+        //     {
+        //         "_id": null,
+        //         "lancamentos": {$push: "$$ROOT"},
+        //         total_movimentacao: {"$sum": "$movimentacoes.valor"},
+        //         // total_tarde: {"$sum": "$tarde.valor"}
+        //     },
+        // }
     ]).exec();
-    promise.then(function (lancamentos) {
-        return lancamentos;
+    promise.then(function (caixa) {
+        console.log(caixa);
+        req.caixa_dashboard = caixa;
+        next();
     });
     promise.catch(function (err) {
-        return err;
+        return next(err);
     });
-    return promise;
-}
+};
+
+let Relatorios = function(req, res, next, param) {
+    this.obj = {
+        req: req,
+        res: res,
+        next: next
+    };
+    let parent = this;
+    let promises = [];
+    let intervalo = buildQuery.intervalo(param.inicial, param.final);
+    req.relatorio = {
+        cartoes: {},
+        base: {}
+    };
+
+    this.geral = function() {
+        promises.push(this.base());
+        promises.push(this.cartoes());
+        promises.push(this.despesas());
+
+        let prom = Promise.all(promises);
+
+        prom.then(function (values) {
+            let o = {};
+            if(Array.isArray(values)) {
+                values.forEach(function (elem) {
+                    if (Array.isArray(elem)) {
+                        elem.map(function (e) {
+                            let aux = (e._controle).toLowerCase();
+                            o[aux] = e;
+                        });
+                    }
+                });
+            }
+            parent.obj.req.relatorio = o;
+            parent.obj.next();
+        });
+        prom.catch(function (err) {
+            return parent.obj.next(err);
+        });
+
+    };
+
+    this.base = function() {
+        let query = buildQuery.totais.base();
+
+        let promise = Caixas.aggregate([
+            intervalo,
+            query.group,
+            query.project
+        ]).exec();
+
+        promise.then(function (base) {
+            base[0]._controle = "base";
+            return base;
+        });
+
+        promise.catch(function (err) {
+            return err;
+        });
+
+        return promise;
+
+    };
+
+    this.cartoes = function() {
+
+        let query = buildQuery.totais.cartoes();
+
+        let promise = Caixas.aggregate([
+            intervalo,
+            query.unwind,
+            query.group
+        ]).exec();
+
+        promise.then(function (cartoes) {
+            cartoes[0]._controle = "cartoes";
+            return cartoes;
+        });
+
+        promise.catch(function (err) {
+            return err;
+        });
+
+        return promise;
+
+    };
+
+    this.despesas = function() {
+
+        let query = buildQuery.totais.despesas();
+
+        let promise = Caixas.aggregate([
+            intervalo,
+            query.unwind,
+            query.group
+        ]).exec();
+
+        promise.then(function (cartoes) {
+            cartoes[0]._controle = "despesas";
+            return despesas;
+        });
+
+        promise.catch(function (err) {
+            return err;
+        });
+
+        return promise;
+
+    };
+
+
+
+};
+
+exports.newResults = function(req, res) {
+    res.json(req.relatorio);
+};
+
+let buildQuery = {
+    intervalo: function(data_inicial, data_final) {
+        return {$match: {"data_caixa": {"$gte": new Date(data_inicial), "$lte": new Date(data_final)}}}
+    },
+    totais: {
+        cartoes: function() {
+            return {
+                unwind: {"$unwind": "$saidas.cartoes"},
+                group: {"$group": {"_id": null, "total": {"$sum": "$saidas.cartoes.valor"}, "elem": {"$push": "$$ROOT"}}}
+            }
+        },
+        base: function() {
+            return {
+                group: {
+                    "$group": {
+                        "_id": null, "elem": {"$push": "$$ROOT"},
+                        "total_venda_manha": {"$sum": "$entradas.vendas.manha.valor"},
+                        "total_venda_tarde": {"$sum": "$entradas.vendas.tarde.valor"}
+                    },
+                },
+                project: {
+                    "$project": {
+                        "total_venda_manha": 1,
+                        "total_venda_tarde": 1,
+                        "total": {"$add": ["$total_venda_manha", "$total_venda_tarde"]}
+                    }
+                }
+            };
+        },
+        despesas: function() {
+            return {
+                unwind: {"$unwind": "$saidas.despesas"},
+                group: {"$group": {"_id": null, "total": {"$sum": "$saidas.despesas.valor"}, "elem": {"$push": "$$ROOT"}}}
+            }
+        }
+    }
+};

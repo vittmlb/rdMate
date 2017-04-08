@@ -15,7 +15,8 @@ let mainAppModule = angular.module('admin_panel', [
     'ngAnimate',
     'ui.bootstrap',
     'ngFileUpload',
-    'ngAudio'
+    'ngAudio',
+    'angularMoment'
 ]);
 //todo: Ver se dá pra tirar o ui.router daí.
 

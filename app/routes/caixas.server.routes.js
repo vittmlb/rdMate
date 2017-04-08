@@ -22,6 +22,11 @@ module.exports = function(app) {
     app.route('/api/caixas/:parametros')
         .get(caixas.results);
 
-    app.param('parametros', caixas.customConferenciaCaixa);
+    // app.param('parametros', caixas.customConferenciaCaixa);
+
+    app.route('/api/caixas/dashboard/:teste_param')
+        .get(caixas.newResults);
+
+    app.param('teste_param', caixas.generateDashboard);
 
 };

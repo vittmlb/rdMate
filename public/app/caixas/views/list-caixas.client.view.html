@@ -37,7 +37,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr data-ng-repeat="cx in caixas">
+                            <tr data-ng-repeat="cx in caixas | orderBy: '-data_caixa'">
                                 <td><a ng-href="#!/caixas/{{ cx._id }}">{{ cx.data_caixa | date: 'dd/MM/yyyy' }}</a></td>
                                 <td>{{ cx.v.entradas.vendas.total | currency: 'R$ ' }}</td>
                                 <td ng-class="(cx.v.diferenca.total < 0) ? 'text-danger': ((cx.v.diferenca.total === 0) ? 'text-success': 'text-warning')">{{ cx.v.diferenca.total | currency: 'R$ ' }}</td>
