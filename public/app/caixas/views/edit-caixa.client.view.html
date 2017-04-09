@@ -48,10 +48,10 @@
                                                 <tbody>
 
                                                 <tr data-ng-repeat="item in caixa.v.geral | filter: query_geral">
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-change="sounds.play('check')" ng-model="caixa.entradas.abertura.manha.checked"></td>
-                                                    <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">{{ item.label }}</td>
-                                                    <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''" class="text-center"><i ng-class="defC.turnoIcon(item.turno)"></i></td>
-                                                    <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">{{ item.obj.valor | currency: 'R$ ' }}</td>
+                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-change="sounds.play('check')" ng-model="item.obj.checked"></td>
+                                                    <td ng-class="item.obj.checked ? 'text-strikethrough': ''">{{ item.label }}</td>
+                                                    <td ng-class="item.obj.checked ? 'text-strikethrough': ''" class="text-center"><i ng-class="defC.turnoIcon(item.turno)"></i></td>
+                                                    <td ng-class="item.obj.checked ? 'text-strikethrough': ''">{{ item.obj.valor | currency: 'R$ ' }}</td>
                                                     <td>
                                                         <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(item.obj, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
                                                         <i ng-show="item.obj.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ item.obj.obs }}"></i>
