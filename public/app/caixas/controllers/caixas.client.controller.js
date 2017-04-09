@@ -61,21 +61,23 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             toaster.pop(msgObj);
         }
 
-
-        $scope.data_caixa = {
+        $scope.caixa = {
+            data_caixa : {
             valor: ''
-        };
-        $scope.entradas = {};
-        $scope.saidas = {
+        },
+            entradas : {},
+            saidas : {
             despesas: [],
             cartoes: []
-        };
-        $scope.controles = {
+        },
+            controles : {
             produtos: [],
             consumo: [],
             fiscal: {}
+        },
+            movimentacoes : []
         };
-        $scope.movimentacoes = [];
+
 
         $scope.objRegistro = {
             descricao: '',
@@ -207,17 +209,31 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             },
         };
 
+        /**
+         * cria um array com objetos do caixa para que possam ser ordenados ou 'buscados" na página edit-caixa (view check caixa).
+         */
+        $scope.criaArrayGeral = function() {
+            let array = [];
+            array.push({"label": "Abertura", "turno": "Manhã", "obj": $scope.caixa.entradas.abertura.manha});
+            array.push({"label": "Abertura", "turno": "Tarde",  "obj": $scope.caixa.entradas.abertura.tarde});
+            array.push({"label": "Venda", "turno": "Manhã",  "obj": $scope.caixa.entradas.vendas.manha});
+            array.push({"label": "Venda", "turno": "Tarde",  "obj": $scope.caixa.entradas.vendas.tarde});
+            array.push({"label": "Transferência", "turno": "Manhã",  "obj": $scope.caixa.saidas.transferencia.manha});
+            array.push({"label": "Transferência", "turno": "Tarde",  "obj": $scope.caixa.saidas.transferencia.tarde});
+            array.push({"label": "Dinheiro", "turno": "Manhã",  "obj": $scope.caixa.saidas.dinheiro.manha});
+            array.push({"label": "Dinheiro", "turno": "Tarde",  "obj": $scope.caixa.saidas.dinheiro.tarde});
+            $scope.caixa.v.geral = array;
+        };
 
         $scope.create = function() {
             let caixa = new Caixas({
-                data_caixa: $scope.data_caixa.valor,
-                entradas: this.entradas,
-                saidas: this.saidas,
-                movimentacoes: this.movimentacoes,
-                controles: this.controles
+                data_caixa: $scope.caixa.data_caixa,
+                entradas: $scope.caixa.entradas,
+                saidas: $scope.caixa.saidas,
+                movimentacoes: $scope.caixa.movimentacoes,
+                controles: $scope.caixa.controles
             });
             caixa.$save(function (response) {
-                $scope.data_caixa.valor = ''; // todo: Foi preciso recorrer a esse artificio pois (acredito) o campo da data, por estar em uma tab, deve ter o seu próprio escopo e não consegue "pegar" o this.data_caixa
                 $location.path('/caixas/' + response._id);
             }, function(errorResponse) {
                 popToaster(errorResponse);
@@ -243,7 +259,13 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
 
             p.then(function (data) {
                 $scope.caixa = data;
-                $scope.caixa.data_caixa = new Date(data.data_caixa);
+                // $scope.caixa.data_caixa = new Date(data.data_caixa);
+                console.log(moment.locale());
+                // moment.locale('pt-br');
+                console.log(moment.locale());
+                let teste = moment($scope.caixa.data_caixa).format('DD-MM-YYYY');
+                $scope.caixa.data_caixa = teste;
+                $scope.criaArrayGeral();
                 $timeout(function () {
                     $('.table').trigger('footable_redraw');
                 }, 100);
@@ -308,7 +330,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
         };
 
         $scope.addReg = function(registro) {
-            let parent = $scope.caixa ? $scope.caixa : $scope;
+            let parent = $scope.caixa;
             switch (registro.tipoAux) {
                 case $scope.enums.tiposAux.prod:
                     parent.controles.produtos.push(registro);
@@ -331,12 +353,10 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
 
         $scope.removeReg = function(registro, tipo) {
             let tp = $scope.enums.tiposAux;
-            let parent = $scope;
+            let parent = $scope.caixa;
 
-            if($scope.caixa) {
-                parent = $scope.caixa;
-                registro.tipoAux = tipo ? tipo : '';
-            }
+            if(tipo) registro.tipoAux = tipo;
+
 
             switch (registro.tipoAux) {
                 case tp.prod:
@@ -358,7 +378,7 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
         };
 
         $scope.addRegistro = function(registro) {
-            let parent = $scope.caixa ? $scope.caixa: $scope;
+            let parent = $scope;
 
             // if(!validateObjRegistro()) {
             //     $scope.objRegistro = {};
