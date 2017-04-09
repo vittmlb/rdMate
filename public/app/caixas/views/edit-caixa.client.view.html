@@ -1,7 +1,7 @@
 <section data-ng-controller="CaixasController" data-ng-init="findOne()">
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
-            <h2>Caixa do dia: {{ caixa.data_caixa | date: 'dd/MM/yyyy' }}</h2>
+            <h2>Caixa</h2>
             <!--<span ng-repeat="forn in fornecedores">{{ forn }}</span>-->
             <ol class="breadcrumb">
                 <li>
@@ -18,313 +18,875 @@
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <form data-ng-submit="update()">
+
             <div class="row">
+                <div class="col-lg-12">
+                    <div class="v-toolmenu-top-row">
+                        <h5>Caixa do dia: {{ caixa.data_caixa | date: 'dd/MM/yyyy' }}</h5>
 
-                <div class="col-lg-4">
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-xs btn-white active" ng-click="toggleViews.toggle('edit_caixa_page', 'check')">Check</button>
+                                <button type="button" class="btn btn-xs btn-white" ng-click="toggleViews.toggle('edit_caixa_page', 'edit')">Edição</button>
+                                <!--<button type="button" class="btn btn-xs btn-white">Annual</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- ToolMenu -->
 
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <br/>
-                            <div class="table-responsive">
-                                <div class="col-lg-12">
-                                    <h4>Entradas</h4>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="input-group">
-                                                <input type="text" placeholder="Busca" class="input-sm form-control" data-ng-model="query_geral">
-                                                <span class="input-group-btn">
+            <div ng-show="toggleViews.edit_caixa_page.check_view">
+
+                <div class="row">
+
+                    <div class="col-lg-4">
+
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <br/>
+                                <div class="table-responsive">
+                                    <div class="col-lg-12">
+                                        <h4>Entradas</h4>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Busca" class="input-sm form-control" data-ng-model="query_geral">
+                                                    <span class="input-group-btn">
                                                 <button type="button" class="btn btn-sm btn-white"><i class="fa fa-search"></i></button></span><br/>
+                                                </div>
+                                                <table class="table small table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th colspan="2">Descrição</th>
+                                                        <th class="text-center">Turno</th>
+                                                        <th>Valor</th>
+                                                        <th><i class="fa fa-bolt"></i></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    <tr data-ng-repeat="item in caixa.v.geral | filter: query_geral">
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-change="sounds.play('check')" ng-model="item.obj.checked"></td>
+                                                        <td ng-class="item.obj.checked ? 'text-strikethrough': ''">{{ item.label }}</td>
+                                                        <td ng-class="item.obj.checked ? 'text-strikethrough': ''" class="text-center"><i ng-class="defC.turnoIcon(item.turno)"></i></td>
+                                                        <td ng-class="item.obj.checked ? 'text-strikethrough': ''">{{ item.obj.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(item.obj, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="item.obj.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ item.obj.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Abertura Manhã -->
+
+
+                                                    </tbody>
+                                                </table>
+
                                             </div>
-                                            <table class="table small table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="2">Descrição</th>
-                                                    <th class="text-center">Turno</th>
-                                                    <th>Valor</th>
-                                                    <th><i class="fa fa-bolt"></i></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                <tr data-ng-repeat="item in caixa.v.geral | filter: query_geral">
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-change="sounds.play('check')" ng-model="item.obj.checked"></td>
-                                                    <td ng-class="item.obj.checked ? 'text-strikethrough': ''">{{ item.label }}</td>
-                                                    <td ng-class="item.obj.checked ? 'text-strikethrough': ''" class="text-center"><i ng-class="defC.turnoIcon(item.turno)"></i></td>
-                                                    <td ng-class="item.obj.checked ? 'text-strikethrough': ''">{{ item.obj.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(item.obj, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="item.obj.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ item.obj.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Abertura Manhã -->
-
-
-                                                </tbody>
-                                            </table>
-
                                         </div>
-                                    </div>
-                                    <div class="row" ng-show="false">
-                                        <div class="col-lg-12">
-                                            <table class="table small table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="2">Descrição</th>
-                                                    <th class="text-center">Turno</th>
-                                                    <th>Valor</th>
-                                                    <th><i class="fa fa-bolt"></i></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
+                                        <div class="row" ng-show="false">
+                                            <div class="col-lg-12">
+                                                <table class="table small table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th colspan="2">Descrição</th>
+                                                        <th class="text-center">Turno</th>
+                                                        <th>Valor</th>
+                                                        <th><i class="fa fa-bolt"></i></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-change="sounds.play('check')" ng-model="caixa.entradas.abertura.manha.checked"></td>
-                                                    <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">Abertura</td>
-                                                    <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></i></td>
-                                                    <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">{{ caixa.entradas.abertura.manha.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.abertura.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.entradas.abertura.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.abertura.manha.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Abertura Manhã -->
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-change="sounds.play('check')" ng-model="caixa.entradas.abertura.manha.checked"></td>
+                                                        <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">Abertura</td>
+                                                        <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></i></td>
+                                                        <td ng-class="caixa.entradas.abertura.manha.checked ? 'text-strikethrough': ''">{{ caixa.entradas.abertura.manha.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.abertura.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.entradas.abertura.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.abertura.manha.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Abertura Manhã -->
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.entradas.abertura.tarde.checked"></td>
-                                                    <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''">Abertura</td>
-                                                    <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
-                                                    <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''">{{ caixa.entradas.abertura.tarde.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.abertura.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.entradas.abertura.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.abertura.tarde.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Abertura Tarde -->
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.entradas.abertura.tarde.checked"></td>
+                                                        <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''">Abertura</td>
+                                                        <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
+                                                        <td ng-class="caixa.entradas.abertura.tarde.checked ? 'text-strikethrough': ''">{{ caixa.entradas.abertura.tarde.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.abertura.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.entradas.abertura.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.abertura.tarde.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Abertura Tarde -->
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.entradas.vendas.manha.checked"></td>
-                                                    <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''">Vendas</td>
-                                                    <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
-                                                    <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''">{{ caixa.entradas.vendas.manha.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.vendas.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.entradas.vendas.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.vendas.manha.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Venda Manhã -->
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.entradas.vendas.manha.checked"></td>
+                                                        <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''">Vendas</td>
+                                                        <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
+                                                        <td ng-class="caixa.entradas.vendas.manha.checked ? 'text-strikethrough': ''">{{ caixa.entradas.vendas.manha.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.vendas.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.entradas.vendas.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.vendas.manha.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Venda Manhã -->
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.entradas.vendas.tarde.checked"></td>
-                                                    <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''">Vendas</td>
-                                                    <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
-                                                    <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''">{{ caixa.entradas.vendas.tarde.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.vendas.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.entradas.vendas.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.vendas.tarde.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Venda Tarde -->
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.entradas.vendas.tarde.checked"></td>
+                                                        <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''">Vendas</td>
+                                                        <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
+                                                        <td ng-class="caixa.entradas.vendas.tarde.checked ? 'text-strikethrough': ''">{{ caixa.entradas.vendas.tarde.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.entradas.vendas.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.entradas.vendas.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.entradas.vendas.tarde.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Venda Tarde -->
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.transferencia.manha.checked"></td>
-                                                    <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''">Transferências</td>
-                                                    <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
-                                                    <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''">{{ caixa.saidas.transferencia.manha.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.transferencia.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.saidas.transferencia.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.transferencia.manha.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Transferencia Manhã -->
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.transferencia.manha.checked"></td>
+                                                        <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''">Transferências</td>
+                                                        <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
+                                                        <td ng-class="caixa.saidas.transferencia.manha.checked ? 'text-strikethrough': ''">{{ caixa.saidas.transferencia.manha.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.transferencia.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.saidas.transferencia.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.transferencia.manha.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Transferencia Manhã -->
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.transferencia.tarde.checked"></td>
-                                                    <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''">Transferências</td>
-                                                    <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
-                                                    <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.transferencia.tarde.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.transferencia.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.saidas.transferencia.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.transferencia.tarde.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Transferencia Tarde -->
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.transferencia.tarde.checked"></td>
+                                                        <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''">Transferências</td>
+                                                        <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
+                                                        <td ng-class="caixa.saidas.transferencia.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.transferencia.tarde.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.transferencia.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.saidas.transferencia.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.transferencia.tarde.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Transferencia Tarde -->
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.dinheiro.manha.checked"></td>
-                                                    <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''">Dinheiro</td>
-                                                    <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
-                                                    <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.manha.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.dinheiro.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.saidas.dinheiro.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.dinheiro.manha.obs }}"></i>
-                                                    </td>
-                                                </tr> <!-- Dinheiro Manhã -->
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.dinheiro.manha.checked"></td>
+                                                        <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''">Dinheiro</td>
+                                                        <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-coffee"></td>
+                                                        <td ng-class="caixa.saidas.dinheiro.manha.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.manha.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.dinheiro.manha, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.saidas.dinheiro.manha.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.dinheiro.manha.obs }}"></i>
+                                                        </td>
+                                                    </tr> <!-- Dinheiro Manhã -->
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.dinheiro.tarde.checked"></td>
-                                                    <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">Dinheiro</td>
-                                                    <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
-                                                    <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.dinheiro.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.saidas.dinheiro.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.dinheiro.tarde.obs }}"></i>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.dinheiro.tarde.checked"></td>
+                                                        <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">Dinheiro</td>
+                                                        <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
+                                                        <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.dinheiro.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.saidas.dinheiro.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.dinheiro.tarde.obs }}"></i>
+                                                        </td>
+                                                    </tr>
 
-                                                <tr>
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.dinheiro.tarde.checked"></td>
-                                                    <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">Dinheiro</td>
-                                                    <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
-                                                    <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.dinheiro.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="caixa.saidas.dinheiro.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.dinheiro.tarde.obs }}"></i>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="caixa.saidas.dinheiro.tarde.checked"></td>
+                                                        <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">Dinheiro</td>
+                                                        <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''" class="text-center"><i class="fa fa-sun-o"></i></td>
+                                                        <td ng-class="caixa.saidas.dinheiro.tarde.checked ? 'text-strikethrough': ''">{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ ' }}</td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(caixa.saidas.dinheiro.tarde, enums.tiposAux.entrada)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="caixa.saidas.dinheiro.tarde.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ caixa.saidas.dinheiro.tarde.obs }}"></i>
+                                                        </td>
+                                                    </tr>
 
-                                                </tbody>
-                                            </table>
+                                                    </tbody>
+                                                </table>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br/><br/>
-                    </div>
-
-                </div> <!-- Entradas -->
-
-                <div class="col-lg-4">
-
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <br/>
-                            <div class="table-responsive">
-                                <div class="col-lg-12">
-                                    <h4>Despesas</h4>
-                                    <hr>
-                                    <div class="row"></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <table class="table small table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="2">Descrição</th>
-                                                    <th>Valor</th>
-                                                    <th class="text-center">Turno</th>
-                                                    <th><i class="fa fa-bolt"></i></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr data-ng-repeat="desp in caixa.saidas.despesas | orderBy: 'checked'">
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="desp.checked"></td>
-                                                    <td ng-class="desp.checked ? 'text-strikethrough': ''">{{ desp.descricao }}</td>
-                                                    <td ng-class="desp.checked ? 'text-strikethrough': ''">{{ desp.valor | currency: 'R$ ' }}</td>
-                                                    <td ng-class="desp.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="top" popover="{{ desp.turno }}" ng-class="defC.turnoIcon(desp.turno)" class="text-center"></i></td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(desp, enums.tiposAux.desp)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="desp.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ desp.obs }}"></i>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table> <!-- Despesas -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <div class="table-responsive">
-                                <div class="col-lg-12">
-                                    <h4>Movimentação</h4>
-                                    <hr>
-                                    <div class="row"></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <table class="table small table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="2">Descrição</th>
-                                                    <th>Valor</th>
-                                                    <th class="text-center">Turno</th>
-                                                    <th><i class="fa fa-bolt"></i></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr data-ng-repeat="mov in caixa.movimentacoes | orderBy: 'checked'">
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="mov.checked"></td>
-                                                    <td ng-class="mov.checked ? 'text-strikethrough': ''">{{ mov.descricao }}</td>
-                                                    <td ng-class="mov.checked ? 'text-strikethrough': ''">{{ mov.valor | currency: 'R$ ' }}</td>
-                                                    <td ng-class="mov.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="top" popover="{{ mov.origem }}" ng-class="defC.origemIcon(mov.origem)" class="text-center"></i></td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(mov, enums.tiposAux.mov)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="mov.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ mov.obs }}"></i>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table> <!-- Despesas -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div> <!-- Despesas e Movimentações -->
-
-                <div class="col-lg-4">
-
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-content">
-                            <br/>
-                            <div class="table-responsive">
-                                <div class="col-lg-12">
-                                    <h4>Cartões</h4>
-                                    <hr>
-                                    <div class="row"></div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="input-group">
-                                                <input type="text" placeholder="Busca" class="input-sm form-control" data-ng-model="query_cartoes">
-                                                <span class="input-group-btn">
-                                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button></span><br/>
                                             </div>
-                                            <table class="table small table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th class="text-center">Turno</th>
-                                                    <th>Valor</th>
-                                                    <th class="text-center"><i class="fa fa-bolt"></i></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr data-ng-repeat="card in caixa.saidas.cartoes | orderBy: 'checked' | filter: query_cartoes">
-                                                    <!--<td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="card.checked"></td>-->
-                                                    <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="card.checked" ng-change="sounds.play('check')"></td>
-                                                    <td ng-class="card.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="top" popover="{{ card.turno }}" ng-class="defC.turnoIcon(card.turno)" class="text-center"></i></td>
-                                                    <td ng-class="card.checked ? 'text-strikethrough': ''">{{ card.valor | currency: 'R$ ' }}</td>
-                                                    <td class="text-center">
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(card, enums.tiposAux.cartao)"></i>
-                                                        <i ng-show="card.obs" class="fa fa-sticky-note text-warning" popover-placement="left" popover="{{ card.obs }}"></i>
-                                                        <i class="fa fa-remove"></i>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table> <!-- Cartões -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <br/><br/>
                         </div>
-                    </div>
 
-                </div> <!-- Cartões -->
+                    </div> <!-- Entradas -->
 
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-info pull-right">
+                    <div class="col-lg-4">
+
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <br/>
+                                <div class="table-responsive">
+                                    <div class="col-lg-12">
+                                        <h4>Despesas</h4>
+                                        <hr>
+                                        <div class="row"></div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class="table small table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th colspan="2">Descrição</th>
+                                                        <th>Valor</th>
+                                                        <th class="text-center">Turno</th>
+                                                        <th><i class="fa fa-bolt"></i></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-ng-repeat="desp in caixa.saidas.despesas | orderBy: 'checked'">
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="desp.checked"></td>
+                                                        <td ng-class="desp.checked ? 'text-strikethrough': ''">{{ desp.descricao }}</td>
+                                                        <td ng-class="desp.checked ? 'text-strikethrough': ''">{{ desp.valor | currency: 'R$ ' }}</td>
+                                                        <td ng-class="desp.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="top" popover="{{ desp.turno }}" ng-class="defC.turnoIcon(desp.turno)" class="text-center"></i></td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(desp, enums.tiposAux.desp)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="desp.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ desp.obs }}"></i>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Despesas -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="table-responsive">
+                                    <div class="col-lg-12">
+                                        <h4>Movimentação</h4>
+                                        <hr>
+                                        <div class="row"></div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class="table small table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th colspan="2">Descrição</th>
+                                                        <th>Valor</th>
+                                                        <th class="text-center">Turno</th>
+                                                        <th><i class="fa fa-bolt"></i></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-ng-repeat="mov in caixa.movimentacoes | orderBy: 'checked'">
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-change="sounds.play('check')" ng-model="mov.checked"></td>
+                                                        <td ng-class="mov.checked ? 'text-strikethrough': ''">{{ mov.descricao }}</td>
+                                                        <td ng-class="mov.checked ? 'text-strikethrough': ''">{{ mov.valor | currency: 'R$ ' }}</td>
+                                                        <td ng-class="mov.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="top" popover="{{ mov.origem }}" ng-class="defC.origemIcon(mov.origem)" class="text-center"></i></td>
+                                                        <td>
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(mov, enums.tiposAux.mov)"></i>&nbsp;&nbsp;
+                                                            <i ng-show="mov.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ mov.obs }}"></i>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Despesas -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div> <!-- Despesas e Movimentações -->
+
+                    <div class="col-lg-4">
+
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <br/>
+                                <div class="table-responsive">
+                                    <div class="col-lg-12">
+                                        <h4>Cartões</h4>
+                                        <hr>
+                                        <div class="row"></div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Busca" class="input-sm form-control" data-ng-model="query_cartoes">
+                                                    <span class="input-group-btn">
+                                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-search"></i></button></span><br/>
+                                                </div>
+                                                <table class="table small table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th class="text-center">Turno</th>
+                                                        <th>Valor</th>
+                                                        <th class="text-center"><i class="fa fa-bolt"></i></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-ng-repeat="card in caixa.saidas.cartoes | orderBy: 'checked' | filter: query_cartoes">
+                                                        <!--<td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="card.checked"></td>-->
+                                                        <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="card.checked" ng-change="sounds.play('check')"></td>
+                                                        <td ng-class="card.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="top" popover="{{ card.turno }}" ng-class="defC.turnoIcon(card.turno)" class="text-center"></i></td>
+                                                        <td ng-class="card.checked ? 'text-strikethrough': ''">{{ card.valor | currency: 'R$ ' }}</td>
+                                                        <td class="text-center">
+                                                            <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(card, enums.tiposAux.cartao)"></i>
+                                                            <i ng-show="card.obs" class="fa fa-sticky-note text-warning" popover-placement="left" popover="{{ card.obs }}"></i>
+                                                            <i class="fa fa-remove"></i>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Cartões -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/><br/>
+                            </div>
+                        </div>
+
+                    </div> <!-- Cartões -->
+
+                </div> <!-- Display Check View -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <input type="submit" value="Update" class="btn btn-info pull-right">
+                        </div>
                     </div>
-                </div>
-            </div>
+                </div> <!-- Botão de Update -->
+
+            </div> <!-- Display Check View -->
+
+
+            <div ng-show="toggleViews.edit_caixa_page.edit_view">
+
+                <div class="row">
+
+                    <div class="col-lg-4 m-b-lg">
+
+                        <div class="tabs-container">
+
+                            <tabset>
+
+                                <tab>
+                                    <tab-heading>
+                                        <i class="fa fa-money"></i>Entradas
+                                    </tab-heading>
+
+                                    <div class="panel-body">
+
+                                        <div class="row m-b-md">
+
+                                            <div class="col-lg-12 p-w-lg m-t-md">
+
+
+                                                <div class="form-group form-group-sm">
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon"><i class="fa fa-calendar"></i></label>
+                                                        <input type="date" class="form-control" data-ng-model="caixa.data_caixa.valor">
+                                                    </div>
+                                                </div> <!-- Grupo Data do Caixa -->
+
+
+                                                <div class="form-group form-group-sm">
+                                                    <label><small>Abertura</small></label>
+                                                    <div class="input-group m-b-sm">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.entradas.abertura.manha.valor">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.entradas.abertura.tarde.valor">
+                                                    </div>
+                                                </div> <!-- Grupo Abertura -->
+
+
+                                                <div class="form-group form-group-sm">
+                                                    <label><small>Venda</small></label>
+                                                    <div class="input-group m-b-sm">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.entradas.vendas.manha.valor">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.entradas.vendas.tarde.valor">
+                                                    </div>
+                                                </div> <!-- Grupo Venda -->
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </tab> <!-- Tab Form Entradas -->
+
+                                <tab>
+                                    <tab-heading>
+                                        <i class="fa fa-money"></i>Saídas
+                                    </tab-heading>
+
+                                    <div class="panel-body">
+
+                                        <div class="row m-b-md">
+
+                                            <div class="col-lg-12 p-w-lg m-t-md">
+
+                                                <div class="form-group form-group-sm">
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon"><i class="fa fa-calendar"></i></label>
+                                                        <input type="date" class="form-control" data-ng-model="caixa.data_caixa.valor">
+                                                    </div>
+                                                </div> <!-- Grupo Data do Caixa -->
+
+
+                                                <div class="form-group form-group-sm">
+                                                    <label><small>Transferências</small></label>
+                                                    <div class="input-group m-b-sm">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.saidas.transferencia.manha.valor">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.saidas.transferencia.tarde.valor">
+                                                    </div>
+                                                </div> <!-- Grupo Transferência -->
+
+
+                                                <div class="form-group form-group-sm">
+                                                    <label><small>Dinheiro</small></label>
+                                                    <div class="input-group m-b-sm">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.saidas.dinheiro.manha.valor">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.saidas.dinheiro.tarde.valor">
+                                                    </div>
+                                                </div> <!-- Grupo Dinheiro -->
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </tab> <!-- Tab Form Saídas -->
+
+                                <tab>
+                                    <tab-heading>
+                                        <i class="fa fa-money"></i>Fiscal
+                                    </tab-heading>
+
+                                    <div class="panel-body">
+
+                                        <div class="row m-b-md">
+
+                                            <div class="col-lg-12 p-w-lg m-t-md m-b-md">
+
+                                                <div class="form-group form-group-sm">
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon"><i class="fa fa-calendar"></i></label>
+                                                        <input type="date" class="form-control" data-ng-model="caixa.data_caixa.valor">
+                                                    </div>
+                                                </div> <!-- Grupo Data do Caixa -->
+
+
+                                                <div class="form-group form-group-sm">
+                                                    <label><small>Fita Branca</small></label>
+                                                    <div class="input-group m-b-sm">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.controles.fiscal.fita_branca.manha.valor">
+                                                    </div>
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.controles.fiscal.fita_branca.tarde.valor">
+                                                    </div>
+                                                </div> <!-- Fita Branca -->
+
+
+                                                <div class="form-group form-group-sm m-b-lg">
+                                                    <label><small>Leitura Z</small></label>
+                                                    <div class="input-group">
+                                                        <label class="input-group-addon"><i class="fa fa-print"></i></label>
+                                                        <input type="number" step="any" class="form-control" data-ng-model="caixa.controles.fiscal.leitura_z.valor">
+                                                    </div>
+                                                </div> <!-- Leitura Z -->
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </tab> <!-- Tab Form Fiscal -->
+
+
+                            </tabset>
+
+                        </div>
+
+                    </div> <!-- Coluna com TabSet Geral > Entradas, Saídas e Financeiro -->
+
+
+                    <div class="col-lg-8 m-b-lg">
+
+                        <div class="tabs-container">
+
+                            <tabset>
+
+                                <tab>
+                                    <tab-heading>
+                                        <i class="fa fa-money"></i>Despesas
+                                    </tab-heading>
+
+                                    <div class="panel-body">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <div class="form">
+
+                                                    <h4 class="m-b-lg">Lançamento de Despesas</h4>
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.despesa.descricao">
+                                                    </div> <!-- Input Descrição do Registro -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.despesa.valor">
+                                                    </div> <!-- Input Valor do Registro -->
+
+                                                    <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
+                                                        <select class="form-control"
+                                                                data-ng-model="obj.despesa.fornecedor"
+                                                                data-ng-options="item as item for item in lista.fornecedores">
+                                                        </select>
+                                                    </div> <!-- Select Fornecedor -->
+
+                                                    <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
+                                                        <select class="form-control"
+                                                                data-ng-model="obj.despesa.turno"
+                                                                data-ng-options="item.valor as item.display for item in lista.turnos">
+                                                        </select>
+                                                    </div> <!-- Select Turno -->
+
+                                                    <div class="form-group form-group-sm m-t-md">
+                                                        <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.despesa); sounds.play('add')">Adicionar</span>
+                                                    </div>
+
+                                                </div> <!-- Form Input Despesas -->
+
+                                            </div> <!-- Coluna do Form Input Despesas -->
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <h4 class="m-b-md">Lista de Despesas</h4>
+
+                                                <table class="table no-margins p-md">
+                                                    <tbody>
+                                                    <tr data-ng-repeat="desp in caixa.saidas.despesas | orderBy: 'turno'">
+                                                        <td>{{ desp.descricao | limitTo: 20 }}</td>
+                                                        <td>{{ desp.fornecedor | limitTo: 8 }}</td>
+                                                        <td><i ng-class="defC.turnoIcon(desp.turno)"></i></td>
+                                                        <td>{{ desp.valor | currency: 'R$ ' }}</td>
+                                                        <td><i class="fa fa-remove clickable" ng-click="removeReg(desp, enums.tiposAux.desp); sounds.play('remove');"></i></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Tabela Despesas -->
+
+                                            </div> <!-- Tabela Despesas -->
+
+                                        </div> <!-- Linha Cadastro e Lista de DESPESAS -->
+
+                                    </div>
+
+                                </tab> <!-- Tab Form Despesas -->
+
+                                <tab>
+                                    <tab-heading>
+                                        <i class="fa fa-lightbulb-o"></i> Consumo
+                                    </tab-heading>
+                                    <div class="panel-body">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <div class="form">
+
+                                                    <h4 class="m-b-lg">Lançamento de Serviços</h4>
+
+                                                    <div class="form-group form-group-sm">
+                                                        <select class="form-control"
+                                                                data-ng-model="obj.consumo.nome"
+                                                                data-ng-options="item.valor as item.display for item in lista.consumos">
+                                                        </select>
+                                                    </div> <!-- Select Nome do Consumo -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Abertura" class="form-control" data-ng-model="obj.consumo.inicial.valor">
+                                                    </div> <!-- Input Consumo Inicial -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Encerramento" class="form-control" data-ng-model="obj.consumo.final.valor">
+                                                    </div> <!-- Input Qtd Perdida -->
+
+                                                    <div class="form-group form-group-sm m-t-md">
+                                                        <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.consumo); sounds.play('add')">Adicionar</span>
+                                                    </div> <!-- Botão Add Produto -->
+
+                                                </div> <!-- Form Input Produtos (Salgados) -->
+
+                                            </div> <!-- Coluna Input Produtos (Salgados) -->
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <h4 class="m-b-md">Lista de Serviços</h4>
+
+                                                <table class="table no-margins p-md">
+                                                    <tbody>
+                                                    <tr data-ng-repeat="consumo in caixa.controles.consumo">
+                                                        <td>{{ consumo.nome }}</td>
+                                                        <td>{{ consumo.inicial.valor }}</td>
+                                                        <td>{{ consumo.final.valor }}</td>
+                                                        <td><i class="fa fa-remove clickable" ng-click="removeReg(consumo, enums.tiposAux.consumo); sounds.play('remove')"></i></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Tabela Salgados -->
+
+                                            </div>
+
+                                        </div> <!-- Coluna Input Produtos (Salgados) Produtos (Salgados) -->
+
+
+                                    </div>
+
+                                </tab> <!-- Tab Form Consumo (Luz Água) -->
+
+                                <tab>
+                                    <tab-heading>
+                                        <i class="fa fa-money"></i>Movimentação
+                                    </tab-heading>
+                                    <div class="panel-body">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <div class="form">
+
+                                                    <h4 class="m-b-lg">Lançamento de Movimentação</h4>
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="text" placeholder="Descrição" class="form-control" data-ng-model="obj.movimentacao.descricao">
+                                                    </div> <!-- Input Descrição do Registro -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.movimentacao.valor">
+                                                    </div> <!-- Input Valor do Registro -->
+
+                                                    <div class="form-group form-group-sm"> <!-- enum do caixa.client.controller -->
+                                                        <select class="form-control"
+                                                                data-ng-model="obj.movimentacao.origem"
+                                                                data-ng-options="item.valor as item.display for item in lista.origens">
+                                                        </select>
+                                                    </div> <!-- Select Origem -->
+
+                                                    <div class="form-group form-group-sm m-t-md">
+                                                        <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.movimentacao); sounds.play('add')">Adicionar</span>
+                                                    </div> <!-- Botão Cadastro -->
+
+                                                </div> <!-- Form Input Movimentação -->
+
+                                            </div>
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <h4 class="m-b-lg">Lista de Movimentações</h4>
+
+                                                <table class="table no-margins p-md">
+                                                    <tr data-ng-repeat="mov in caixa.movimentacoes | orderBy: 'origem'">
+                                                        <td>{{ mov.descricao }}</td>
+                                                        <td><i ng-class="defC.origemIcon(mov.origem)"></i></td>
+                                                        <td>{{ mov.valor | currency: 'R$ ' }}</td>
+                                                        <td><i class="fa fa-remove clickable" ng-click="removeReg(mov, enums.tiposAux.mov); sounds.play('remove');"></i></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Tabela Movimentações -->
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-lg-6">
+
+                                            </div>
+
+                                        </div> <!-- Row Tabela Movimentações -->
+
+                                    </div>
+                                </tab> <!-- Tab Form Movimentação -->
+
+                                <tab>
+
+                                    <tab-heading>
+                                        <i class="fa fa-credit-card-alt"></i>Cartões
+                                    </tab-heading>
+
+                                    <div class="panel-body">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <div class="form">
+
+                                                    <h4 class="m-b-lg">Lançamento de Cartões</h4>
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="hidden" name="tipo_cartao" data-ng-model="objCartao.tipo" ng-value="tipo_cartao" ng-init="tipo_cartao='Cartão'">
+                                                    </div> <!-- Input INVISÍVEL para informar o tipo do lancamento para facilitar a função que joga o obj no array correspondente -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Valor" class="form-control" data-ng-model="obj.cartao.valor">
+                                                    </div> <!-- Input Valor do Registro -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <select class="form-control"
+                                                                data-ng-model="obj.cartao.bandeira"
+                                                                data-ng-options="item.valor as item.display for item in lista.bandeiras">
+                                                        </select>
+                                                    </div> <!-- Select Bandeiras -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <select class="form-control"
+                                                                data-ng-model="obj.cartao.turno"
+                                                                data-ng-options="item.valor as item.display for item in lista.turnos">
+                                                        </select>
+                                                    </div> <!-- Select Turnos -->
+
+                                                    <div class="form-group form-group-sm m-t-md">
+                                                        <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.cartao); sounds.play('add')">Adicionar</span>
+                                                    </div> <!-- Botão + -->
+
+
+                                                </div> <!-- Form Cartões -->
+
+                                            </div>
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+                                                <h4 class="m-b-md">Lista de Cartões</h4>
+                                                <table class="table no-margins p-md">
+                                                    <tbody>
+                                                    <tr data-ng-repeat="cartao in caixa.saidas.cartoes | orderBy: 'turno'">
+                                                        <td>{{ cartao.bandeira }}</td>
+                                                        <td><i ng-class="defC.turnoIcon(cartao.turno)"></i></td>
+                                                        <td>{{ cartao.valor | currency: 'R$ ' }}</td>
+                                                        <td><i class="fa fa-remove clickable" ng-click="removeReg(cartao, enums.tiposAux.cartao); sounds.play('remove');"></i></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Tabela Cartões -->
+                                            </div> <!-- Tabela Cartões - Manhã -->
+
+                                        </div>
+
+
+                                    </div>
+
+                                </tab> <!-- Tab Form Cartões -->
+
+                                <tab>
+                                    <tab-heading>
+                                        <i class="fa fa-cutlery"></i> Salgados
+                                    </tab-heading>
+                                    <div class="panel-body">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+                                                <div class="form">
+
+                                                    <h4 class="m-b-lg">Lançamento de Produtos</h4>
+
+                                                    <div class="form-group form-group-sm">
+                                                        <select class="form-control"
+                                                                data-ng-model="obj.produto.nome"
+                                                                data-ng-options="item.valor as item.display for item in lista.produtos">
+                                                        </select>
+                                                    </div> <!-- Select Nome do Produto -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Vendido" class="form-control" data-ng-model="obj.produto.venda.valor">
+                                                    </div> <!-- Input Qtd Vendida -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Perdido" class="form-control" data-ng-model="obj.produto.perda.valor">
+                                                    </div> <!-- Input Qtd Perdida -->
+
+                                                    <div class="form-group form-group-sm">
+                                                        <input type="number" step="any" placeholder="Usado" class="form-control" data-ng-model="obj.produto.uso.valor">
+                                                    </div> <!-- Input Qtd Usada -->
+
+                                                    <div class="form-group form-group-sm m-t-md">
+                                                        <span class="btn btn-sm btn-block btn-info" ng-click="addReg(obj.produto); sounds.play('add')">Adicionar</span>
+                                                    </div> <!-- Botão Add Produto -->
+
+                                                </div> <!-- Form Input Produtos (Salgados) -->
+
+                                            </div> <!-- Coluna Form Input Produtos (Salgados) -->
+
+
+                                            <div class="col-lg-6 b-r p-w-lg m-t-md">
+
+
+                                                <table class="table no-margins p-w-md m-t-lg">
+                                                    <thead>
+                                                    <tr>
+                                                        <th colspan="2">Salgados</th>
+                                                        <th><i class="fa fa-money" popover-placement="left" popover="Vendidos"></i></th>
+                                                        <th><i class="fa fa-trash" popover-placement="left" popover="Perdidos"></i></th>
+                                                        <th><i class="fa fa-refresh" popover-placement="left" popover="Usados"></i></th>
+                                                        <th><i class="fa fa-bolt" popover-placement="left" popover="Ações"></i></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr data-ng-repeat="prod in caixa.controles.produtos">
+                                                        <td><i class="fa fa-cutlery"></i></td>
+                                                        <td>{{ prod.nome }}</td>
+                                                        <td>{{ prod.venda.valor }}</td>
+                                                        <td>{{ prod.perda.valor }}</td>
+                                                        <td>{{ prod.uso.valor }}</td>
+                                                        <td><i class="fa fa-remove clickable" ng-click="removeReg(prod, enums.tiposAux.prod); sounds.play('remove');"></i></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table> <!-- Tabela Salgados -->
+
+                                            </div> <!-- Tabela Produtos (Salgados) -->
+
+
+                                        </div>
+
+
+                                        <div class="row">
+
+                                        </div> <!-- Row Tabela Produtos (Salgados) -->
+                                    </div>
+                                </tab> <!-- Tab Form Produtos (Salgados) -->
+
+
+                            </tabset>
+
+                        </div>
+
+                    </div> <!-- Tab Lançamentos -->
+
+                </div> <!-- Display Edit View -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <a ng-click="toggleViews.toggle('edit_caixa_page', 'check')"  class="btn btn-info pull-right">Update</a>
+                        </div>
+                    </div>
+                </div> <!-- Botão de Update -->
+
+            </div> <!-- Display Edit View -->
+
+
         </form>
     </div>
 

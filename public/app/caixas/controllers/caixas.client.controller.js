@@ -2,19 +2,30 @@
  * Created by Vittorio on 22/03/2017.
  */
 angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams', '$location', 'Caixas', 'CompCaixa', 'toaster',
-                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal', 'AppConfig',
-    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal, AppConfig) {
-        let SweetAlertOptions = {
-            removerCaixa: {
-                title: "Deseja remover este Caixa?",
-                text: "Você não poderá mais recuperá-lo!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",confirmButtonText: "Sim, remover!",
-                cancelButtonText: "Não, cancelar!",
-                closeOnConfirm: false,
-                closeOnCancel: false }
+                                    '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal', 'AppConfig', 'moment',
+    function($scope, $stateParams, $location, Caixas, CompCaixa, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal, AppConfig, moment) {
+        $scope.toggleViews = {
+            toggle: function(page, view) {
+                switch (page) {
+                    case 'edit_caixa_page':
+                        switch (view) {
+                            case 'edit':
+                                this.edit_caixa_page.edit_view = true;
+                                this.edit_caixa_page.check_view = false;
+                                break;
+                            case 'check':
+                                this.edit_caixa_page.check_view = true;
+                                this.edit_caixa_page.edit_view = false;
+                                break;
+                        }
+                }
+            },
+            edit_caixa_page: {
+                check_view: true,
+                edit_view: false,
+            }
         };
+
 
         $scope.modalEditCaixas = function(obj, tipo) {
             $scope.currentObj = obj;

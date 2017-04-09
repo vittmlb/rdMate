@@ -220,3 +220,33 @@ footer {
 .text-strikethrough {
     text-decoration: line-through;
 }
+
+.v-toolmenu-top-row {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    /*background-color: #ffffff;*/
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: none solid none;
+    border-width: 3px 0 0;
+    color: inherit;
+    margin-bottom: 10px;
+    /*padding-top: 15px;*/
+    padding: 15px 5px;
+    min-height: 48px;
+}
+
+.v-toolmenu-top-row h5 {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 0 7px;
+    padding: 0;
+    text-overflow: ellipsis;
+    float: left;
+}
+.v-toolmenu-top-row .label {
+    float: left;
+    margin-left: 4px;
+}
