@@ -1,0 +1,289 @@
+<section data-ng-controller="CaixasController" data-ng-init="findOne()">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Caixa do dia: {{ caixa.data_caixa | date: 'dd/MM/yyyy' }}</h2><a ng-href="#!/caixas/{{ caixa._id }}\edit"><i class="fa fa-pencil"></i></a>
+            <!--<span ng-repeat="forn in fornecedores">{{ forn }}</span>-->
+            <ol class="breadcrumb">
+                <li>
+                    <a ng-href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Caixa</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+
+            <div class="col-sm-9">
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Venda <small>(total)</small></h5>
+                                <h1 class="no-margins" class="text-success">{{ caixa.v.entradas.vendas.total | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy"><i class="fa fa-bolt"></i></div>
+                                <small>alguma coisa</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Venda <small>(dinheiro)</small></h5>
+                                <h1 class="no-margins">{{ caixa.v.widgets.venda.dinheiro.valor | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy">{{ caixa.v.widgets.venda.dinheiro.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
+                                <small>Percentual</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Venda <small>(cartão)</small></h5>
+                                <h1 class="no-margins">{{ caixa.v.widgets.venda.cartao.valor | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-navy">{{ caixa.v.widgets.venda.cartao.percentual | percent: 2}} <i class="fa fa-bolt"></i></div>
+                                <small>Percentual</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Diferença <small>(total)</small></h5>
+                                <h1 class="no-margins text-warning" ng-show="caixa.v.widgets.diferenca.total > 0">{{ caixa.v.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins text-info" ng-show="caixa.v.widgets.diferenca.total == 0">{{ caixa.v.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <h1 class="no-margins text-danger" ng-show="caixa.v.widgets.diferenca.total < 0">{{ caixa.v.widgets.diferenca.manha | currency: 'R$ ' }}</h1>
+                                <div class="stat-percent font-bold text-danger">24% <i class="fa fa-level-down"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Widgets - Linha 1 -->
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income</h5>
+                                <h1 class="no-margins">886,200</h1>
+                                <div class="stat-percent font-bold text-navy">98% <i class="fa fa-bolt"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income last month</h5>
+                                <h1 class="no-margins">1 738,200</h1>
+                                <div class="stat-percent font-bold text-navy">98% <i class="fa fa-bolt"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income last day</h5>
+                                <h1 class="no-margins">-200,100</h1>
+                                <div class="stat-percent font-bold text-danger">12% <i class="fa fa-level-down"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <h5>Income all</h5>
+                                <h1 class="no-margins">54,200</h1>
+                                <div class="stat-percent font-bold text-danger">24% <i class="fa fa-level-down"></i></div>
+                                <small>Total income</small>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Widgets - Linha 2 -->
+
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Caixa</h5>
+                                <div ibox-tools></div>
+                            </div>
+                            <div class="ibox-content">
+
+                                <table class="footable table m-t-md table-stripped toggle-arrow-tiny" data-page-size="8">
+                                    <thead>
+                                    <tr>
+                                        <th data-toggle="true"></th>
+                                        <th>Manhã</th>
+                                        <th>Tarde</th>
+                                        <th data-hide="all">Totais</th>
+                                        <th data-hide="all">X</th>
+                                        <th data-hide="all">Y</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Abertura</td>
+                                        <td>{{ caixa.entradas.abertura.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.entradas.abertura.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.entradas.abertura.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Venda</td>
+                                        <td>{{ caixa.entradas.vendas.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.entradas.vendas.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.entradas.vendas.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Transferência</td>
+                                        <td>{{ caixa.saidas.transferencia.manha.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.saidas.transferencia.tarde.valor | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.transferencia.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cartões</td>
+                                        <td>{{ caixa.v.saidas.cartoes.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.cartoes.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.cartoes.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Despesas</td>
+                                        <td>{{ caixa.v.saidas.despesas.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.despesas.tarde | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.despesas.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dinheiro</td>
+                                        <td>{{ caixa.saidas.dinheiro.manha.valor | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.saidas.dinheiro.tarde.valor | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.v.saidas.dinheiro.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Totais</td>
+                                        <td ng-class="">{{ caixa.v.saidas.total.manha | currency: 'R$ ' }}</td>
+                                        <td>{{ caixa.v.saidas.total.tarde | currency: 'R$ '}}</td>
+                                        <td>{{ caixa.v.saidas.total.total | currency: 'R$ ' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Diferenças</td>
+                                        <td ng-class="(caixa.v.diferenca.manha) < 0 ? 'text-danger': ((caixa.v.diferenca.manha > 0) ? 'text-warning': 'text-success')">
+                                            {{ caixa.v.diferenca.manha | currency: 'R$ ' }}</td>
+                                        <td ng-class="(caixa.v.diferenca.tarde) < 0 ? 'text-danger': ((caixa.v.diferenca.tarde > 0) ? 'text-warning': 'text-success')">
+                                            {{ caixa.v.diferenca.tarde | currency: 'R$ '}}</td>
+                                        <td ng-class="(caixa.v.diferenca.total) < 0 ? 'text-danger': ((caixa.v.diferenca.total > 0) ? 'text-warning': 'text-success')">
+                                            {{ caixa.v.diferenca.total | currency: 'R$ ' }}</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table> <!-- Tabela ... -->
+
+                            </div>
+                        </div>
+
+                        <br/><br/>
+
+                    </div> <!-- ibox Lançamentos Caixa -->
+
+                    <div class="col-lg-6">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Controles</h5>
+                                <div ibox-tools></div>
+                            </div>
+                            <div class="ibox-content">
+                                <table class="footable table m-t-md toggle-arrow-tiny" data-page-size="8">
+                                    <thead>
+                                    <tr>
+                                        <th data-toggle="true">Nome</th>
+                                        <th>Vendidos</th>
+                                        <th data-hide="all">Perdidos</th>
+                                        <th data-hide="all">Usados</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="prod in caixa.controles.produtos">
+                                        <td>{{ prod.nome }}</td>
+                                        <td>{{ prod.venda.valor }}</td>
+                                        <td>{{ prod.perda.valor }}</td>
+                                        <td>{{ prod.uso.valor }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table> <!-- Tabela ... -->
+                            </div>
+                        </div>
+                    </div> <!-- ibox Controles -->
+                </div>
+
+            </div> <!-- Widgets -->
+
+            <div class="col-lg-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox">
+
+                            <div class="ibox-content">
+
+                                <h5>Lançamentos</h5>
+                                <div ng-show="caixa.saidas.despesas.length">
+
+                                    <table class="table table-stripped small m-t-md">
+                                        <tbody>
+                                        <tr data-ng-repeat="desp_m in caixa.saidas.despesas | orderBy: 'turno'">
+                                            <td ng-class="{'no-borders':$first}"><i ng-class="defC.turnoIcon(desp_m.turno)"></i></td>
+                                            <td ng-class="{'no-borders':$first}">{{ desp_m.descricao | limitTo: 22 }}</td>
+                                            <td ng-class="{'no-borders':$first}">{{ desp_m.valor | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">Despesas:&nbsp;&nbsp {{ caixa.v.saidas.despesas.total | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div> <!-- Div Despesas -->
+
+                                <div ng-show="caixa.movimentacoes.length">
+                                    <table class="table table-stripped small m-t-md">
+                                        <tbody>
+                                        <tr data-ng-repeat="mov in caixa.movimentacoes | orderBy: 'origem'">
+                                            <td ng-class="{'no-borders':$first}"><i ng-class="defC.origemIcon(mov.origem)"></i></td>
+                                            <td ng-class="{'no-borders':$first}">{{ mov.descricao | limitTo: 22 }}</td>
+                                            <td ng-class="{'no-borders':$first}">{{ mov.valor | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" >Movimentação &nbsp;&nbsp;{{ caixa.v.movimentacoes.saldo | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div> <!-- Div Movimentações -->
+
+                                <div ng-show="caixa.movimentacoes.length">
+                                    <table class="table table-stripped small m-t-md">
+                                        <tbody>
+                                        <tr data-ng-repeat="card in caixa.saidas.cartoes | orderBy: 'turno'">
+                                            <td ng-class="{'no-borders':$first}"><i ng-class="defC.turnoIcon(card.turno)"></i></td>
+                                            <td ng-class="{'no-borders':$first}">{{ card.bandeira | limitTo: 22 }}</td>
+                                            <td ng-class="{'no-borders':$first}">{{ card.valor | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" >Cartões &nbsp;&nbsp;{{ caixa.v.saidas.cartoes.total | currency: 'R$ ' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div> <!-- Div Cartões -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- Tabela Salgados -->
+        </div>
+    </div>
+</section>
