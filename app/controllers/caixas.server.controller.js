@@ -4,6 +4,7 @@
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 let Caixas = mongoose.model('Caixa');
+let queryBuilder = require('../modules/query-builder.server.module');
 
 let moment = require('moment');
 moment.locale('pt-br');
@@ -275,7 +276,8 @@ let Relatorios = function(req, res, next, param) {
     };
     let parent = this;
     let promises = [];
-    let intervalo = buildQuery.intervalo(param.inicial, param.final);
+    let intervalo = queryBuilder.intervalo(param.inicial, param.final);
+    // let intervalo = buildQuery.intervalo(param.inicial, param.final);
 
     this.geral = function() {
 
@@ -292,8 +294,14 @@ let Relatorios = function(req, res, next, param) {
                 values.forEach(function (elem) {
                     if (Array.isArray(elem)) {
                         elem.map(function (e) {
-                            let aux = (e._controle).toLowerCase();
-                            o[aux] = e;
+                            if(e._parent) {
+                                if(!o.hasOwnProperty(e._parent)) {
+                                    o[e._parent] = {};
+                                }
+                                o[e._parent][e._controle] = e;
+                            } else {
+                                o[e._controle] = e;
+                            }
                         });
                     }
                 });
@@ -388,7 +396,8 @@ let Relatorios = function(req, res, next, param) {
 
         promise.then(function (produtos) {
             produtos.forEach(function (data) {
-                data._controle = "produtos"
+                data._parent = 'produtos';
+                data._controle = data.nome.toLowerCase();
             });
             return produtos;
         });
