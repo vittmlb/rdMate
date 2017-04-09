@@ -9,6 +9,8 @@ let moment = require('moment');
 moment.locale('pt-br');
 
 exports.create = function(req, res) {
+    // A data que chega está no formato "YYYY-MM-DD" e deve ser convertida para "MM-DD-YYYY" para que ela seja corretamente armazenada
+    req.body.data_caixa = moment(req.body.data_caixa).format('MM-DD-YYYY');
     let caixa = new Caixas(req.body);
     caixa.save(function (err) {
         if(err) {

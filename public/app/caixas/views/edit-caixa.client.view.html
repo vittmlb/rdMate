@@ -267,7 +267,7 @@
 
                 </div> <!-- Despesas e Movimentações -->
 
-                <div class="col-lg-3">
+                <div class="col-lg-4">
 
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
@@ -290,7 +290,7 @@
                                                     <th></th>
                                                     <th class="text-center">Turno</th>
                                                     <th>Valor</th>
-                                                    <th><i class="fa fa-bolt"></i></th>
+                                                    <th class="text-center"><i class="fa fa-bolt"></i></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -299,9 +299,10 @@
                                                     <td><input icheck type="checkbox" class="icheckbox_flat-blue" ng-model="card.checked" ng-change="sounds.play('check')"></td>
                                                     <td ng-class="card.checked ? 'text-strikethrough': ''" class="text-center"><i popover-placement="top" popover="{{ card.turno }}" ng-class="defC.turnoIcon(card.turno)" class="text-center"></i></td>
                                                     <td ng-class="card.checked ? 'text-strikethrough': ''">{{ card.valor | currency: 'R$ ' }}</td>
-                                                    <td>
-                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(card, enums.tiposAux.cartao)"></i>&nbsp;&nbsp;
-                                                        <i ng-show="card.obs" class="fa fa-comment text-warning" popover-placement="left" popover="{{ card.obs }}"></i>
+                                                    <td class="text-center">
+                                                        <i class="fa fa-pencil-square clickable" ng-click="modalEditCaixas(card, enums.tiposAux.cartao)"></i>
+                                                        <i ng-show="card.obs" class="fa fa-sticky-note text-warning" popover-placement="left" popover="{{ card.obs }}"></i>
+                                                        <i class="fa fa-remove"></i>
                                                     </td>
                                                 </tr>
                                                 </tbody>
