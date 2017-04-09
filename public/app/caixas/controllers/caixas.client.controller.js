@@ -260,9 +260,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             p.then(function (data) {
                 $scope.caixa = data;
                 // $scope.caixa.data_caixa = new Date(data.data_caixa);
-                console.log(moment.locale());
-                // moment.locale('pt-br');
-                console.log(moment.locale());
                 let teste = moment($scope.caixa.data_caixa).format('DD-MM-YYYY');
                 $scope.caixa.data_caixa = teste;
                 $scope.criaArrayGeral();
