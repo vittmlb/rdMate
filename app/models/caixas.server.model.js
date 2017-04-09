@@ -322,15 +322,28 @@ let CaixasSchema = new Schema({
                 },
             },
             fita_branca: {
-                valor: {
-                    type: Number,
-                    default: 0
+                manha: {
+                    valor: {
+                        type: Number,
+                        default: 0
+                    },
+                    obs: String,
+                    checked: {
+                        type: Boolean,
+                        default: false
+                    },
                 },
-                obs: String,
-                checked: {
-                    type: Boolean,
-                    default: false
-                },
+                tarde: {
+                    valor: {
+                        type: Number,
+                        default: 0
+                    },
+                    obs: String,
+                    checked: {
+                        type: Boolean,
+                        default: false
+                    },
+                }
             },
         },
     },
@@ -372,6 +385,20 @@ let CaixasSchema = new Schema({
             }
         }
     }
+});
+
+
+CaixasSchema.virtual('v.geral').get(function () {
+    let array = [];
+    array.push({"label": "Abertura", "turno": "Manhã", "obj": this.entradas.abertura.manha});
+    array.push({"label": "Abertura", "turno": "Tarde",  "obj": this.entradas.abertura.tarde});
+    array.push({"label": "Venda", "turno": "Manhã",  "obj": this.entradas.vendas.manha});
+    array.push({"label": "Venda", "turno": "Tarde",  "obj": this.entradas.vendas.tarde});
+    array.push({"label": "Transferência", "turno": "Manhã",  "obj": this.saidas.transferencia.manha});
+    array.push({"label": "Transferência", "turno": "Tarde",  "obj": this.saidas.transferencia.tarde});
+    array.push({"label": "Dinheiro", "turno": "Manhã",  "obj": this.saidas.dinheiro.manha});
+    array.push({"label": "Dinheiro", "turno": "Tarde",  "obj": this.saidas.dinheiro.tarde});
+    return array;
 });
 
 

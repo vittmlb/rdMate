@@ -412,7 +412,7 @@ angular.module('admin_panel').factory('AppConfig', ['$http', function ($http) {
      * Lista utilizada em CaixasController > caixas.client.controller.js
      * @type {{tiposRegistro: {}, turnos: {}, origens: {}, bandeiras: {}, produtos: {}, consumos: {}, fornecedores: {}, categorias: {}}}
      */
-    let lista_ctrl_caixa = {
+    let listas = {
         tiposRegistro: {},
         turnos: {},
         origens: {},
@@ -423,6 +423,29 @@ angular.module('admin_panel').factory('AppConfig', ['$http', function ($http) {
         categorias: {}
     };
 
+    let enums = {
+        turnos: {
+            manha: 'Manhã',
+            tarde: 'Tarde'
+        },
+        tipos: {
+            desp: 'Despesa',
+            mov:  'Movimentação',
+        },
+        origens: {
+            cofre: 'Cofre',
+            geral: 'Geral'
+        },
+        tiposAux: {
+            desp: 'Despesa',
+            mov:  'Movimentação',
+            prod: 'Produto',
+            consumo: 'Consumo',
+            cartao: 'Cartão',
+            entrada: 'Entrada'
+        }
+    };
+
     function gera_lista(nomeCtrl) {
         switch (nomeCtrl) {
             case 'CaixasController':
@@ -431,27 +454,41 @@ angular.module('admin_panel').factory('AppConfig', ['$http', function ($http) {
         }
     }
 
+
+    function gera_enums(nomeCtrl) {
+        switch (nomeCtrl) {
+            case 'CaixasController':
+                return enums;
+
+        }
+    }
+
     function gera_lista_ctrl_caixa() {
-        return lista_ctrl_caixa;
+        return listas;
     }
     
     $http.get('/app/caixas/data/enum_caixas.json').success(function (data) {
-        lista_ctrl_caixa.tiposRegistro = data.tiposRegistro;
-        lista_ctrl_caixa.turnos = data.turnos;
-        lista_ctrl_caixa.origens = data.origens;
-        lista_ctrl_caixa.bandeiras = data.bandeiras;
-        lista_ctrl_caixa.produtos = data.controles.produtos;
-        lista_ctrl_caixa.consumos = data.controles.consumos;
+        listas.tiposRegistro = data.tiposRegistro;
+        listas.turnos = data.turnos;
+        listas.origens = data.origens;
+        listas.bandeiras = data.bandeiras;
+        listas.produtos = data.controles.produtos;
+        listas.consumos = data.controles.consumos;
     });
     $http.get('/app/data/enum_data.json').success(function (data) {
-        lista_ctrl_caixa.fornecedores = data.fornecedores;
-        lista_ctrl_caixa.categorias = data.categorias;
+        listas.fornecedores = data.fornecedores;
+        listas.categorias = data.categorias;
     });
 
     return {
         lista: {
             controller: function(nomeCtrl) {
                 return gera_lista(nomeCtrl);
+            }
+        },
+        enums: {
+            controller: function(nomeCtrl) {
+                return gera_enums(nomeCtrl);
             }
         }
     };

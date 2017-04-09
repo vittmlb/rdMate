@@ -42,7 +42,7 @@
                                             <div class="form-group form-group-sm">
                                                 <div class="input-group">
                                                     <label class="input-group-addon"><i class="fa fa-calendar"></i></label>
-                                                    <input type="date" class="form-control" data-ng-model="caralho" ng-change="onChange()">
+                                                    <input type="date" class="form-control" data-ng-model="data_caixa.valor">
                                                 </div>
                                             </div> <!-- Grupo Data do Caixa -->
 
@@ -91,10 +91,10 @@
                                         <div class="col-lg-12 p-w-lg m-t-md">
 
                                             <div class="form-group form-group-sm">
-                                                <!--<div class="input-group">-->
-                                                    <!--<label class="input-group-addon"><i class="fa fa-calendar"></i></label>-->
-                                                    <!--<input type="date" class="form-control" data-ng-model="data_caixa" ng-change="onChange()">-->
-                                                <!--</div>-->
+                                                <div class="input-group">
+                                                    <label class="input-group-addon"><i class="fa fa-calendar"></i></label>
+                                                    <input type="date" class="form-control" data-ng-model="data_caixa.valor">
+                                                </div>
                                             </div> <!-- Grupo Data do Caixa -->
 
 
@@ -129,6 +129,53 @@
                                 </div>
 
                             </tab> <!-- Tab Form Saídas -->
+
+                            <tab>
+                                <tab-heading>
+                                    <i class="fa fa-money"></i>Fiscal
+                                </tab-heading>
+
+                                <div class="panel-body">
+
+                                    <div class="row m-b-md">
+
+                                        <div class="col-lg-12 p-w-lg m-t-md m-b-md">
+
+                                            <div class="form-group form-group-sm">
+                                                <div class="input-group">
+                                                    <label class="input-group-addon"><i class="fa fa-calendar"></i></label>
+                                                    <input type="date" class="form-control" data-ng-model="data_caixa.valor">
+                                                </div>
+                                            </div> <!-- Grupo Data do Caixa -->
+
+
+                                            <div class="form-group form-group-sm">
+                                                <label><small>Fita Branca</small></label>
+                                                <div class="input-group m-b-sm">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Manhã"><i class="fa fa-coffee"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="controles.fiscal.fita_branca.manha.valor">
+                                                </div>
+                                                <div class="input-group">
+                                                    <label class="input-group-addon" tooltip-placement="left" tooltip="Tarde"><i class="fa fa-sun-o"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="controles.fiscal.fita_branca.tarde.valor">
+                                                </div>
+                                            </div> <!-- Fita Branca -->
+
+
+                                            <div class="form-group form-group-sm m-b-lg">
+                                                <label><small>Leitura Z</small></label>
+                                                <div class="input-group">
+                                                    <label class="input-group-addon"><i class="fa fa-print"></i></label>
+                                                    <input type="number" step="any" class="form-control" data-ng-model="controles.fiscal.leitura_z.valor">
+                                                </div>
+                                            </div> <!-- Leitura Z -->
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </tab> <!-- Tab Form Fiscal -->
 
 
                         </tabset>
@@ -409,28 +456,6 @@
 
                                     </div>
 
-                                    <div class="row">
-
-
-
-                                        <div class="col-lg-6">
-                                            <table class="table no-margins">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="3" class="text-info">Cartões Tarde</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr data-ng-repeat="cartao in saidas.cartoes | filter: {turno: enums.turnos.tarde}">
-                                                    <td>{{ cartao.bandeira }}</td>
-                                                    <td>{{ cartao.valor | currency: 'R$ ' }}</td>
-                                                    <td><i class="fa fa-remove clickable" ng-click="removeReg(cartao); sounds.play('remove');"></i></td>
-                                                </tr>
-                                                </tbody>
-                                            </table> <!-- Tabela Cartões - Tarde -->
-                                        </div> <!-- Tabela Cartões - Tarde -->
-
-                                    </div> <!-- Tabelas com cartões no TabSet -->
 
                                 </div>
                             </tab> <!-- Tab Form Cartões -->

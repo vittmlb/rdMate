@@ -31,28 +31,8 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
 
         $scope.defC = MyDefineClass;
 
-        $scope.enums = {
-            turnos: {
-                manha: 'Manhã',
-                tarde: 'Tarde'
-            },
-            tipos: {
-                desp: 'Despesa',
-                mov:  'Movimentação',
-            },
-            origens: {
-                cofre: 'Cofre',
-                geral: 'Geral'
-            },
-            tiposAux: {
-                desp: 'Despesa',
-                mov:  'Movimentação',
-                prod: 'Produto',
-                consumo: 'Consumo',
-                cartao: 'Cartão',
-                entrada: 'Entrada'
-            }
-        };
+        $scope.enums = AppConfig.enums.controller('CaixasController');
+        $scope.lista = AppConfig.lista.controller('CaixasController');
 
         MySweetAlert.set.text = `Tem certeza de que deseja remover este Caixa?`;
 
@@ -70,29 +50,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
             toaster.pop(msgObj);
         }
 
-        // $scope.lista = {
-        //     tiposRegistro: {},
-        //     turnos: {},
-        //     bandeiras: {},
-        //     produtos: {},
-        //     consumos: {},
-        //     fornecedores: {},
-        //     categorias: {}
-        // };
-
-        $scope.lista = AppConfig.lista.controller('CaixasController');
-
-        // $http.get('/app/caixas/data/enum_caixas.json').success(function (data) {
-        //     $scope.lista.turnos = data.turnos;
-        //     $scope.lista.origens = data.origens;
-        //     $scope.lista.bandeiras = data.bandeiras;
-        //     $scope.lista.produtos = data.controles.produtos;
-        //     $scope.lista.consumos = data.controles.consumos;
-        // });
-        // $http.get('/app/data/enum_data.json').success(function (data) {
-        //     $scope.lista.fornecedores = data.fornecedores;
-        //     $scope.lista.categorias = data.categorias;
-        // });
 
         $scope.data_caixa = {
             valor: ''
@@ -104,7 +61,8 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
         };
         $scope.controles = {
             produtos: [],
-            consumo: []
+            consumo: [],
+            fiscal: {}
         };
         $scope.movimentacoes = [];
 
@@ -248,12 +206,12 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 controles: this.controles
             });
             caixa.$save(function (response) {
+                $scope.data_caixa.valor = ''; // todo: Foi preciso recorrer a esse artificio pois (acredito) o campo da data, por estar em uma tab, deve ter o seu próprio escopo e não consegue "pegar" o this.data_caixa
                 $location.path('/caixas/' + response._id);
             }, function(errorResponse) {
                 popToaster(errorResponse);
             });
         };
-        $scope.data_caixa.valor = ''; // todo: Foi preciso recorrer a esse artificio pois (acredito) o campo da data, por estar em uma tab, deve ter o seu próprio escopo e não consegue "pegar" o this.data_caixa
         $scope.find = function() {
             let p = Caixas.query().$promise;
 
@@ -325,15 +283,6 @@ angular.module('caixas').controller('CaixasController', ['$scope', '$stateParams
                 });
 
             }).catch(swal.noop);
-        };
-
-        $scope.defineClass = function(item) {
-            if(item >= 0) {
-                if(item === 0) return 'text-success';
-                return 'text-warning';
-            } else {
-                return 'text-danger';
-            }
         };
 
         $scope.defClass = {
