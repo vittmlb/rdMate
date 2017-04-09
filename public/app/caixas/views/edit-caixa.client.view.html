@@ -26,8 +26,12 @@
 
                         <div class="pull-right">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-xs btn-white active" ng-click="toggleViews.toggle('edit_caixa_page', 'check')">Check</button>
-                                <button type="button" class="btn btn-xs btn-white" ng-click="toggleViews.toggle('edit_caixa_page', 'edit')">Edição</button>
+                                <button type="button" class="btn btn-xs btn-white active"
+                                        ng-class="{'active': btnc === 'check'}"
+                                        ng-click="toggleViews.toggle('edit_caixa_page', 'check'); btnc = 'check'">Check</button>
+                                <button type="button" class="btn btn-xs btn-white"
+                                        ng-class="{'active': btnc === 'edit'}"
+                                        ng-click="toggleViews.toggle('edit_caixa_page', 'edit'); btnc = 'edit'">Edição</button>
                                 <!--<button type="button" class="btn btn-xs btn-white">Annual</button>-->
                             </div>
                         </div>
