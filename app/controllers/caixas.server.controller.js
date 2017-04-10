@@ -4,7 +4,6 @@
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 let Caixas = mongoose.model('Caixa');
-let queryBuilder = require('../modules/query-builder.server.module');
 
 let moment = require('moment');
 moment.locale('pt-br');
@@ -184,32 +183,6 @@ exports.findCustoms = function(req, res, next, params) {
 
 };
 
-function queryDems(params) {
-    let promise = Lancamentos.aggregate([
-        {$match: {"data": {"$gte": new Date(params.intervalo.ini), "$lte": new Date(params.intervalo.fim)}}},
-        {$group: {
-            "_id": {
-                titulo: "$" + params.criterio,
-            },
-            "lancamentos": {$push: "$$ROOT"},
-            total: {"$sum": "$valor"}
-        }},
-        {$project: {
-            _id: 0,
-            categoria: "$_id.titulo",
-            lancamentos: '$lancamentos',
-            total: 1
-        }}
-    ]).exec();
-    promise.then(function (lancamentos) {
-        return lancamentos;
-    });
-    promise.catch(function (err) {
-        return err;
-    });
-    return promise;
-}
-
 exports.results = function(req, res) {
     res.json(req.lancamentos);
 };
@@ -220,53 +193,6 @@ exports.generateDashboard = function(req, res, next, params) {
     rel.geral();
 };
 
-exports.generateDashboardOld = function(req, res, next, params) {
-    let param = JSON.parse(params);
-    let intervalo = buildQuery.intervalo(param.inicial, param.final);
-    let obj = buildQuery.totais.cartoes();
-    let promise = Caixas.aggregate([
-        // {$match: {"saidas.despesas.turno": "Tarde"}}
-        intervalo,
-        // {$match: {"data_caixa": {"$gte": new Date(param.inicial), "$lte": new Date(param.final)}}},
-        obj.unwind,
-        obj.group,
-        // {$group:
-        //     {
-        //         "_id": null,
-        //         "lancamentos": {$push: "$$ROOT"},
-        //         total_venda_manha: {"$sum": "$entradas.vendas.manha.valor"},
-        //         total_venda_tarde: {"$sum": "$entradas.vendas.tarde.valor"},
-        //         // total_venda_cartoes: {"$sum": "$saidas.cartoes.valor"}
-        //     }
-        // },
-
-        // {$project: {
-        //     total_venda_manha: 1,
-        //     total_venda_tarde: 1,
-        //     total_venda: {"$add": ["$total_venda_manha", "$total_venda_tarde"]},
-        //     total_venda_cartoes: 1
-        // }
-        // }
-        // {$unwind: "$entradas.vendas"}
-        // {$unwind: "$movimentacoes"},
-        // {$group:
-        //     {
-        //         "_id": null,
-        //         "lancamentos": {$push: "$$ROOT"},
-        //         total_movimentacao: {"$sum": "$movimentacoes.valor"},
-        //         // total_tarde: {"$sum": "$tarde.valor"}
-        //     },
-        // }
-    ]).exec();
-    promise.then(function (caixa) {
-        console.log(caixa);
-        req.caixa_dashboard = caixa;
-        next();
-    });
-    promise.catch(function (err) {
-        return next(err);
-    });
-};
 
 let Relatorios = function(req, res, next, param) {
     this.obj = {
@@ -274,10 +200,21 @@ let Relatorios = function(req, res, next, param) {
         res: res,
         next: next
     };
+    let datesInfo = {
+        data_inicial: param.inicial,
+        data_final: param.final,
+        dias: calculaDias()
+    };
     let parent = this;
     let promises = [];
-    let intervalo = queryBuilder.intervalo(param.inicial, param.final);
-    // let intervalo = buildQuery.intervalo(param.inicial, param.final);
+    let intervalo = buildQuery.intervalo(param.inicial, param.final);
+
+
+    function calculaDias() {
+        let a = moment(param.inicial);
+        let b = moment(param.final);
+        return b.diff(a, 'days');
+    }
 
     this.geral = function() {
 
@@ -286,19 +223,31 @@ let Relatorios = function(req, res, next, param) {
         promises.push(this.despesas());
         promises.push(this.produtos());
 
+        calculaDias();
+
         let prom = Promise.all(promises);
 
         prom.then(function (values) {
             let o = {};
             if(Array.isArray(values)) {
+                /**
+                 * Promise.all retorna um array com o número de elementos correspondente ao número de promessas que recebeu.
+                 * Aqui eu itero por esse array de valores para cair, em seguida, em um novo array, dessa vez retornado como
+                 * resposta pelo mongoose Cada uma das funções (cartões, despesas, base e produtos) gera como retorno um array
+                 * com uma posição que contém o objeto respostada query. Para cada uma das Promises.then eu acessei o objeto
+                 * resposta dentro do array e inseri uma variável chamada _controle para que essa variável desse nome à
+                 * propriedade do objeto que está sendo retornado por esse forEach abaixo.
+                 * - ex: o[e._parent] vai corresponder à o.cartoes = objeto resultado da query por cartoes.
+                 */
                 values.forEach(function (elem) {
                     if (Array.isArray(elem)) {
                         elem.map(function (e) {
                             if(e._parent) {
+                                e._intervalo = datesInfo; // coloca em todos os elementos a diferença
                                 if(!o.hasOwnProperty(e._parent)) {
-                                    o[e._parent] = {};
+                                    o[e._parent] = [];
                                 }
-                                o[e._parent][e._controle] = e;
+                                o[e._parent].push(e);
                             } else {
                                 o[e._controle] = e;
                             }
@@ -309,6 +258,7 @@ let Relatorios = function(req, res, next, param) {
             parent.obj.req.relatorio = o;
             parent.obj.next();
         });
+
         prom.catch(function (err) {
             return parent.obj.next(err);
         });
@@ -422,6 +372,9 @@ let buildQuery = {
     intervalo: function(data_inicial, data_final) {
         return {$match: {"data_caixa": {"$gte": new Date(data_inicial), "$lte": new Date(data_final)}}}
     },
+    // data_info: function(data_inicial, data_final) {
+    //     return {$addFields: {"data_inicial": new Date(data_inicial), "data_final": new Date(data_final)}};
+    // }, // todo: Atenção > $addFields é interessante. Não funcionou, mas é pra pesquisar mais.
 
     totais: {
         cartoes: function() {
@@ -458,16 +411,21 @@ let buildQuery = {
             return {
                 unwind: {"$unwind": "$controles.produtos"},
                 group: {"$group": { "_id": "$controles.produtos.nome",
-                                    "venda": {"$sum": "$controles.produtos.venda.valor"},
-                                    "perda": {"$sum": "$controles.produtos.perda.valor"},
-                                    "uso": {"$sum": "$controles.produtos.uso.valor"},
-                                    "elem": {"$push": "$$ROOT"}}},
+                                    venda_qtd: {"$sum": "$controles.produtos.venda.valor"},
+                                    venda_media: {"$avg": "$controles.produtos.venda.valor"},
+                                    perda_qtd: {"$sum": "$controles.produtos.perda.valor"},
+                                    perda_media: {"$avg": "$controles.produtos.perda.valor"},
+                                    uso_qtd: {"$sum": "$controles.produtos.uso.valor"},
+                                    uso_media: {"$sum": "$controles.produtos.uso.valor"},
+                                    dias: {"$sum": 1},
+                                    elem: {"$push": "$$ROOT"}}},
                 project: {
                     "$project": {
                         "nome": "$_id",
-                        "venda": 1,
-                        "perda": 1,
-                        "uso": 1,
+                        "venda": {"qtd": "$venda_qtd", "media": "$venda_media"},
+                        "perda": {"qtd": "$perda_qtd", "media": "$perda_media"},
+                        "uso": {"qtd": "$uso_qtd", "media": "$uso_media"},
+                        "dias": 1,
                         "elem": 1,
                     }
                 }
