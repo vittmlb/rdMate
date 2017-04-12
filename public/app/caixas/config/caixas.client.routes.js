@@ -26,5 +26,9 @@ angular.module('caixas').config(['$stateProvider', function ($stateProvider) {
         .state('caixa_dashboard', {
             url: '/dashboard',
             templateUrl: 'app/caixas/views/dashboard-caixas.client.view.html',
+        })
+        .state('caixa_relatorios', {
+            url: '/caixas/comparativos',
+            templateUrl: 'app/caixas/views/relatorios-caixas.client.view.html',
         });
 }]);

@@ -5,6 +5,8 @@ let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 let Caixas = mongoose.model('Caixa');
 
+let relatorios = require('../modules/caixas-relatorios.server.module');
+
 let moment = require('moment');
 moment.locale('pt-br');
 
@@ -41,50 +43,6 @@ exports.read = function(req, res) {
 
 exports.findById = function(req, res, next, id) {
     Caixas.findById(id).exec(function (err, caixa) {
-        if(err) return next(err);
-        if(!caixa) return next(new Error(`Failed to load caixa id: ${id}`));
-        req.caixa = caixa;
-        next();
-    });
-};
-
-exports.findByIdAggregate = function(req, res, next, id) {
-    Caixas.aggregate([
-        {$match: {_id: mongoose.Types.ObjectId(id)}},
-        {$unwind: "$lancamentos.despesas.manha"},
-        {
-            $group: {
-                _id: {
-                    title: '$data_caixa',
-                    abertura: '$abertura'
-                },
-                totalEnergySaving: { $sum: '$lancamentos.despesas.manha.valor' },
-            }
-        },
-        {$unwind: "$lancamentos.despesas.tarde"},
-        {
-            $group: {
-                tarde: { $sum: '$lancamentos.despesas.tarde.valor' },
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                teste: '$$ROOT',
-                abertura: '$_id.abertura',
-                vendas: '$vendas',
-                lancamentos: '$lancamentos',
-                movimentacao: '$movimentacao',
-                acompanhamentos: '$acompanhamentos',
-                conferencias: '$conferencias',
-                title: '$_id.title',
-                totalEnergySaving: 1,
-                tarde: 1
-            }
-        }
-        // {$group: {"_id": "$lancamentos", "total": {$sum: "$lancamentos.despesas.manha.valor"}}}
-        // {$group: {_id: {total_despesas_manha: '$lancamentos.despesas.manha.valor'}}}
-    ]).exec(function (err, caixa) {
         if(err) return next(err);
         if(!caixa) return next(new Error(`Failed to load caixa id: ${id}`));
         req.caixa = caixa;
@@ -187,11 +145,79 @@ exports.results = function(req, res) {
     res.json(req.lancamentos);
 };
 
-exports.generateDashboard = function(req, res, next, params) {
+
+exports.generateRelatorio = function(req, res, next, params) {
     let param = JSON.parse(params);
+    switch (param.tipo_relatorio) {
+        case 'dashboard':
+            generateRelatorioDashboard(req, res, next, param);
+            break;
+        case 'comparacao':
+            generateRelatorioComparacaoFind(req, res, next, param);
+            break;
+        case 'comparacaosssssssssss':
+            generateRelatorioComparacao(req, res, next, param);
+            break;
+    }
+};
+
+function generateRelatorioDashboard(req, res, next, param) {
     let rel = new Relatorios(req, res, next, param);
     rel.geral();
-};
+}
+
+function generateRelatorioComparacao(req, res, next, param) {
+    let obj = {
+        req: req,
+        res: res,
+        next: next
+    };
+    let promises = [];
+    let param_a = {inicial: param.inicial, final: param.inicial};
+    let param_b = {inicial: param.final, final: param.final};
+
+    let rel_a = new Relatorios(req, res, next, param_a);
+    let rel_b = new Relatorios(req, res, next, param_b);
+
+    promises.push(rel_a.comparacao());
+    promises.push(rel_b.comparacao());
+
+    let prom = Promise.all(promises);
+
+    prom.then(function (data) {
+        obj.req.comparacao = relatorios.comparacao(data);
+        next();
+    });
+
+    prom.catch(function (err) {
+        obj.next(err);
+    });
+
+
+}
+
+function generateRelatorioComparacaoFind(req, res, next, param) {
+
+    let obj = {
+        req: req,
+        res: res,
+        next: next
+    };
+
+    let p = Caixas.find(
+        {data_caixa: {$gte: new Date(param.inicial), $lte: new Date(param.final)}}
+    ).exec();
+
+    p.then(function (data) {
+        obj.req.relatorio = data;
+        obj.next();
+    });
+
+    p.catch(function (err) {
+        obj.next(err);
+    });
+
+}
 
 
 let Relatorios = function(req, res, next, param) {
@@ -218,6 +244,7 @@ let Relatorios = function(req, res, next, param) {
 
     this.geral = function() {
 
+        promises.push(this.datas()); // todo: Confirmar se isso tem mesmo que ficar aqui.
         promises.push(this.base());
         promises.push(this.cartoes());
         promises.push(this.despesas());
@@ -262,6 +289,56 @@ let Relatorios = function(req, res, next, param) {
         prom.catch(function (err) {
             return parent.obj.next(err);
         });
+
+    };
+
+    this.comparacao = function() {
+
+        promises.push(this.base());
+        promises.push(this.cartoes());
+        promises.push(this.despesas());
+        promises.push(this.produtos());
+
+        calculaDias();
+
+        let prom = Promise.all(promises);
+
+        prom.then(function (values) {
+            let o = {};
+            if(Array.isArray(values)) {
+                /**
+                 * Promise.all retorna um array com o número de elementos correspondente ao número de promessas que recebeu.
+                 * Aqui eu itero por esse array de valores para cair, em seguida, em um novo array, dessa vez retornado como
+                 * resposta pelo mongoose Cada uma das funções (cartões, despesas, base e produtos) gera como retorno um array
+                 * com uma posição que contém o objeto respostada query. Para cada uma das Promises.then eu acessei o objeto
+                 * resposta dentro do array e inseri uma variável chamada _controle para que essa variável desse nome à
+                 * propriedade do objeto que está sendo retornado por esse forEach abaixo.
+                 * - ex: o[e._parent] vai corresponder à o.cartoes = objeto resultado da query por cartoes.
+                 */
+                values.forEach(function (elem) {
+                    if (Array.isArray(elem)) {
+                        elem.map(function (e) {
+                            if(e._parent) {
+                                e._intervalo = datesInfo; // coloca em todos os elementos a diferença
+                                if(!o.hasOwnProperty(e._parent)) {
+                                    o[e._parent] = [];
+                                }
+                                o[e._parent].push(e);
+                            } else {
+                                o[e._controle] = e;
+                            }
+                        });
+                    }
+                });
+            }
+            return o;
+        });
+
+        prom.catch(function (err) {
+            return err;
+        });
+
+        return prom;
 
     };
 
@@ -360,6 +437,48 @@ let Relatorios = function(req, res, next, param) {
 
     };
 
+    this.datas = function() {
+        let query = buildQuery.totais.datas();
+
+        let promise = Caixas.aggregate([
+            intervalo,
+            query.group
+        ]).exec();
+
+        promise.then(function (datas) {
+            datas[0]._controle = "datas";
+            return base;
+        });
+
+        promise.catch(function (err) {
+            return err;
+        });
+
+        return promise;
+
+    };
+
+    this.individual = function() {
+        let query = buildQuery.totais.individual();
+
+        let promise = Caixas.aggregate([
+            intervalo,
+            query.group,
+            query.project
+        ]).exec();
+
+        promise.then(function (datas) {
+            datas[0]._controle = "datas";
+            return base;
+        });
+
+        promise.catch(function (err) {
+            return err;
+        });
+
+        return promise;
+
+    };
 
 
 };
@@ -377,13 +496,40 @@ let buildQuery = {
     // }, // todo: Atenção > $addFields é interessante. Não funcionou, mas é pra pesquisar mais.
 
     totais: {
-        cartoes: function() {
+        individual: function() {
             return {
-                unwind: {"$unwind": "$saidas.cartoes"},
-                group: {"$group": {"_id": null, "total": {"$sum": "$saidas.cartoes.valor"}, "elem": {"$push": "$$ROOT"}}}
+                group: {
+                    $group: {
+                        _id: "$_id",
+                        movimentacoes: {$push: "$movimentacoes"},
+                        root: {$push: "$$ROOT"}
+                    }
+                },
+                project: {
+                    $project: {
+                        data_caixa: "$root.data_caixa",
+                        entrada_abertura_total: {$add: ["$root[0].entradas.abertura.manha.valor", "$root[0]entradas.abertura.tarde.valor"]},
+                        entradas: "$root.entradas",
+                        movimentacoes: "$movimentacoes",
+                        controles: "$root.controles",
+                        saidas:  "$root.saidas",
+                    }
+                }
             }
         },
-        base: function() {
+        cartoes: function () {
+            return {
+                unwind: {"$unwind": "$saidas.cartoes"},
+                group: {
+                    "$group": {
+                        "_id": null,
+                        "total": {"$sum": "$saidas.cartoes.valor"},
+                        "elem": {"$push": "$$ROOT"}
+                    }
+                }
+            }
+        },
+        base: function () {
             return {
                 group: {
                     "$group": {
@@ -401,24 +547,34 @@ let buildQuery = {
                 }
             };
         },
-        despesas: function() {
+        despesas: function () {
             return {
                 unwind: {"$unwind": "$saidas.despesas"},
-                group: {"$group": {"_id": null, "total": {"$sum": "$saidas.despesas.valor"}, "elem": {"$push": "$$ROOT"}}}
+                group: {
+                    "$group": {
+                        "_id": null,
+                        "total": {"$sum": "$saidas.despesas.valor"},
+                        "elem": {"$push": "$$ROOT"}
+                    }
+                }
             }
         },
-        produtos: function() {
+        produtos: function () {
             return {
                 unwind: {"$unwind": "$controles.produtos"},
-                group: {"$group": { "_id": "$controles.produtos.nome",
-                                    venda_qtd: {"$sum": "$controles.produtos.venda.valor"},
-                                    venda_media: {"$avg": "$controles.produtos.venda.valor"},
-                                    perda_qtd: {"$sum": "$controles.produtos.perda.valor"},
-                                    perda_media: {"$avg": "$controles.produtos.perda.valor"},
-                                    uso_qtd: {"$sum": "$controles.produtos.uso.valor"},
-                                    uso_media: {"$sum": "$controles.produtos.uso.valor"},
-                                    dias: {"$sum": 1},
-                                    elem: {"$push": "$$ROOT"}}},
+                group: {
+                    "$group": {
+                        "_id": "$controles.produtos.nome",
+                        venda_qtd: {"$sum": "$controles.produtos.venda.valor"},
+                        venda_media: {"$avg": "$controles.produtos.venda.valor"},
+                        perda_qtd: {"$sum": "$controles.produtos.perda.valor"},
+                        perda_media: {"$avg": "$controles.produtos.perda.valor"},
+                        uso_qtd: {"$sum": "$controles.produtos.uso.valor"},
+                        uso_media: {"$sum": "$controles.produtos.uso.valor"},
+                        dias: {"$sum": 1},
+                        elem: {"$push": "$$ROOT"}
+                    }
+                },
                 project: {
                     "$project": {
                         "nome": "$_id",
@@ -427,6 +583,20 @@ let buildQuery = {
                         "uso": {"qtd": "$uso_qtd", "media": "$uso_media"},
                         "dias": 1,
                         "elem": 1,
+                    }
+                }
+            }
+        },
+        datas: function() {
+            return {
+                group: {
+                    $group: {"_id": "$data_caixa",
+                        elem: {"$push": "$$ROOT"}
+                    }
+                },
+                project: {
+                    $project: {
+
                     }
                 }
             }

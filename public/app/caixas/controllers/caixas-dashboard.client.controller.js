@@ -4,7 +4,11 @@
 angular.module('caixas').controller('DashboardsController', ['$scope', '$stateParams', '$location', 'CaixasDashboard', 'toaster',
                                     '$http', '$timeout', 'MySweetAlert', 'MyDefineClass', 'ngAudio', 'MyAudio', '$modal', 'moment', 'MyFlot',
     function($scope, $stateParams, $location, CaixasDashboard, toaster, $http, $timeout, MySweetAlert, MyDefineClass, ngAudio, MyAudio, $modal, moment, MyFlot) {
-        let a = 'a';
+        let datas = {
+            inicial: '',
+            final: ''
+        };
+
 
         function popToaster(errorResponse) {
             console.log(errorResponse);
@@ -22,10 +26,28 @@ angular.module('caixas').controller('DashboardsController', ['$scope', '$statePa
 
         $scope.sounds = MyAudio;
 
+        $scope.comparacao = function() {
+            let inicial = moment('2017-03-01').utc().format();
+            let final = moment('2017-03-03').utc().format();
+            let aux = JSON.stringify({tipo_relatorio: "comparacao", inicial: inicial, final: final});
+            let p = CaixasDashboard.comparacao({
+                teste: aux
+            });
+
+            p.then(function (data) {
+                $scope.comparacao = data;
+            });
+
+            p.then(function (errorMessage) {
+                popToaster(errorMessage);
+            });
+
+        };
+
         $scope.findNew = function() {
             let inicial = moment('2017-02-01').utc().format();
             let final = moment('2017-03-30').utc().format();
-            let aux = JSON.stringify({"inicial": inicial, "final" : final});
+            let aux = JSON.stringify({"tipo_relatorio": "dashboard", "inicial": inicial, "final" : final});
             let p = CaixasDashboard.dashboard({
                 teste: aux
             }).$promise;
@@ -48,6 +70,7 @@ angular.module('caixas').controller('DashboardsController', ['$scope', '$statePa
             };
             let b = 10;
         }();
+
 
     }
 ]);

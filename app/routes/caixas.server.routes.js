@@ -27,6 +27,6 @@ module.exports = function(app) {
     app.route('/api/caixas/dashboard/:teste_param')
         .get(caixas.newResults);
 
-    app.param('teste_param', caixas.generateDashboard);
+    app.param('teste_param', caixas.generateRelatorio);
 
 };

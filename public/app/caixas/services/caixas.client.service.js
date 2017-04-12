@@ -40,6 +40,11 @@ angular.module('caixas').factory('CaixasDashboard', ['$resource', function ($res
             method: 'GET',
             isArray: false,
             teste: 'teste',
+        },
+        comparacao: {
+            method: 'GET',
+            isArray: true,
+            teste: 'teste'
         }
     });
 }]);
