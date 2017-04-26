@@ -29,7 +29,7 @@
                     <h5>Venda</h5>
                 </div>
                 <div class="ibox-content">
-                    <h1 class="no-margins">{{ dashboard.base.total | currency: 'R$ ' }}</h1>
+                    <h1 class="no-margins">{{ dashboard.totais.venda | currency: 'R$ ' }}</h1>
 
                     <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
                     <small>Total income</small>
@@ -96,9 +96,9 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-9" ng-controller="GraficosController as gc">
                             <div class="flot-chart">
-                                <div flot class="flot-chart-content" dataset="flot.dataset" options="flot.options"></div>
+                                <div flot class="flot-chart-content" dataset="gc.flotData" options="gc.flotOptions"></div>
                             </div>
                         </div>
                         <div class="col-lg-3">
@@ -127,6 +127,7 @@
                                         <div style="width: 22%;" class="progress-bar"></div>
                                     </div>
                                 </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

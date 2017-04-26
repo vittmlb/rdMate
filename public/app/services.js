@@ -139,6 +139,11 @@ angular.module('admin_panel').factory('MyAudio', ['ngAudio', function (ngAudio) 
 
 angular.module('admin_panel').factory('MyFlot', [function () {
 
+    let dataSource = {
+        venda: [],
+        salgados: []
+    };
+
     let data1 = [
         [gd(2012, 1, 1), 7],
         [gd(2012, 1, 2), 6],
@@ -178,7 +183,7 @@ angular.module('admin_panel').factory('MyFlot', [function () {
             {
                 label: "Number of orders",
                 grow:{stepMode:"linear"},
-                data: data2,
+                data: dataSource.a,
                 color: "#1ab394",
                 bars: {
                     show: true,
@@ -191,24 +196,30 @@ angular.module('admin_panel').factory('MyFlot', [function () {
             {
                 label: "Payments",
                 grow:{stepMode:"linear"},
-                data: data1,
+                data: dataSource.b,
                 yaxis: 2,
                 color: "#1C84C6",
-                lines: {
-                    lineWidth: 1,
+                bars: {
                     show: true,
-                    fill: true,
-                    fillColor: {
-                        colors: [
-                            {
-                                opacity: 0.2
-                            },
-                            {
-                                opacity: 0.2
-                            }
-                        ]
-                    }
+                    align: "center",
+                    barWidth: 24 * 60 * 60 * 600,
+                    lineWidth: 0
                 }
+                // lines: {
+                //     lineWidth: 1,
+                //     show: true,
+                //     fill: true,
+                //     fillColor: {
+                //         colors: [
+                //             {
+                //                 opacity: 0.2
+                //             },
+                //             {
+                //                 opacity: 0.2
+                //             }
+                //         ]
+                //     }
+                // }
             }
         ];
     }
@@ -401,6 +412,16 @@ angular.module('admin_panel').factory('MyFlot', [function () {
         },
         flotOptions: function() {
             return dataOptions();
+        },
+        set: {
+            dataSource: {
+                venda: function(data) {
+                    dataSource.venda = data;
+                },
+                salgados: function(data) {
+                    dataSource.salgados = data;
+                }
+            }
         }
     }
 

@@ -3,6 +3,7 @@
  */
 module.exports = {
     sessionSecret: 'mSecret',
-    db: 'mongodb://localhost/local_rdMates'
+    db: 'mongodb://localhost/rm'
+    // db: 'mongodb://localhost/local_rdMates'
 };
 

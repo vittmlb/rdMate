@@ -30,7 +30,7 @@ angular.module('caixas').factory('Qcaixas', ['$resource', function ($resource) {
     });
 }]);
 angular.module('caixas').factory('CaixasDashboard', ['$resource', function ($resource) {
-    return $resource('/api/caixas/dashboard/:teste', {
+    return $resource('/api/caixas/dashboard/:teste:caralho', {
         teste: 'teste'
     }, {
         update: {
@@ -44,7 +44,7 @@ angular.module('caixas').factory('CaixasDashboard', ['$resource', function ($res
         comparacao: {
             method: 'GET',
             isArray: true,
-            teste: 'teste'
+            zzz: ''
         }
     });
 }]);

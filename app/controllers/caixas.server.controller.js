@@ -50,33 +50,6 @@ exports.findById = function(req, res, next, id) {
     });
 };
 
-exports.findByIdMap = function(req, res, next, id) {
-    let o = {};
-    o.map = function() {
-        emit(this.data_caixa, {
-            'total': 10
-        });
-    };
-    o.reduce = function(k, vals) {
-        return vals;
-    };
-    Caixas.mapReduce(o, function (err, results) {
-        if(err) {
-            console.log(err);
-        } else {
-            console.log(results);
-        }
-    }).exec(function(err, cx) {
-        if(err) {
-            res.status(400).send({
-                message: err
-            });
-        } else {
-            res.json(cx);
-        }
-    });
-};
-
 exports.update = function(req, res) {
     let caixa = req.caixa;
     caixa.data_caixa = req.body.data_caixa;
@@ -108,43 +81,9 @@ exports.delete = function(req, res) {
     });
 };
 
-exports.findCustoms = function(req, res, next, params) {
-    let obj = {
-        req: req,
-        res: res,
-        next: next
-    };
-    let aux = JSON.parse(params);
-    let promises = [];
-
-    aux.criterios.forEach(function (data) {
-        promises.push(queryDems({"intervalo": aux.intervalo, "criterio": data}));
-    });
-
-    let prom = Promise.all(promises);
-
-    prom.then(function (values) {
-        let o = {};
-        if(Array.isArray(values)) {
-            values.forEach(function (elem) {
-                if (Array.isArray(elem)) {
-                    elem.map(function (e) {
-                        let aux = (e.categoria).toLowerCase();
-                        o[aux] = e;
-                    });
-                }
-            });
-        }
-        obj.req.lancamentos = o;
-        obj.next();
-    });
-
-};
-
 exports.results = function(req, res) {
     res.json(req.lancamentos);
 };
-
 
 exports.generateRelatorio = function(req, res, next, params) {
     let param = JSON.parse(params);
@@ -153,7 +92,9 @@ exports.generateRelatorio = function(req, res, next, params) {
             generateRelatorioDashboard(req, res, next, param);
             break;
         case 'comparacao':
-            generateRelatorioComparacaoFind(req, res, next, param);
+            generateRelatorioDashboard(req, res, next, param);
+            // generateRelatorioComparacaoFind(req, res, next, param);
+            // generateRelatorioComparacaoFind(req, res, next, param);
             break;
         case 'comparacaosssssssssss':
             generateRelatorioComparacao(req, res, next, param);
@@ -161,7 +102,7 @@ exports.generateRelatorio = function(req, res, next, params) {
     }
 };
 
-function generateRelatorioDashboard(req, res, next, param) {
+function generateRelatorioDashboardOld(req, res, next, param) {
     let rel = new Relatorios(req, res, next, param);
     rel.geral();
 }
@@ -196,7 +137,14 @@ function generateRelatorioComparacao(req, res, next, param) {
 
 }
 
-function generateRelatorioComparacaoFind(req, res, next, param) {
+/**
+ * Gera relatório consolidando os dados de um determinado intervalo entre duas datas.
+ * @param req
+ * @param res
+ * @param next
+ * @param param
+ */
+function generateRelatorioDashboard(req, res, next, param) {
 
     let obj = {
         req: req,
@@ -204,12 +152,105 @@ function generateRelatorioComparacaoFind(req, res, next, param) {
         next: next
     };
 
-    let p = Caixas.find(
-        {data_caixa: {$gte: new Date(param.inicial), $lte: new Date(param.final)}}
+    let p = Caixas.aggregate(
+        {$match: {data_caixa: {$gte: new Date(param.inicial), $lte: new Date(param.final)}}},
+        {$project: {
+            "data_caixa": 1,
+            "entradas.abertura": 1,
+            "entradas.vendas.manha": 1,
+            "entradas.vendas.tarde": 1,
+            "entradas.vendas.total": {$add: ['$entradas.vendas.manha.valor', '$entradas.vendas.tarde.valor']},
+            "entradas.total.manha": {$add: ['$entradas.abertura.manha.valor', '$entradas.vendas.manha.valor']},
+            "entradas.total.tarde": {$add: ['$entradas.abertura.tarde.valor', '$entradas.vendas.tarde.valor']},
+            "saidas.transferencia": 1,
+            "saidas.dinheiro": 1,
+            "saidas.despesas": {$cond: [{$eq: ["$saidas.despesas", []]}, [{value: 0}], "$saidas.despesas"]},
+            "saidas.cartoes": {$cond: [{$eq: ["$saidas.cartoes", []]}, [{value: 0}], "$saidas.cartoes"]},
+            "saidas.subtotal.manha": {$add: ['$saidas.transferencia.manha.valor', '$saidas.dinheiro.manha.valor']},
+            "saidas.subtotal.tarde": {$add: ['$saidas.transferencia.tarde.valor', '$saidas.dinheiro.tarde.valor']},
+            "movimentacoes": {$cond: [{$eq: ["$movimentacoes", []]}, [{value: 0}], "$movimentacoes"]},
+            "controles": 1,
+            "aux.saidas.despesas": '',
+            "aux.saidas.cartoes": ''
+        }},
+        {$unwind: "$movimentacoes"},
+        {$group: {
+            _id: "$_id",
+            data_caixa: {$first: '$data_caixa'},
+            entradas: {$first: '$entradas'},
+            saidas: {$first: '$saidas'},
+            movimentacoes: {$addToSet: '$movimentacoes'},
+            controles: {$first: '$controles'},
+            aux: {$first: '$aux'},
+            total_mov: {$sum: '$movimentacoes.valor'}
+        }},
+        {$unwind: "$saidas.despesas"},
+        {$group: {
+            _id: "$_id",
+            data_caixa: {$first: '$data_caixa'},
+            entradas: {$first: '$entradas'},
+            saidas: {$first: '$saidas'},
+            aux_despesas: {$addToSet: '$saidas.despesas'},
+            movimentacoes: {$first: '$movimentacoes'},
+            controles: {$first: '$controles'},
+            aux: {$first: '$aux'},
+            total_mov: {$first: '$total_mov'},
+            total_desp: {$sum: '$saidas.despesas.valor'}
+        }},
+        {$unwind: "$saidas.cartoes"},
+        {$group: {
+            _id: "$_id",
+            data_caixa: {$first: '$data_caixa'},
+            entradas: {$first: '$entradas'},
+            saidas: {$first: '$saidas'},
+            aux_despesas: {$first: '$aux_despesas'},
+            movimentacoes: {$first: '$movimentacoes'},
+            controles: {$first: '$controles'},
+            total_mov: {$first: '$total_mov'},
+            total_desp: {$first: '$total_desp'},
+            total_card: {$sum: '$saidas.cartoes.valor'},
+            aux_cartoes: {$addToSet: '$saidas.cartoes'}
+        }},
+        {$unwind: "$controles.produtos"},
+        {$group: {
+            _id: "$_id",
+            data_caixa: {$first: '$data_caixa'},
+            entradas: {$first: '$entradas'},
+            saidas: {$first: '$saidas'},
+            aux_despesas: {$first: '$aux_despesas'},
+            movimentacoes: {$first: '$movimentacoes'},
+            controles: {$first: '$controles'},
+            total_mov: {$first: '$total_mov'},
+            total_desp: {$first: '$total_desp'},
+            total_card: {$sum: '$saidas.cartoes.valor'},
+            aux_cartoes: {$addToSet: '$saidas.cartoes'},
+            aux_produtos: {$addToSet: '$controles.produtos'},
+        }},
+        {$group: {
+            _id: null,
+            caixas: {$addToSet: '$$ROOT'},
+            total_mov: {$sum: "$total_mov"},
+            total_desp: {$sum: "$total_desp"},
+            total_card: {$sum: "$total_card"},
+            total_vendas: {$sum: "$entradas.vendas.total"},
+            total_produtos: {$sum: "$controles.produtos.venda.valor"},
+            total_perdas: {$sum: "$controles.produtos.perda.valor"},
+            total_uso: {$sum: "$controles.produtos.uso.valor"}
+        }},
+        {$project: {
+            "nome": {$literal: "dashboard"},
+            "caixas": 1,
+            "totais.vendas": "$total_vendas",
+            "totais.cartoes": "$total_card",
+            "totais.despesas": "$total_desp",
+            "totais.produtos.vendas": "$total_produtos",
+            "totais.produtos.perdas": "$total_perdas",
+            "totais.produtos.uso": "$total_uso"
+        }}
     ).exec();
 
     p.then(function (data) {
-        obj.req.relatorio = data;
+        obj.req.relatorio = data[0].caixas;
         obj.next();
     });
 
@@ -219,6 +260,141 @@ function generateRelatorioComparacaoFind(req, res, next, param) {
 
 }
 
+let newRelatorios = function(req, res, next, param) {
+    this.obj = {
+        req: req,
+        res: res,
+        next: next
+    };
+    let promises = [];
+
+    this.geral = function() {
+
+        promises.push(this.datas()); // todo: Confirmar se isso tem mesmo que ficar aqui.
+        promises.push(this.base());
+        promises.push(this.cartoes());
+        promises.push(this.despesas());
+        promises.push(this.produtos());
+
+        calculaDias();
+
+        let prom = Promise.all(promises);
+
+        prom.then(function (values) {
+            let o = {};
+            if(Array.isArray(values)) {
+                /**
+                 * Promise.all retorna um array com o número de elementos correspondente ao número de promessas que recebeu.
+                 * Aqui eu itero por esse array de valores para cair, em seguida, em um novo array, dessa vez retornado como
+                 * resposta pelo mongoose Cada uma das funções (cartões, despesas, base e produtos) gera como retorno um array
+                 * com uma posição que contém o objeto respostada query. Para cada uma das Promises.then eu acessei o objeto
+                 * resposta dentro do array e inseri uma variável chamada _controle para que essa variável desse nome à
+                 * propriedade do objeto que está sendo retornado por esse forEach abaixo.
+                 * - ex: o[e._parent] vai corresponder à o.cartoes = objeto resultado da query por cartoes.
+                 */
+                values.forEach(function (elem) {
+                    if (Array.isArray(elem)) {
+                        elem.map(function (e) {
+                            if(e._parent) {
+                                e._intervalo = datesInfo; // coloca em todos os elementos a diferença
+                                if(!o.hasOwnProperty(e._parent)) {
+                                    o[e._parent] = [];
+                                }
+                                o[e._parent].push(e);
+                            } else {
+                                o[e._controle] = e;
+                            }
+                        });
+                    }
+                });
+            }
+            parent.obj.req.relatorio = o;
+            parent.obj.next();
+        });
+
+        prom.catch(function (err) {
+            return parent.obj.next(err);
+        });
+
+    };
+
+    this.dashboard = function() {
+
+        let p = Caixas.aggregate(
+            {$match: {data_caixa: {$gte: new Date(param.inicial), $lte: new Date(param.final)}}},
+            {$project: {
+                "data_caixa": 1,
+                "entradas.abertura": 1,
+                "entradas.vendas.manha": 1,
+                "entradas.vendas.tarde": 1,
+                "entradas.vendas.total": {$add: ['$entradas.vendas.manha.valor', '$entradas.vendas.tarde.valor']},
+                "entradas.total.manha": {$add: ['$entradas.abertura.manha.valor', '$entradas.vendas.manha.valor']},
+                "entradas.total.tarde": {$add: ['$entradas.abertura.tarde.valor', '$entradas.vendas.tarde.valor']},
+                "saidas.transferencia": 1,
+                "saidas.dinheiro": 1,
+                "saidas.despesas": {$cond: [{$eq: ["$saidas.despesas", []]}, [{value: 0}], "$saidas.despesas"]},
+                "saidas.cartoes": {$cond: [{$eq: ["$saidas.cartoes", []]}, [{value: 0}], "$saidas.cartoes"]},
+                "saidas.subtotal.manha": {$add: ['$saidas.transferencia.manha.valor', '$saidas.dinheiro.manha.valor']},
+                "saidas.subtotal.tarde": {$add: ['$saidas.transferencia.tarde.valor', '$saidas.dinheiro.tarde.valor']},
+                "movimentacoes": {$cond: [{$eq: ["$movimentacoes", []]}, [{value: 0}], "$movimentacoes"]},
+                "controles": 1,
+                "aux.saidas.despesas": '',
+                "aux.saidas.cartoes": ''
+            }},
+            {$unwind: "$movimentacoes"},
+            {$group: {
+                _id: "$_id",
+                data_caixa: {$first: '$data_caixa'},
+                entradas: {$first: '$entradas'},
+                saidas: {$first: '$saidas'},
+                movimentacoes: {$addToSet: '$movimentacoes'},
+                controles: {$first: '$controles'},
+                aux: {$first: '$aux'},
+                total_mov: {$sum: '$movimentacoes.valor'}
+            }},
+            {$unwind: "$saidas.despesas"},
+            {$group: {
+                _id: "$_id",
+                data_caixa: {$first: '$data_caixa'},
+                entradas: {$first: '$entradas'},
+                saidas: {$first: '$saidas'},
+                aux_despesas: {$addToSet: '$saidas.despesas'},
+                movimentacoes: {$first: '$movimentacoes'},
+                controles: {$first: '$controles'},
+                aux: {$first: '$aux'},
+                total_mov: {$first: '$total_mov'},
+                total_desp: {$sum: '$saidas.despesas.valor'}
+            }},
+            {$unwind: "$saidas.cartoes"},
+            {$group: {
+                _id: "$_id",
+                data_caixa: {$first: '$data_caixa'},
+                entradas: {$first: '$entradas'},
+                saidas: {$first: '$saidas'},
+                aux_despesas: {$first: '$aux_despesas'},
+                movimentacoes: {$first: '$movimentacoes'},
+                controles: {$first: '$controles'},
+                total_mov: {$first: '$total_mov'},
+                total_desp: {$first: '$total_desp'},
+                total_card: {$sum: '$saidas.cartoes.valor'},
+                aux_cartoes: {$addToSet: '$saidas.cartoes'}
+            }},
+            {$sort: {data_caixa: 1}}
+        ).exec();
+
+        p.then(function (caixas) {
+            return caixas;
+        });
+
+        p.catch(function (err) {
+            return err;
+        });
+
+        return p;
+
+    }
+
+};
 
 let Relatorios = function(req, res, next, param) {
     this.obj = {

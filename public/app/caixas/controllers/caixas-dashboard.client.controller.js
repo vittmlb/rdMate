@@ -26,29 +26,11 @@ angular.module('caixas').controller('DashboardsController', ['$scope', '$statePa
 
         $scope.sounds = MyAudio;
 
-        $scope.comparacao = function() {
-            let inicial = moment('2017-03-01').utc().format();
-            let final = moment('2017-03-03').utc().format();
-            let aux = JSON.stringify({tipo_relatorio: "comparacao", inicial: inicial, final: final});
-            let p = CaixasDashboard.comparacao({
-                teste: aux
-            });
-
-            p.then(function (data) {
-                $scope.comparacao = data;
-            });
-
-            p.then(function (errorMessage) {
-                popToaster(errorMessage);
-            });
-
-        };
-
         $scope.findNew = function() {
-            let inicial = moment('2017-02-01').utc().format();
-            let final = moment('2017-03-30').utc().format();
+            let inicial = moment('2017-01-01').utc().format();
+            let final = moment('2017-01-01').utc().format();
             let aux = JSON.stringify({"tipo_relatorio": "dashboard", "inicial": inicial, "final" : final});
-            let p = CaixasDashboard.dashboard({
+            let p = CaixasDashboard.comparacao({
                 teste: aux
             }).$promise;
 
@@ -62,15 +44,141 @@ angular.module('caixas').controller('DashboardsController', ['$scope', '$statePa
 
         };
 
-
         $scope.load = function() {
             $scope.flot = {
                 dataset: MyFlot.flotData(),
                 options: MyFlot.flotOptions()
             };
-            let b = 10;
         }();
-
-
     }
 ]);
+
+angular.module('caixas').controller('GraficosController', ['$scope', 'CaixasDashboard', 'Caixas', 'moment', function ($scope, CaixasDashboard, Caixas, moment) {
+
+    let graf1 = [];
+
+    $scope.loadData = function() {
+        let inicial = moment('2017-01-01').utc().format();
+        let final = moment('2017-01-31').utc().format();
+        let aux = JSON.stringify({tipo_relatorio: "comparacao", inicial: inicial, final: final});
+        let p = CaixasDashboard.comparacao({
+            teste: aux
+        }).$promise;
+
+        p.then(function (data) {
+            criaGraficos(data);
+        });
+
+        p.catch(function (errorMessage) {
+            popToaster(errorMessage);
+        });
+    }();
+
+    function criaGraficos(data) {
+        data.forEach(function (elem) {
+            graf1.push([new Date(elem.data_caixa).getTime(), elem.entradas.vendas.total]);
+            dataset[0].data = graf1;
+        });
+    }
+
+
+    let dataset = [
+        {
+            label: "Number of orders",
+            grow:{stepMode:"linear"},
+            data: '',
+            color: "#1ab394",
+            bars: {
+                show: true,
+                align: "center",
+                barWidth: 24 * 60 * 60 * 600,
+                lineWidth: 0
+            }
+
+        },
+        // {
+        //     label: "Payments",
+        //     grow:{stepMode:"linear"},
+        //     data: graf1,
+        //     yaxis: 2,
+        //     color: "#1C84C6",
+        //     lines: {
+        //         lineWidth: 1,
+        //         show: true,
+        //         fill: true,
+        //         fillColor: {
+        //             colors: [
+        //                 {
+        //                     opacity: 0.2
+        //                 },
+        //                 {
+        //                     opacity: 0.2
+        //                 }
+        //             ]
+        //         }
+        //     }
+        // }
+    ];
+
+
+    let options = {
+        grid: {
+            hoverable: true,
+            clickable: true,
+            tickColor: "#d5d5d5",
+            borderWidth: 0,
+            color: '#d5d5d5'
+        },
+        colors: ["#1ab394", "#464f88"],
+        tooltip: true,
+        xaxis: {
+            mode: "time",
+            tickSize: [1, "day"],
+            tickLength: 0,
+            axisLabel: "Date",
+            axisLabelUseCanvas: true,
+            axisLabelFontSizePixels: 12,
+            axisLabelFontFamily: 'Arial',
+            axisLabelPadding: 10,
+            color: "#d5d5d5"
+        },
+        yaxes: [
+            {
+                position: "left",
+                max: 3000,
+                color: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Arial',
+                axisLabelPadding: 3
+            },
+            {
+                position: "right",
+                color: "#d5d5d5",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: ' Arial',
+                axisLabelPadding: 67
+            }
+        ],
+        legend: {
+            noColumns: 1,
+            labelBoxBorderColor: "#d5d5d5",
+            position: "nw"
+        }
+
+    };
+
+    function gd(year, month, day) {
+        return new Date(year, month - 1, day).getTime();
+    }
+
+    /**
+     * Definition of letiables
+     * Flot chart
+     */
+    this.flotData = dataset;
+    this.flotOptions = options;
+
+
+}]);
