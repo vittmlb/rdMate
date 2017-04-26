@@ -43,7 +43,7 @@ angular.module('caixas').factory('CaixasDashboard', ['$resource', function ($res
         },
         comparacao: {
             method: 'GET',
-            isArray: true,
+            isArray: false,
             zzz: ''
         }
     });

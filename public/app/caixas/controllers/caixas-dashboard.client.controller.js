@@ -10,6 +10,7 @@ angular.module('caixas').controller('DashboardsController', ['$scope', '$statePa
         };
 
 
+
         function popToaster(errorResponse) {
             console.log(errorResponse);
             let msgObj = {
@@ -26,9 +27,26 @@ angular.module('caixas').controller('DashboardsController', ['$scope', '$statePa
 
         $scope.sounds = MyAudio;
 
-        $scope.findNew = function() {
-            let inicial = moment('2017-01-01').utc().format();
-            let final = moment('2017-01-01').utc().format();
+        $scope.loadPeriod = function(data_inicial, data_final) {
+            let inicial = moment(data_inicial).utc().format();
+            let final = moment(data_final).utc().format();
+            let aux = JSON.stringify({"tipo_relatorio": "dashboard", "inicial": inicial, "final": final});
+            let p = CaixasDashboard.comparacao({
+                teste: aux
+            }).$promise;
+
+            p.then(function (data) {
+                $scope.dashboard = data;
+            });
+
+            p.catch(function (errorData) {
+                popToaster(errorData);
+            });
+        };
+
+        $scope.loadCurrentMonth = function() {
+            let inicial = moment('2017-03-01').utc().format();
+            let final = moment('2017-03-30').utc().format();
             let aux = JSON.stringify({"tipo_relatorio": "dashboard", "inicial": inicial, "final" : final});
             let p = CaixasDashboard.comparacao({
                 teste: aux
@@ -57,16 +75,37 @@ angular.module('caixas').controller('GraficosController', ['$scope', 'CaixasDash
 
     let graf1 = [];
 
+    let data1 = [
+        [gd(2012, 1, 1), 7000],
+        [gd(2012, 1, 2), 6000],
+        [gd(2012, 1, 3), 4000],
+        [gd(2012, 1, 4), 8000],
+        [gd(2012, 1, 5), 9000],
+        [gd(2012, 1, 6), 7000],
+        [gd(2012, 1, 7), 5000],
+        [gd(2012, 1, 8), 4000],
+        [gd(2012, 1, 9), 7000],
+        [gd(2012, 1, 10), 8000],
+        [gd(2012, 1, 11), 9000],
+        [gd(2012, 1, 12), 6000],
+        [gd(2012, 1, 13), 4000],
+        [gd(2012, 1, 14), 5000],
+        [gd(2012, 1, 15), 11000],
+        [gd(2012, 1, 16), 8000],
+        [gd(2012, 1, 17), 8000],
+        [gd(2012, 1, 18), 11000],
+    ];
+
     $scope.loadData = function() {
         let inicial = moment('2017-01-01').utc().format();
-        let final = moment('2017-01-31').utc().format();
+        let final = moment('2017-01-25').utc().format();
         let aux = JSON.stringify({tipo_relatorio: "comparacao", inicial: inicial, final: final});
         let p = CaixasDashboard.comparacao({
             teste: aux
         }).$promise;
 
         p.then(function (data) {
-            criaGraficos(data);
+            criaGraficos(data.caixas);
         });
 
         p.catch(function (errorMessage) {
@@ -77,14 +116,15 @@ angular.module('caixas').controller('GraficosController', ['$scope', 'CaixasDash
     function criaGraficos(data) {
         data.forEach(function (elem) {
             graf1.push([new Date(elem.data_caixa).getTime(), elem.entradas.vendas.total]);
-            dataset[0].data = graf1;
         });
+        graf1.sort();
+        dataset[0].data = graf1;
     }
 
 
     let dataset = [
         {
-            label: "Number of orders",
+            label: "Faturamento",
             grow:{stepMode:"linear"},
             data: '',
             color: "#1ab394",
@@ -96,28 +136,28 @@ angular.module('caixas').controller('GraficosController', ['$scope', 'CaixasDash
             }
 
         },
-        // {
-        //     label: "Payments",
-        //     grow:{stepMode:"linear"},
-        //     data: graf1,
-        //     yaxis: 2,
-        //     color: "#1C84C6",
-        //     lines: {
-        //         lineWidth: 1,
-        //         show: true,
-        //         fill: true,
-        //         fillColor: {
-        //             colors: [
-        //                 {
-        //                     opacity: 0.2
-        //                 },
-        //                 {
-        //                     opacity: 0.2
-        //                 }
-        //             ]
-        //         }
-        //     }
-        // }
+        {
+            label: "Payments",
+            grow:{stepMode:"linear"},
+            data: '',
+            yaxis: 2,
+            color: "#1C84C6",
+            lines: {
+                lineWidth: 1,
+                show: true,
+                fill: true,
+                fillColor: {
+                    colors: [
+                        {
+                            opacity: 0.2
+                        },
+                        {
+                            opacity: 0.2
+                        }
+                    ]
+                }
+            }
+        }
     ];
 
 

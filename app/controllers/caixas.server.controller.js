@@ -173,6 +173,7 @@ function generateRelatorioDashboard(req, res, next, param) {
             "aux.saidas.despesas": '',
             "aux.saidas.cartoes": ''
         }},
+        {$sort: {"data_caixa": -1}},
         {$unwind: "$movimentacoes"},
         {$group: {
             _id: "$_id",
@@ -235,7 +236,8 @@ function generateRelatorioDashboard(req, res, next, param) {
             total_vendas: {$sum: "$entradas.vendas.total"},
             total_produtos: {$sum: "$controles.produtos.venda.valor"},
             total_perdas: {$sum: "$controles.produtos.perda.valor"},
-            total_uso: {$sum: "$controles.produtos.uso.valor"}
+            total_uso: {$sum: "$controles.produtos.uso.valor"},
+            total_leitura_z: {$sum: "$controles.fiscal.leitura_z.valor"}
         }},
         {$project: {
             "nome": {$literal: "dashboard"},
@@ -245,12 +247,13 @@ function generateRelatorioDashboard(req, res, next, param) {
             "totais.despesas": "$total_desp",
             "totais.produtos.vendas": "$total_produtos",
             "totais.produtos.perdas": "$total_perdas",
-            "totais.produtos.uso": "$total_uso"
+            "totais.produtos.uso": "$total_uso",
+            "totais.leitura_z": "$total_leitura_z"
         }}
     ).exec();
 
     p.then(function (data) {
-        obj.req.relatorio = data[0].caixas;
+        obj.req.relatorio = data[0];
         obj.next();
     });
 
